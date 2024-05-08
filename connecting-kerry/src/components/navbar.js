@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import styles from '../mystyle.module.css';
 
 //div.classname and press tab for a shortcut, div# for id
 // all functions have to be capital letter
@@ -6,25 +7,29 @@ import React from 'react'
 
 const websiteLinks = [
   "Home",
-  "About",
-  "Login"
+  "Volunteer",
+  "Opportunities"
 ];
 
 function Navbar(Links) {
 
   return (
-    <div>
+    <header>
+    <div className={styles.navbarContainer}>
+        <div id={styles.navbarTitle}>
+            <h1>Connecting Kerry</h1>
+        </div>
+
         <section>
-          <ul>
+          <ul className={styles.navbarButtons}>
             {websiteLinks.map((link) =>(
-              <li style={{color:"red"}}>{link}</li>))}
+              <li>{link}</li>))}
+              <button>Button</button>
           </ul>
         </section>
     </div>
+    </header>
   )
-}
-function NavbarLinks(links){
-
 }
 
 

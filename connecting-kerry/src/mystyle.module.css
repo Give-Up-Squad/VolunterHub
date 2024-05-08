@@ -1,0 +1,21 @@
+
+.navbarContainer{
+  background-color: #d8d296;
+  width: 90%;
+  height: 10em;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#navbarTitle{
+  color:black;
+}
+.navbarButtons {
+list-style: none;
+margin-right: 100px;
+display: flex;
+}
+.navbarButtons > li{
+  margin-right: 3em;
+}
