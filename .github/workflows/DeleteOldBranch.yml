@@ -10,7 +10,6 @@ jobs:
     runs-on: windows-latest
     env:
           GITHUB_TOKEN: "${{ secrets.YOUR_PAT_SECRET }}"
-          GITHUB_INSTANCE_URL: "https://github.com"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
