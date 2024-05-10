@@ -10,7 +10,8 @@ jobs:
     if: GitHub.event.pull_request.merged == true
 
     env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ GITHUB_TOK }}"
+          GITHUB_ACCESS_TOKEN: "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"
 
     steps:
       - name: Checkout code
