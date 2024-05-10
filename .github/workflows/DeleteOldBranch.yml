@@ -3,7 +3,7 @@ name: Delete Branch After Merge
 on:
   pull_request:
     types: [closed]
-
+##test
 jobs:
   delete_branch:
     runs-on: ubuntu-latest
