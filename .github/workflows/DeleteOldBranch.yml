@@ -1,9 +1,9 @@
-name: My Workflow
+name: Delete Branch After Merge
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [closed]
+
 
 jobs:
   my_job:
@@ -11,14 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Set up Git
-        run: |
-          git config --global user.name "RewGuardiano"
-          git config --global user.email "rew.guardiano@students.ittralee.ie"
 
       - name: Delete branch
         run: |
+          git config --global user.name "RewGuardiano"
+          git config --global user.email "rew.guardiano@students.ittralee.ie"
           git push origin --delete branch-to-delete
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.YOUR_PAT_SECRET }}
