@@ -1,22 +1,24 @@
-name: Delete Branch After Merge
+name: My Workflow
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches:
+      - main
 
 jobs:
-  delete_branch:
-    runs-on: windows-latest
-    if: github.event.pull_request.merged == true
-
+  my_job:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Delete branch
+      
+      - name: Set up Git
         run: |
           git config --global user.name "RewGuardiano"
           git config --global user.email "rew.guardiano@students.ittralee.ie"
-          git push origin --delete ${{ github.event.pull_request.head.ref }}
+
+      - name: Delete branch
+        run: |
+          git push origin --delete branch-to-delete
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
