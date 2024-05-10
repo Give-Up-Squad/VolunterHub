@@ -10,7 +10,6 @@ jobs:
     runs-on: windows-latest
     env:
           GITHUB_TOKEN: "${{ secrets.YOUR_PAT_SECRET }}"
-          GITHUB_ACCESS_TOKEN: "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"
           GITHUB_INSTANCE_URL: "https://github.com"
     steps:
       - name: Checkout code
@@ -18,8 +17,6 @@ jobs:
 
       - name: Delete branch
         run: |
-          git config --global user. name "RewGuardiano"
-          git config --global user.email "rew.guardiano@students.ittralee.ie"
           git push origin --delete branch-to-delete
        
           
