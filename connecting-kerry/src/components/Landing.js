@@ -1,15 +1,18 @@
 import React from "react";
+import Navbar from "./Navbar";
 import styles from "../styles/Landing.module.css";
 
 export default function Landing() {
   return (
     <React.Fragment>
+      <Navbar />
       <div className={styles.LandingPage}>
         <img
-          src="../../public/images/LandingPageBackground.avif"
-          alt="Connecting Kerry Logo"
-          className={styles.logo}
+          src="/images/LandingPageBackground.avif"
+          className={styles.bg}
+          alt="Overlay"
         />
+        <div className={styles.overlay}></div>
         <h1 className={styles.title}>
           Welcome to Connecting Kerry! Let's Get Started!
         </h1>
