@@ -4,18 +4,19 @@ on:
   pull_request:
     types: [closed]
 
-
 jobs:
-  my_job:
-    runs-on: windows-latest
+  delete_branch:
+    runs-on: ubuntu-latest
+    if: GitHub.event.pull_request.merged == true
+
     env:
-          GITHUB_TOKEN: "${{ secrets.YOUR_PAT_SECRET }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Delete branch
         run: |
-          git push origin --delete branch-to-delete
-       
-          
+          git push origin --delete ${{ github.event.pull_request.head.ref }}
+      
