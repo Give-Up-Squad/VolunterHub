@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Navbar from './components/navbar';
 import Login from './components/login';
+import About from './components/about';
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,7 +14,7 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
-        <Login />
+        <About />
             <Routes>
                 <Route
                     path="/login"
