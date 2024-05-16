@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from './components/navbar';
 import Login from './components/login';
 import About from './components/about';
+import Footer from './components/footer'
 import {
   BrowserRouter as Router,
   Routes,

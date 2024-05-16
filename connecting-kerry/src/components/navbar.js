@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../css/navbar.module.css';
+import styles from '../styles/navbar.module.css';
 import Login from './login.js'
 //div.classname and press tab for a shortcut, div# for id
 // all functions have to be capital letter
