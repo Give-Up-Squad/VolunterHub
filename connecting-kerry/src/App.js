@@ -16,6 +16,7 @@ function App() {
       <Router>
         <Navbar />
         <About />
+        <Footer />
             <Routes>
                 <Route
                     path="/login"
