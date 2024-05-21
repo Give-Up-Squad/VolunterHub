@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./Navbar";
-import styles from "../styles/Landing.module.css";
+import Navbar from "./navbar";
+import styles from "../styles/landing.module.css";
 
 export default function Landing() {
   return (
