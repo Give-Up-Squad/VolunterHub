@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from '../styles/navbar.module.css';
 import Login from './login.js'
+import { useNavigate } from 'react-router-dom';
 //div.classname and press tab for a shortcut, div# for id
 // all functions have to be capital letter
 //https://www.w3schools.com/react/react_css.asp
-
 
 
 const websiteLinks = [
@@ -14,7 +14,9 @@ const websiteLinks = [
 ];
 
 function Navbar(Links) {
-
+  const Navigate = useNavigate();
+  const loginClick = ()=>{Navigate("/login")}
+  
   return (
     // This is the header along with the Navbar buttons
     <header>
@@ -27,7 +29,7 @@ function Navbar(Links) {
           <ul className={styles.navbarButtons}>
             {websiteLinks.map((link) =>(
               <li>{link}</li>))}
-              <button>Login</button>
+              <button onClick={loginClick}>Login</button>
           </ul>
         </section>
     </div>
