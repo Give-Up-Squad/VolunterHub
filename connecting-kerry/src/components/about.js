@@ -2,10 +2,11 @@ import React from "react";
 import styles from '../styles/aboutus.module.css'
 import Navbar from "./navbar";
 import Footer from "./footer";
+import Disclaimer  from "./disclaimer"
 function About() {
     return (
         <div>
-            <Navbar />
+            <Disclaimer />
         <main>
             <div className={styles.container}>
                 <div className={styles.aboutUsContainer}>
