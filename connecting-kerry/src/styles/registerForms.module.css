@@ -2,7 +2,7 @@ body {
     color: rgb(0, 0, 0);
 }
 
-.loginForm {
+.registerForm {
     background: #fff;
     width: 500px;
     margin: 65px auto;
@@ -12,13 +12,13 @@ body {
     box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
 }
 
-.loginForm h1 {
+.registerForm h2 {
     padding: 35px 35px 0 35px;
     text-align: center;
     font-weight: 300;
 }
 
-.loginForm .content {
+.registerForm .content {
     padding: 35px;
     text-align: center;
     display: flex;
@@ -27,11 +27,12 @@ body {
     row-gap: 5%;
 }
 
-.loginForm .inputField {
+.registerForm .inputField {
     padding: 12px 5px;
 }
 
-.loginForm .inputField input {
+.registerForm .inputField input,
+.registerForm .inputField select {
     font-size: 16px;
     display: block;
     font-family: 'Rubik', sans-serif;
@@ -43,45 +44,42 @@ body {
     transition: all .2s;
 }
 
-.loginForm .inputField input::-webkit-input-placeholder {
+.registerForm .inputField input::-webkit-input-placeholder,
+.registerForm .inputField select::-webkit-input-placeholder {
     text-transform: uppercase;
 }
 
-.loginForm .inputField input::-moz-placeholder {
+.registerForm .inputField input::-moz-placeholder,
+.registerForm .inputField select::-moz-placeholder {
     text-transform: uppercase;
 }
 
-.loginForm .inputField input:-ms-input-placeholder {
+.registerForm .inputField input:-ms-input-placeholder,
+.registerForm .inputField select:-ms-input-placeholder {
     text-transform: uppercase;
 }
 
-.loginForm .inputField input::-ms-input-placeholder {
+.registerForm .inputField input::-ms-input-placeholder,
+.registerForm .inputField select::-ms-input-placeholder {
     text-transform: uppercase;
 }
 
-.loginForm .inputField input::placeholder {
+.registerForm .inputField input::placeholder,
+.registerForm .inputField select::placeholder {
     text-transform: uppercase;
 }
 
-.loginForm .inputField input:focus {
+.registerForm .inputField input:focus,
+.registerForm .inputField select:focus {
     border-color: #222;
 }
 
-.loginForm a.link {
-    text-decoration: none;
-    color: #747474;
-    letter-spacing: 0.2px;
-    text-transform: uppercase;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-.loginForm .action {
+.registerForm .action {
     display: flex;
     flex-direction: row;
 }
 
-.loginForm .action button {
+.registerForm .action button {
     width: 100%;
     border: none;
     padding: 18px;
@@ -97,17 +95,17 @@ body {
     transition: all .3s;
 }
 
-.loginForm .action button:hover {
+.registerForm .action button:hover {
     background: #d8d8d8;
 }
 
-.loginForm .action button:nth-child(2) {
-    background: #777777;;
+.registerForm .action button:nth-child(2) {
+    background: #777777;
     color: #fff;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 4px;
 }
 
-.loginForm .action button:nth-child(2):hover {
+.registerForm .action button:nth-child(2):hover {
     background: #3c4d6d;
 }

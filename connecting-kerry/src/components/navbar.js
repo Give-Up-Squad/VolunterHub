@@ -1,6 +1,5 @@
 import React from "react";
-import styles from "../styles/Navbar.module.css";
-import Login from './login.js'
+import styles from "../styles/navbar.module.css";
 //div.classname and press tab for a shortcut, div# for id
 // all functions have to be capital letter
 //https://www.w3schools.com/react/react_css.asp
@@ -13,7 +12,11 @@ function Navbar(Links) {
     <header>
       <div className={styles.navbarContainer}>
         <div id={styles.navbarTitle}>
-        <img src="/images/logo-no-background.png" height={100} alt="Connecting Kerry" />
+          <img
+            src="/images/logo-no-background.png"
+            height={100}
+            alt="Connecting Kerry"
+          />
         </div>
 
         <section>

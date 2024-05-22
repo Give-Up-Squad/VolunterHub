@@ -1,26 +1,25 @@
 import "./App.css";
-import Landing from "./components/Landing";
-import Login from './components/login';
-import About from './components/about';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import Navbar from "./components/navbar";
+import Landing from "./components/landing";
+import Login from "./components/login";
+import About from "./components/about";
+import VolunteerRegistration from "./components/volRegistration";
+import OrganisationRegistration from "./components/orgRegistration";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Landing />
-        <About />
-            <Routes>
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
-            </Routes>
-        </Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/volRegister" element={<VolunteerRegistration />} />
+          <Route path="/orgRegister" element={<OrganisationRegistration />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
