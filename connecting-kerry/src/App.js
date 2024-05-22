@@ -5,6 +5,7 @@ import Login from "./components/login";
 import About from "./components/about";
 import VolunteerRegistration from "./components/volRegistration";
 import OrganisationRegistration from "./components/orgRegistration";
+import Footer from "./components/footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {

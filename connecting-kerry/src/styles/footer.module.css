@@ -1,0 +1,71 @@
+.box {
+    padding: 1.5% 1.5%;
+    background: #e6e3c6;
+    bottom: 0;
+    height: 24.5em;
+
+}
+
+
+@media (max-width: 1000px) {
+    .box {
+        /* padding: 70px 30px; */
+    }
+}
+
+
+.footerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    /* background: red; */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-left: 60px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    grid-gap: 20px;
+}
+
+@media (max-width: 1000px) {
+    .row {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+.footerLink {
+    color: #000;
+    margin-bottom: 20px;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.footerLink:hover {
+    top: -0.16em;
+  padding: 3px;
+  transition: padding .5s, top .35s, box-shadow .4s;
+  box-shadow: 0 0.4rem 0 -0.2rem #777777;
+  cursor: pointer;
+  transform: translateY(-2px);
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+}
+.footerLink > svg{
+    height:25px;
+}
+
+.heading {
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
