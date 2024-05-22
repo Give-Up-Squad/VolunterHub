@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styles from "../styles/registerForms.module.css";
 
-const VolunteerRegistration = () => {
+const OrganisationRegistration = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    gender: "",
-    dob: "",
-    forename: "",
-    surname: "",
+    orgName: "",
     file: null,
   });
 
@@ -30,7 +27,7 @@ const VolunteerRegistration = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.registerForm}>
-      <h2>Volunteer Registration</h2>
+      <h2>Organisation Registration</h2>
       <div className={styles.content}>
         <div className={styles.inputField}>
           <input
@@ -63,44 +60,12 @@ const VolunteerRegistration = () => {
           />
         </div>
         <div className={styles.inputField}>
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div className={styles.inputField}>
-          <input
-            type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className={styles.inputField}>
           <input
             type="text"
-            name="forename"
-            value={formData.forename}
+            name="orgName"
+            value={formData.orgName}
             onChange={handleChange}
-            placeholder="Forename"
-            required
-          />
-        </div>
-        <div className={styles.inputField}>
-          <input
-            type="text"
-            name="surname"
-            value={formData.surname}
-            onChange={handleChange}
-            placeholder="Surname"
+            placeholder="Organisation Name"
             required
           />
         </div>
@@ -115,4 +80,4 @@ const VolunteerRegistration = () => {
   );
 };
 
-export default VolunteerRegistration;
+export default OrganisationRegistration;

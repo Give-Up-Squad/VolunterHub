@@ -5,7 +5,8 @@ import styles from "../styles/loginPage.module.css";
 function Login() {
   const navigate = useNavigate();
 
-  const registerClick = () => {
+  const registerClick = (e) => {
+    e.preventDefault();
     navigate("/volRegister");
   };
 
@@ -15,7 +16,7 @@ function Login() {
         <h1>Connecting Kerry</h1>
         <div className={styles.content}>
           <div className={styles.inputField}>
-            <input type="email" placeholder="Email" autoComplete="nope" />
+            <input type="email" placeholder="Email" autoComplete="off" />
           </div>
           <div className={styles.inputField}>
             <input
@@ -30,7 +31,7 @@ function Login() {
         </div>
         <div className={styles.action}>
           <button onClick={registerClick}>Register</button>
-          <button>Sign in</button>
+          <button type="submit">Sign in</button>
         </div>
       </form>
     </div>

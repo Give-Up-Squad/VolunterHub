@@ -12,7 +12,7 @@ body {
     box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
 }
 
-.registerForm h1 {
+.registerForm h2 {
     padding: 35px 35px 0 35px;
     text-align: center;
     font-weight: 300;
@@ -31,7 +31,8 @@ body {
     padding: 12px 5px;
 }
 
-.registerForm .inputField input {
+.registerForm .inputField input,
+.registerForm .inputField select {
     font-size: 16px;
     display: block;
     font-family: 'Rubik', sans-serif;
@@ -43,27 +44,33 @@ body {
     transition: all .2s;
 }
 
-.registerForm .inputField input::-webkit-input-placeholder {
+.registerForm .inputField input::-webkit-input-placeholder,
+.registerForm .inputField select::-webkit-input-placeholder {
     text-transform: uppercase;
 }
 
-.registerForm .inputField input::-moz-placeholder {
+.registerForm .inputField input::-moz-placeholder,
+.registerForm .inputField select::-moz-placeholder {
     text-transform: uppercase;
 }
 
-.registerForm .inputField input:-ms-input-placeholder {
+.registerForm .inputField input:-ms-input-placeholder,
+.registerForm .inputField select:-ms-input-placeholder {
     text-transform: uppercase;
 }
 
-.registerForm .inputField input::-ms-input-placeholder {
+.registerForm .inputField input::-ms-input-placeholder,
+.registerForm .inputField select::-ms-input-placeholder {
     text-transform: uppercase;
 }
 
-.registerForm .inputField input::placeholder {
+.registerForm .inputField input::placeholder,
+.registerForm .inputField select::placeholder {
     text-transform: uppercase;
 }
 
-.registerForm .inputField input:focus {
+.registerForm .inputField input:focus,
+.registerForm .inputField select:focus {
     border-color: #222;
 }
 
