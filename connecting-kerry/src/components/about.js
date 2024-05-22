@@ -1,13 +1,14 @@
 import React from "react";
-import styles from "../styles/aboutus.module.css";
+import styles from "../styles/aboutUs.module.css";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import Disclaimer  from "./disclaimer"
 import EventForm from "./eventForm";
+import Landing from "./landing";
 function About() {
   return (
     <div>
-      <Navbar />
+      <Landing />
       <main>
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>

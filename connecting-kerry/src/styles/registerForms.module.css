@@ -93,10 +93,12 @@ body {
     letter-spacing: 0.2px;
     outline: 0;
     transition: all .3s;
+    font-size:22px;
 }
 
 .registerForm .action button:hover {
     background: #d8d8d8;
+    font-size:23px;
 }
 
 .registerForm .action button:nth-child(2) {
