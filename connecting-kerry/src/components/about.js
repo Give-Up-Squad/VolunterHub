@@ -3,10 +3,11 @@ import styles from '../styles/aboutus.module.css'
 import Navbar from "./navbar";
 import Footer from "./footer";
 import Disclaimer  from "./disclaimer"
+import EventForm from "./eventForm";
 function About() {
     return (
         <div>
-            <Disclaimer />
+            <EventForm />
         <main>
             <div className={styles.container}>
                 <div className={styles.aboutUsContainer}>
