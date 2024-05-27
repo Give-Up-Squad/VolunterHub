@@ -2,11 +2,10 @@ import React from "react";
 import styles from "../styles/aboutus.module.css";
 import Navbar from "./navbar";
 import Footer from "./footer";
-import Disclaimer  from "./disclaimer"
+import Disclaimer from "./disclaimer";
 function About() {
   return (
     <div>
-      <Navbar />
       <main>
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>
@@ -53,7 +52,6 @@ function About() {
           </aside>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

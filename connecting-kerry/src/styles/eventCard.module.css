@@ -1,0 +1,36 @@
+body {
+    color: rgb(0, 0, 0);
+}
+
+.eventCard {
+    background: #fff;
+    width: 500px;
+    margin: 65px auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    padding: 35px;
+}
+
+.eventCard h1 {
+    padding-bottom: 20px;
+    text-align: center;
+    font-weight: 300;
+}
+
+.eventCard p {
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+    margin: 10px 0;
+    word-wrap: break-word;
+    /* Ensures long text wraps nicely */
+}
+
+.eventCard p:first-of-type {
+    margin-top: 20px;
+}
+
+.eventCard p:last-of-type {
+    margin-bottom: 20px;
+}

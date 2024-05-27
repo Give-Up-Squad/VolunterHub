@@ -72,6 +72,10 @@ const OrganisationRegistration = () => {
         <div className={styles.inputField}>
           <input type="file" name="file" onChange={handleFileChange} />
         </div>
+        <hr />
+        <a href="/login" className={styles.link}>
+          Already have an account? Login here
+        </a>
       </div>
       <div className={styles.action}>
         <button type="submit">Register</button>
