@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import styles from "../styles/volEventsDisplay.module.css";
+import EventCard from "./eventCard";
 
 const activitiesDummy = [
   {
@@ -23,6 +25,16 @@ const activitiesDummy = [
 ];
 
 export default function VolEventsDisplay() {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const handleViewClick = (activity) => {
+    setSelectedEvent(activity);
+  };
+
+  const closeModal = () => {
+    setSelectedEvent(null);
+  };
+
   return (
     <div className={styles.volEventsDisplay}>
       <h1>Volunteering Events</h1>
@@ -48,12 +60,28 @@ export default function VolEventsDisplay() {
               <td>{activity.Application_deadline}</td>
               <td>{activity.status}</td>
               <td>
-                <button className={styles.viewButton}>View</button>
+                <button
+                  className={styles.viewButton}
+                  onClick={() => handleViewClick(activity)}
+                >
+                  View
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {selectedEvent && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <EventCard {...selectedEvent} />
+            <button className={styles.closeButton} onClick={closeModal}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
