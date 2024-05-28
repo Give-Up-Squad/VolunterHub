@@ -34,7 +34,7 @@ function Login() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Connecting Kerry</h1>
         <div className={styles.content}>
-          <div className={styles.inputField}>
+          <div className={styles.inputField}>........
             <input
               type="email"
               {...register("email")}
