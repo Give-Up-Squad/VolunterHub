@@ -6,20 +6,22 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 function Login() {
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const navigate = useNavigate();
 
+  //Requirement for each attribute
   const LoginSchema = yup.object().shape({
-    email: yup.string().email().required("Email is required"),
+    email: yup.string().email("Invalid email format").required("Email is required"),
     password: yup.string().min(6, "Password must be at least 6 characters").max(14, "Password cannot exceed 14 characters").required("Password is required"),
   });
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(LoginSchema),
+    mode: "onTouched"  
   });
 
-  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   const registerClick = (e) => {
     e.preventDefault();
@@ -27,6 +29,7 @@ function Login() {
   };
 
   return (
+    //Login Form
     <div className={styles.loginForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Connecting Kerry</h1>
