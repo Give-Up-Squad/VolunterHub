@@ -6,8 +6,10 @@ import About from "./components/about";
 import VolunteerRegistration from "./components/volRegistration";
 import OrganisationRegistration from "./components/orgRegistration";
 import VolEventsDisplay from "./components/volEventsDisplay";
+import Calendar from "./components/calendar";
 import Footer from "./components/footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Disclaimer from "./components/disclaimer";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/volRegister" element={<VolunteerRegistration />} />
           <Route path="/orgRegister" element={<OrganisationRegistration />} />
           <Route path="/volunteer" element={<VolEventsDisplay />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
         </Routes>
         <Footer />
       </Router>
