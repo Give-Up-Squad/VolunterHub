@@ -2,10 +2,12 @@ import React from "react";
 import styles from "../styles/aboutUs.module.css";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import Error404 from "./error404";
 function About() {
   return (
     <div>
       <main>
+        <Error404 />
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>
             <h1>About</h1>
