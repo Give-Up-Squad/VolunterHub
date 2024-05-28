@@ -5,13 +5,13 @@
 # the repo. Unless a later match takes precedence,
 # @global-owner1 and @global-owner2 will be requested for
 # review when someone opens a pull request.
-*       @Henry-0810
+*       @Henry-0810 @RewGuardiano
 
 # Order is important; the last matching pattern takes the most
 # precedence. When someone opens a pull request that only
 # modifies JS files, only @js-owner and not the global
 # owner(s) will be requested for a review.
-*.js    @Henry-0810
+*.js    @Henry-0810 @RewGuardiano
 
 # You can also use email addresses if you prefer. They'll be
 # used to look up users just like we do for commit author
