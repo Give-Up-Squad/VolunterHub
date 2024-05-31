@@ -10,13 +10,24 @@ function Login() {
 
   //Requirement for each attribute
   const LoginSchema = yup.object().shape({
-    email: yup.string().email("Invalid email format").required("Email is required"),
-    password: yup.string().min(6, "Password must be at least 6 characters").max(14, "Password cannot exceed 14 characters").required("Password is required"),
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .max(14, "Password cannot exceed 14 characters")
+      .required("Password is required"),
   });
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(LoginSchema),
-    mode: "onTouched"  
+    mode: "onTouched",
   });
 
   const onSubmit = (data) => {
@@ -34,14 +45,16 @@ function Login() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Connecting Kerry</h1>
         <div className={styles.content}>
-          <div className={styles.inputField}>........
+          <div className={styles.inputField}>
             <input
               type="email"
               {...register("email")}
               placeholder="Email"
               autoComplete="off"
             />
-            {errors.email && <div className={styles.error}>{errors.email.message}</div>}
+            {errors.email && (
+              <div className={styles.error}>{errors.email.message}</div>
+            )}
           </div>
           <div className={styles.inputField}>
             <input
@@ -50,7 +63,9 @@ function Login() {
               autoComplete="new-password"
               {...register("password")}
             />
-            {errors.password && <div className={styles.error}>{errors.password.message}</div>}
+            {errors.password && (
+              <div className={styles.error}>{errors.password.message}</div>
+            )}
           </div>
           <a href="#" className={styles.link}>
             Forgot Your Password?
