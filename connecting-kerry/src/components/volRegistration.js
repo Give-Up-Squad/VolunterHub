@@ -1,72 +1,105 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../styles/registerForms.module.css";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const VolunteerRegistration = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    gender: "",
-    dob: "",
-    forename: "",
-    surname: "",
-    file: null,
+  const VolRegisterSchema = yup.object().shape({
+    username: yup
+      .string()
+      .required("Username is required")
+      .min(6, "Username must have at least 6 characters")
+      .matches(/^[a-zA-Z0-9]+$/, "Username can only contain letters and numbers"),
+    email: yup
+      .string()
+      .email("Invalid email")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters long")
+      .matches(/[A-Z]/, "Password must have at least one uppercase letter")
+      .matches(/[a-z]/, "Password must have at least one lowercase letter")
+      .matches(/[0-9]/, "Password must have at least one number")
+      .matches(/[\W_]/, "Password must have at least one special character"),
+    gender: yup
+      .string()
+      .oneOf(["male", "female", "other"], "Invalid gender selection")
+      .required("Gender is required"),
+    dob: yup
+      .date()
+      .required("Date of Birth is required")
+      .test("age", "You must be at least 18 years old", (value) => {
+        const today = new Date();
+        const birthDate = new Date(value);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age >= 18;
+      }),
+    forename: yup
+      .string()
+      .required("Forename is required"),
+    surname: yup
+      .string()
+      .required("Surname is required"),
+    file: yup
+      .mixed()
+      .required("File is required")
+      .test("fileSize", "File is too large", (value) => value && value.size <= 1048576)
+      .test("fileType", "Unsupported File Format", (value) => {
+        const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+        return value && allowedTypes.includes(value.type);
+      })
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(VolRegisterSchema),
+    mode: "onTouched"
+  });
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission, e.g., send data to server
-    console.log(formData);
+  const onSubmit = (data) => {
+    console.log(data);
+    // Add your form submission logic here
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.registerForm}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.registerForm}>
       <h2>Volunteer Registration</h2>
       <div className={styles.content}>
         <div className={styles.inputField}>
           <input
             type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
+            {...register("username")}
             placeholder="Username"
             required
           />
+          {errors.username && <p className={styles.error}>{errors.username.message}</p>}
         </div>
         <div className={styles.inputField}>
           <input
             type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+            {...register("email")}
             placeholder="Email"
             required
           />
+          {errors.email && <p className={styles.error}>{errors.email.message}</p>}
         </div>
         <div className={styles.inputField}>
           <input
             type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
+            {...register("password")}
             placeholder="Password"
             required
           />
+          {errors.password && <p className={styles.error}>{errors.password.message}</p>}
         </div>
         <div className={styles.inputField}>
           <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
+            {...register("gender")}
             required
           >
             <option value="">Gender</option>
@@ -74,38 +107,37 @@ const VolunteerRegistration = () => {
             <option value="female">Female</option>
             <option value="other">Other</option>
           </select>
+          {errors.gender && <p className={styles.error}>{errors.gender.message}</p>}
         </div>
         <div className={styles.inputField}>
           <input
             type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
+            {...register("dob")}
             required
           />
+          {errors.dob && <p className={styles.error}>{errors.dob.message}</p>}
         </div>
         <div className={styles.inputField}>
           <input
             type="text"
-            name="forename"
-            value={formData.forename}
-            onChange={handleChange}
+            {...register("forename")}
             placeholder="Forename"
             required
           />
+          {errors.forename && <p className={styles.error}>{errors.forename.message}</p>}
         </div>
         <div className={styles.inputField}>
           <input
             type="text"
-            name="surname"
-            value={formData.surname}
-            onChange={handleChange}
+            {...register("surname")}
             placeholder="Surname"
             required
           />
+          {errors.surname && <p className={styles.error}>{errors.surname.message}</p>}
         </div>
         <div className={styles.inputField}>
-          <input type="file" name="file" onChange={handleFileChange} />
+          <input type="file" {...register("file")} />
+          {errors.file && <p className={styles.error}>{errors.file.message}</p>}
         </div>
         <hr />
         <a href="/login" className={styles.link}>

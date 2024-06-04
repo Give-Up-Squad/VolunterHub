@@ -1,12 +1,13 @@
 import React from "react";
-import styles from "../styles/aboutus.module.css";
+import styles from "../styles/aboutUs.module.css";
 import Navbar from "./navbar";
 import Footer from "./footer";
-import Disclaimer from "./disclaimer";
+import Calendar from "./calendar";
 function About() {
   return (
     <div>
       <main>
+        <Calendar />
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>
             <h1>About</h1>
