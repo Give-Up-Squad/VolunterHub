@@ -12,7 +12,6 @@
 }
 
 #navbarTitle {
-    text-shadow: 8px 8px 8px rgb(0, 0, 0);
     text-align: center;
 }
 
@@ -20,7 +19,6 @@
     list-style: none;
     font-size: 24px;
     display: flex;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.486);
 }
 
 .navbarButtons>li {
