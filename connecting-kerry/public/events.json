@@ -1,19 +1,24 @@
 [
-    {
-      "title": "Wall Painting",
-      "start": "2024-06-01",
-      "end": "2024-06-02"
-    },
-    {
-      "title": "Event 2",
-      "start": "2024-06-05",
-      "allDay": true
-    },
-    {
-      "title": "Event 3",
-      "start": "2024-06-09T10:30:00",
-      "end": "2024-06-09T12:30:00",
-      "color": "red"
+  {
+    "id": 1,
+    "title": "Beach Cleanup",
+    "description": "A community effort to clean up the local beach.",
+    "start": "2024-06-01T08:00:00",
+    "end": "2024-06-01T12:00:00",
+    "extendedProps": {
+      "applicationDeadline": "2024-05-25",
+      "status": "Open"
     }
-  ]
-  
+  },
+  {
+    "id": 2,
+    "title": "Tree Planting",
+    "description": "Help us plant trees in the local park.",
+    "start": "2024-07-15T09:00:00",
+    "end": "2024-07-15T13:00:00",
+    "extendedProps": {
+      "applicationDeadline": "2024-07-10",
+      "status": "Open"
+    }
+  }
+]
