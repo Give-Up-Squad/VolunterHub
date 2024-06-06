@@ -5,7 +5,7 @@ This system will allow Volunteers to book volunteering activities. There are oth
 
 #### Actions Workflows: 
 
-GitHub Actions Workflow | Associated Files ('.yml') | Purpose
+GitHub Actions Workflow | Associated Files ( `.yml `) | Purpose
  --- | --- | --- 
-*Netlify Deployment Software* |'.github/workflows/Netlify.yml'| To deploy the Volunteer Hub System from GitHub 
+*Netlify Deployment Software* | `.github/workflows/Netlify.yml ` | To deploy the Volunteer Hub System from GitHub 
  
