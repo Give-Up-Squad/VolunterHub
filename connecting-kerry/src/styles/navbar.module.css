@@ -1,5 +1,5 @@
 .navbarContainer {
-    background-color: #2a5620;
+    background-color: #014421;
     color: rgb(255, 255, 255);
     width: 100%;
     height: 10em;
@@ -13,6 +13,8 @@
 
 #navbarTitle {
     text-align: center;
+    z-index: 4;
+    position: relative;
 }
 
 .navbarButtons {
@@ -75,8 +77,8 @@
     right: -100%;
     width: 70%;
     height: 100%;
-    background-color: #e6e3c6;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    background-color: #014421;
+    color: rgb(255, 255, 255);
     transition: right 0.3s ease;
     display: flex;
     flex-direction: column;
