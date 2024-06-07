@@ -36,7 +36,7 @@ function Login() {
 
   const registerClick = (e) => {
     e.preventDefault();
-    navigate("/volRegister");
+    navigate("/register");
   };
 
   return (

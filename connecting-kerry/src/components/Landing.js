@@ -5,12 +5,8 @@ import { useNavigate } from "react-router-dom";
 export default function Landing() {
   const navigate = useNavigate();
 
-  const loginClick = () => {
-    navigate("/login");
-  };
-
-  const registerClick = () => {
-    navigate("/volRegister");
+  const joinUsClick = () => {
+    navigate("/register");
   };
 
   const aboutUsClick = () => {
@@ -30,15 +26,8 @@ export default function Landing() {
           Welcome to Connecting Kerry! Let's Get Started!
         </h1>
         <div className={styles.buttons}>
-          <button type="button" className={styles.LogIn} onClick={loginClick}>
-            Log In
-          </button>
-          <button
-            type="button"
-            className={styles.SignUp}
-            onClick={registerClick}
-          >
-            Sign Up
+          <button type="button" className={styles.SignUp} onClick={joinUsClick}>
+            Join Us
           </button>
           <button
             type="button"
