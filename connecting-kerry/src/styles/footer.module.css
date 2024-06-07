@@ -1,6 +1,6 @@
 .box {
     padding: 1.5% 1.5%;
-    background: #e6e3c6;
+    background: #2a5620;;
     bottom: 0;
     height: 24.5em;
 
@@ -43,7 +43,7 @@
 }
 
 .footerLink {
-    color: #000;
+    color: #ffffff;
     margin-bottom: 20px;
     font-size: 18px;
     text-decoration: none;
@@ -53,7 +53,7 @@
     top: -0.16em;
   padding: 3px;
   transition: padding .5s, top .35s, box-shadow .4s;
-  box-shadow: 0 0.4rem 0 -0.2rem #777777;
+  box-shadow: 0 0.4rem 0 -0.2rem #000000;
   cursor: pointer;
   transform: translateY(-2px);
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
@@ -64,7 +64,7 @@
 
 .heading {
     font-size: 24px;
-    color: #000;
+    color: #ffffff;
     margin-bottom: 40px;
     font-weight: bold;
 }

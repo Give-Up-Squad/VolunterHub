@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const websiteLinks = [
   { name: "Home", path: "/" },
   { name: "Volunteer", path: "/volunteer" },
-  { name: "Opportunities", path: "/opportunities" },
+  { name: "Calendar", path: "/calendar" },
 ];
 
 function Navbar() {

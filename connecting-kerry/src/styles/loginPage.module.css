@@ -67,6 +67,11 @@ body {
     border-color: #222;
 }
 
+.loginForm .inputField:hover{
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
 .loginForm a.link {
     text-decoration: none;
     color: #747474;
@@ -99,6 +104,8 @@ body {
 
 .loginForm .action button:hover {
     background: #d8d8d8;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
 }
 
 .loginForm .action button:nth-child(2) {

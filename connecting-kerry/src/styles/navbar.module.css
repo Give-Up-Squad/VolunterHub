@@ -1,6 +1,6 @@
 .navbarContainer {
-    background-color: #e6e3c6;
-    color: black;
+    background-color: #2a5620;
+    color: rgb(255, 255, 255);
     width: 100%;
     height: 10em;
     margin: 0 auto;
@@ -30,34 +30,34 @@
 
 .navbarLoginButton {
     display: flex;
+    
 }
 
 .loginButton {
-    background-color: #1A1A1A;
-    border: 2px solid #e6e3c6;
-    color: #e6e3c6;
-    border-radius: 8px;
-    box-sizing: border-box;
-    display: inline-block;
-    font-family: "Inria Sans";
-    font-size: 24px;
-    font-weight: 500;
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-    width: 50%;
-    margin-left: 25%;
-    will-change: transform;
-    padding: 2px;
+    padding: 15px 30px;
+    margin-left:250px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
-
+.loginButton:hover {
+    background-color: #305ac3;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+}
 .navbarButtons>button:hover,
 .navbarButtons>li:hover {
-    background-color: #e6e3c6;
-    color: #1A1A1A;
     border-color: #1A1A1A;
     top: -0.16em;
     padding: 3px;
     transition: padding .5s, top .35s, box-shadow .4s;
-    box-shadow: 0 0.4rem 0 -0.2rem #9b9167;
+    box-shadow: 0 0.4rem 0 -0.2rem #000000;
     cursor: pointer;
     transform: translateY(-2px);
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
@@ -105,7 +105,7 @@
     cursor: pointer;
 }
 
-/* Responsive styles */
+
 @media (max-width: 768px) {
     .navbarContainer {
         height: auto;
