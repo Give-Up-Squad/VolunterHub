@@ -17,7 +17,7 @@ function Footer() {
       <div className={styles.footerContainer}>
         <div className={styles.row}>
           <div className={styles.column}>
-          <img src="/images/logo-no-background.png" height={50} alt="Connecting Kerry" />
+          <img src="/images/logo-no-background.png" width={250} alt="Connecting Kerry" />
           </div>
 
           <div className={styles.column}>
