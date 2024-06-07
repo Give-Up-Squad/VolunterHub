@@ -8,6 +8,7 @@ import OrganisationRegistration from "./components/orgRegistration";
 import VolEventsDisplay from "./components/volEventsDisplay";
 import Calendar from "./components/calendar";
 import Footer from "./components/footer";
+import Error404 from "./components/error404";
 import {
   BrowserRouter as Router,
   Routes,
@@ -34,6 +35,7 @@ function Content() {
         <Route path="/volunteer" element={<VolEventsDisplay />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/*" element={<Error404 />} />
       </Routes>
       {showNavbarAndFooter && <Footer />}
     </div>

@@ -21,7 +21,6 @@ body {
 .loginForm .content {
     padding: 35px;
     text-align: center;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     row-gap: 5%;
@@ -118,9 +117,9 @@ body {
 .loginForm .action button:nth-child(2):hover {
     background: #3c4d6d;
 }
+
 .error {
     color: red;
     font-size: 0.875em;
     margin-top: 0.5em;
-  }
-  
+}

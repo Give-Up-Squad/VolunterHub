@@ -7,7 +7,7 @@ function About() {
   return (
     <div>
       <main>
-        <Calendar />
+        {/* <Calendar /> */}
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>
             <h1>About</h1>
