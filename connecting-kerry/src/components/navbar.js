@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const websiteLinks = [
   { name: "Home", path: "/" },
   { name: "Volunteer", path: "/volunteer" },
-  { name: "Opportunities", path: "/opportunities" },
+  { name: "Calendar", path: "/calendar" },
 ];
 
 function Navbar() {
@@ -14,7 +14,7 @@ function Navbar() {
 
   const handleNavigation = (path) => {
     navigate(path);
-    setIsDrawerOpen(false); // Close the drawer when a link is clicked
+    setIsDrawerOpen(false);
   };
 
   const toggleDrawer = () => {
