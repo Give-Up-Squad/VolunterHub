@@ -1,5 +1,5 @@
 # Volunteer Hub System
-[![CodeQL](https://github.com/github/issue-metrics/actions/workflows/github-code-scanning/codeql/badge.svg)]()
+[![CodeQL](https://github.com/github/issue-metrics/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Give-Up-Squad/VolunterHub/security/code-scanning)
 
 This system will allow Volunteers to book volunteering activities. There are other users (admin and organisation) who will control approvals and the backend of the system. 
 
