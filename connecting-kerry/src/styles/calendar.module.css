@@ -10,6 +10,28 @@ form {
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+  .addEventButton > button{
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: right;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+
+
+  .addEventButton > button:hover{
+    background: #d8d8d8;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+  }
   
   button[type="submit"] {
     padding: 8px 16px;
@@ -24,4 +46,5 @@ form {
   button[type="submit"]:hover {
     background-color: #0056b3;
   }
+
   
