@@ -1,6 +1,8 @@
 form {
     align-items: center;
     margin-bottom: 20px;
+    min-width: 25em;
+    min-height: 20em;
   }
   
   input[type="text"],
@@ -51,5 +53,3 @@ form {
   button[type="submit"]:hover {
     background-color: #0056b3;
   }
-
-  
