@@ -1,10 +1,11 @@
+require("dotenv").config();
 const fs = require('fs');
 const pg = require('pg');
 const url = require('url');
 
 const config = {
     user: "avnadmin",
-    password: "AVNS_CvTWVzyDnlFNp8mKkCR",
+    password: process.env.DB_PASSWORD,
     host: "connectingkerry-connecting-kerry.l.aivencloud.com",
     port: 23109,
     database: "defaultdb",
