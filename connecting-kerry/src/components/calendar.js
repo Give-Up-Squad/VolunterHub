@@ -25,7 +25,7 @@ export default function Calendar() {
 
   const handleAddEvent = (e) => {
     e.preventDefault();
-    if (newEvent.title && newEvent.date) {
+    if (newEvent.title && newEvent.description && newEvent.startDate && newEvent.endDate && newEvent.registrationDate && newEvent.minimumPatricipants && newEvent.maximumPatricipants) {
       setEvents(prevEvents => [...prevEvents, newEvent]);
       setNewEvent({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumPatricipants: '', maximumPatricipants: ''});
       setIsModalOpen(false); 
@@ -37,9 +37,6 @@ export default function Calendar() {
   return (
     
     <div>
-      <div className={Styles.addEventButton}>
-        <button onClick={() => setIsModalOpen(true)}>Add Event to Calendar</button>
-      </div>
       
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleAddEvent} className={Styles.calendarForm}>
@@ -118,13 +115,23 @@ export default function Calendar() {
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
+        
         headerToolbar={{
           start: 'today prev,next',
           center: 'title',
-          end: 'dayGridMonth timeGridWeek,timeGridDay',
+          end: 'myCustomButton dayGridMonth timeGridWeek,timeGridDay',
         }}
+        customButtons={{
+          myCustomButton: {
+              text: 'Add a new Event to Calendar',
+              click: function() {
+                setIsModalOpen(true);
+              },
+          },
+      }}
         height={'90vh'}
         events={events}
+        
       />
     </div>
   );
