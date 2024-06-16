@@ -86,7 +86,6 @@ body {
 .registerForm .action button {
     width: 100%;
     border: none;
-    padding: 18px;
     font-family: 'Rubik', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
@@ -98,6 +97,7 @@ body {
     outline: 0;
     transition: all .3s;
     font-size:22px;
+    margin-bottom: 5%;
 }
 
 .registerForm .action button:hover {

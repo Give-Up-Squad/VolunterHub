@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import Navbar from "./components/navbar";
 import Landing from "./components/landing";
@@ -14,11 +15,14 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import Disclaimer from "./components/disclaimer";
 import RoleChoice from "./components/roleChoice";
+import { useAuth } from "./contexts/authContext";
 
 function Content() {
+  const { userLoggedIn } = useAuth();
   const location = useLocation();
   const showNavbarAndFooter = location.pathname !== "/register";
 
@@ -32,10 +36,28 @@ function Content() {
         <Route path="/login" element={<Login />} />
         <Route path="/volRegister" element={<VolunteerRegistration />} />
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
-        <Route path="/volunteer" element={<VolEventsDisplay />} />
-        <Route path="/calendar" element={<Calendar />} />
+
+        {/* Protected Routes */}
+        {userLoggedIn ? (
+          <>
+            <Route path="/volunteer" element={<VolEventsDisplay />} />
+            <Route path="/calendar" element={<Calendar />} />
+          </>
+        ) : (
+          <>
+            <Route
+              path="/volunteer"
+              element={<Navigate to="/login" replace />}
+            />
+            <Route
+              path="/calendar"
+              element={<Navigate to="/login" replace />}
+            />
+          </>
+        )}
+
         <Route path="/disclaimer" element={<Disclaimer />} />
-        <Route path="/*" element={<Error404 />} />
+        <Route path="*" element={<Error404 />} />
       </Routes>
       {showNavbarAndFooter && <Footer />}
     </div>

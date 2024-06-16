@@ -1,25 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/loginPage.module.css";
-import * as yup from "yup";
+import { LoginSchema } from "../validations/loginValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { doSignInWithEmailAndPassword } from "../firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
-
-  //Requirement for each attribute
-  const LoginSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .max(14, "Password cannot exceed 14 characters")
-      .required("Password is required"),
-  });
 
   const {
     register,
@@ -30,8 +18,14 @@ function Login() {
     mode: "onTouched",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await doSignInWithEmailAndPassword(data.email, data.password);
+      console.log("User logged in successfully");
+      navigate("/volunteer");
+    } catch (error) {
+      console.log("Error logging in user", error);
+    }
   };
 
   const registerClick = (e) => {
@@ -40,7 +34,6 @@ function Login() {
   };
 
   return (
-    //Login Form
     <div className={styles.loginForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Connecting Kerry</h1>
@@ -72,8 +65,8 @@ function Login() {
           </a>
         </div>
         <div className={styles.action}>
-          <button onClick={registerClick}>Register</button>
           <button type="submit">Sign in</button>
+          <button onClick={registerClick}>Register</button>
         </div>
       </form>
     </div>
