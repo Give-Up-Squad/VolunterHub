@@ -1,50 +1,41 @@
-name: Deploying Volunteering System
+name: Deploy to Netlify
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Repository Checkout
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Setup NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
 
+    - name: Install backend dependencies
+      working-directory: connecting-kerry/app_api
+      run: npm install
 
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli 
+    - name: Install frontend dependencies
+      working-directory: connecting-kerry/frontend
+      run: npm install
 
-      - name: Install dependencies for frontend and backend
-        run: |
-          cd connecting-kerry
-          npm install
-          cd connecting-kerry/app_api 
-          npm install
+    - name: Build frontend
+      working-directory: connecting-kerry/frontend
+      run: npm run build
 
-      - name: Build React app
-        run: |
-          cd connecting-kerry
-          npm run build
-        env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}  
-
-      - name: Initialize Netlify
-        run: netlify init
-  
-  
-      - name: Deploy to Netlify
-        run: |
-          cd ..
-          netlify deploy --prod --dir=client/build --functions=server --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      
-
-         
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.2
+      with:
+        publish-dir: connecting-kerry/frontend/build
+        production-branch: main
+        deploy-message: 'Deploying frontend and backend as serverless functions'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
