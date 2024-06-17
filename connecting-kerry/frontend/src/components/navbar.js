@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "../styles/navbar.module.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authContext";
+import { doSignOut } from "../firebase/auth";
 
 const websiteLinks = [
   { name: "Home", path: "/" },
@@ -11,7 +13,8 @@ const websiteLinks = [
 function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
-
+  const { currentUser, userLoggedIn, loading } = useAuth();
+  console.log(currentUser, userLoggedIn, loading);
   const handleNavigation = (path) => {
     navigate(path);
     setIsDrawerOpen(false);
@@ -21,6 +24,15 @@ function Navbar() {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      await doSignOut();
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging out:", error.message);
+    }
+  };
+
   return (
     <header>
       <div className={styles.navbarContainer}>
@@ -28,11 +40,13 @@ function Navbar() {
           ☰
         </div>
         <ul className={styles.navbarButtons} style={{ flex: "1" }}>
-          {websiteLinks.map((link) => (
-            <li key={link.name} onClick={() => handleNavigation(link.path)}>
-              {link.name}
-            </li>
-          ))}
+          <li onClick={() => handleNavigation("/")}>Home</li>
+          {userLoggedIn &&
+            websiteLinks.slice(1).map((link) => (
+              <li key={link.name} onClick={() => handleNavigation(link.path)}>
+                {link.name}
+              </li>
+            ))}
         </ul>
         <div id={styles.navbarTitle} style={{ flex: "3" }}>
           <img
@@ -43,22 +57,34 @@ function Navbar() {
           />
         </div>
         <div style={{ flex: "3", margin: "10px" }}>
-          <button
-            className={styles.loginButton}
-            onClick={() => handleNavigation("/login")}
-          >
-            Login
-          </button>
+          {!userLoggedIn ? (
+            <button
+              className={styles.loginButton}
+              onClick={() => handleNavigation("/login")}
+            >
+              Login
+            </button>
+          ) : (
+            <button className={styles.loginButton} onClick={handleLogout}>
+              Logout
+            </button>
+          )}
         </div>
       </div>
       <div className={`${styles.drawer} ${isDrawerOpen ? styles.open : ""}`}>
         <ul className={styles.drawerButtons}>
-          {websiteLinks.map((link) => (
-            <li key={link.name} onClick={() => handleNavigation(link.path)}>
-              {link.name}
-            </li>
-          ))}
-          <button onClick={() => handleNavigation("/login")}>Login</button>
+          <li onClick={() => handleNavigation("/")}>Home</li>
+          {userLoggedIn &&
+            websiteLinks.slice(1).map((link) => (
+              <li key={link.name} onClick={() => handleNavigation(link.path)}>
+                {link.name}
+              </li>
+            ))}
+          {!userLoggedIn ? (
+            <li onClick={() => handleNavigation("/login")}>Login</li>
+          ) : (
+            <li onClick={handleLogout}>Logout</li>
+          )}
         </ul>
       </div>
     </header>
