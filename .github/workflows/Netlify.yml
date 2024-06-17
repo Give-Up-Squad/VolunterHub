@@ -15,28 +15,27 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      - name: Install Dependencies
-        run: npm ci
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli 
 
-      - name: Initialize Netlify
-        run: netlify init
-
-      - name: Install dependencies
+      - name: Install dependencies for frontend and backend
         run: |
-          cd client
+          cd connecting-kerry
           npm install
-          cd ../server
+          cd connecting-kerry/app_api 
           npm install
-  
+
       - name: Build React app
         run: |
-          cd client
+          cd connecting-kerry
           npm run build
         env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}  
+
+      - name: Initialize Netlify
+        run: netlify init
+  
   
       - name: Deploy to Netlify
         run: |
