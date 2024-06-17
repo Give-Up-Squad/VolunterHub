@@ -34,6 +34,7 @@ jobs:
       uses: nwtgck/actions-netlify@v1.2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         publish-dir: connecting-kerry/frontend/build
         production-branch: main
         deploy-message: 'Deploying frontend and backend as serverless functions'
