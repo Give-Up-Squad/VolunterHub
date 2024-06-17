@@ -33,9 +33,16 @@ jobs:
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.2
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         publish-dir: connecting-kerry/frontend/build
         production-branch: main
         deploy-message: 'Deploying frontend and backend as serverless functions'
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+        
+    - name: Display Deployment URL
+      run: echo "Netlify Deployment URL - https://connectingkerry.netlify.app/"
+      id: display_url
+      
+    - name: Set URL as Output
+      run: echo "::set-output name=url::https://connectingkerry.netlify.app/"
+      id: set_output
+
