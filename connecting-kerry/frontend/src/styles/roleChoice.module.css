@@ -6,10 +6,10 @@
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: #014421;
     text-align: center;
     padding: 40px;
-    background: #fff;
+    background-color: #e6e3c6;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -31,18 +31,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid #ddd;
+    border: 2px solid #014421;
     border-radius: 8px;
     padding: 20px;
     width: 200px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    background-color: #fff;
 }
 
 .selectionBox.selected {
-    border-color: #c6c77f;
-    background-color: #e7f0ff;
+    border-color: #014421;
+    background-color: #a4e6c4;
 }
 
 .icon {
@@ -69,8 +70,8 @@
 }
 
 .checkbox.checked {
-    background-color: #e6e3c6;
-    border-color: #e6e3c6;
+    background-color: #014421;
+    border-color: #014421;
 }
 
 .checkbox::after {
@@ -91,7 +92,7 @@
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #e6e3c6;
+    background-color: #014421;
     border: none;
     border-radius: 4px;
     cursor: pointer;
