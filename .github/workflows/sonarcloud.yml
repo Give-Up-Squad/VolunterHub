@@ -41,7 +41,7 @@ permissions:
 jobs:
   Analysis:
     runs-on: ubuntu-latest
-    needs: [CodeQL] 
+   
 
     steps:
       - name: Analyze with SonarCloud
