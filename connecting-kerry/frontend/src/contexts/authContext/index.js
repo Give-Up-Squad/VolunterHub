@@ -10,7 +10,6 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,13 +20,27 @@ export const AuthProvider = ({ children }) => {
   async function initializeUser(user) {
     if (user) {
       setCurrentUser(user);
-      setUserLoggedIn(true);
+      sessionStorage.setItem("authToken", await user.getIdToken());
     } else {
       setCurrentUser(null);
-      setUserLoggedIn(false);
+      sessionStorage.removeItem("authToken");
     }
     setLoading(false);
   }
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.removeItem("authToken");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const userLoggedIn = !!sessionStorage.getItem("authToken");
 
   const value = {
     currentUser,
