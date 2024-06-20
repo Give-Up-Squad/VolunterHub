@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+      
+  workflow_run:
+    workflows: ["SonarCloud analysis"]
+    types:
+     - completed 
 
 jobs:
   build-and-deploy:
