@@ -9,4 +9,5 @@ GitHub Actions Workflow | Associated Files ( `.yml `) | Purpose
  --- | --- | --- 
 *Netlify Deployment Software* | `.github/workflows/Netlify.yml ` | To deploy the Volunteer Hub System from GitHub
 *SonarQube Workflow* | `.github/workflows/sonarcloud.yml` | SonarQube Integration with GitHub for Volunteer System 
+*CodeQL Workflow* | `.github/workflows/codeql.yml` | CodeQL created using GitHub Advanced Security 
  
