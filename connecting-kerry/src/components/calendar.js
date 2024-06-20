@@ -8,7 +8,7 @@ import Styles from '../styles/calendar.module.css';
 
 export default function Calendar() {
   const [events, setEvents] = useState([]);
-  const [newEvent, setNewEvent] = useState({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumPatricipants: '',maximumPatricipants: '' });
+  const [newEvent, setNewEvent] = useState({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumParticipants: '', maximumParticipants: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -25,9 +25,18 @@ export default function Calendar() {
 
   const handleAddEvent = (e) => {
     e.preventDefault();
-    if (newEvent.title && newEvent.description && newEvent.startDate && newEvent.endDate && newEvent.registrationDate && newEvent.minimumPatricipants && newEvent.maximumPatricipants) {
-      setEvents(prevEvents => [...prevEvents, newEvent]);
-      setNewEvent({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumPatricipants: '', maximumPatricipants: ''});
+    if (newEvent.title && newEvent.description && newEvent.startDate && newEvent.endDate && newEvent.registrationDate && newEvent.minimumParticipants && newEvent.maximumParticipants) {
+      const eventToAdd = {
+        title: newEvent.title,
+        start: newEvent.startDate,
+        end: newEvent.endDate,
+        description: newEvent.description,
+        registrationDate: newEvent.registrationDate,
+        minimumParticipants: newEvent.minimumParticipants,
+        maximumParticipants: newEvent.maximumParticipants,
+      };
+      setEvents(prevEvents => [...prevEvents, eventToAdd]);
+      setNewEvent({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumParticipants: '', maximumParticipants: ''});
       setIsModalOpen(false); 
     } else {
       alert('Please fill out form details before submitting.');
@@ -35,27 +44,23 @@ export default function Calendar() {
   };
 
   return (
-    
     <div>
-      
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleAddEvent} className={Styles.calendarForm}>
-        
-        <br></br>
-        <label>Event Title: </label>
+          <br></br>
+          <label>Event Title: </label>
           <input
             type="text"
-            name="Event Title"
+            name="title"
             placeholder="Event Title"
             value={newEvent.title}
             onChange={handleInputChange}
           />
-
           <br></br>
           <label>Description: </label>
           <input
             type="text"
-            name="Description"
+            name="description"
             placeholder="Description"
             value={newEvent.description}
             onChange={handleInputChange}
@@ -64,50 +69,47 @@ export default function Calendar() {
           <label>Start Date: </label>
           <input
             type="date"
-            name="Start Date"
+            name="startDate"
             placeholder="Start Date"
             value={newEvent.startDate}
             onChange={handleInputChange}
           />
-
           <br></br>
           <label>End Date: </label>
           <input
             type="date"
-            name="End Date"
+            name="endDate"
             placeholder="End Date"
             value={newEvent.endDate}
             onChange={handleInputChange}
           />
-
           <br></br>
           <label>Registration Deadline: </label>
           <input
             type="date"
-            name="Registration Deadline"
+            name="registrationDate"
             placeholder="Registration Deadline"
             value={newEvent.registrationDate}
             onChange={handleInputChange}
           />
           <br></br>
-          <label>Minimum Patricipants: </label>
+          <label>Minimum Participants: </label>
           <input
             type="number"
-            name="minimumPatricipants"
-            placeholder="minimumPatricipants"
-            value={newEvent.minimumPatricipants}
+            name="minimumParticipants"
+            placeholder="Minimum Participants"
+            value={newEvent.minimumParticipants}
             onChange={handleInputChange}
           />
           <br></br>
-          <label>Maximum Patricipants: </label>
+          <label>Maximum Participants: </label>
           <input
             type="number"
-            name="Minimum Patricipants"
-            placeholder="Minimum Patricipants"
-            value={newEvent.maximumPatricipants}
+            name="maximumParticipants"
+            placeholder="Maximum Participants"
+            value={newEvent.maximumParticipants}
             onChange={handleInputChange}
           />
-
           <button type="submit">Add Event</button>
         </form>
       </Modal>
@@ -115,7 +117,6 @@ export default function Calendar() {
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        
         headerToolbar={{
           start: 'today prev,next',
           center: 'title',
@@ -123,15 +124,14 @@ export default function Calendar() {
         }}
         customButtons={{
           myCustomButton: {
-              text: 'Add a new Event to Calendar',
-              click: function() {
-                setIsModalOpen(true);
-              },
+            text: 'Add a new Event to Calendar',
+            click: function() {
+              setIsModalOpen(true);
+            },
           },
-      }}
+        }}
         height={'90vh'}
         events={events}
-        
       />
     </div>
   );
