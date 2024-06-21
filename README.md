@@ -10,4 +10,15 @@ GitHub Actions Workflow | Associated Files ( `.yml `) | Purpose
 *Netlify Deployment Software* | `.github/workflows/Netlify.yml ` | To deploy the Volunteer Hub System from GitHub
 *SonarQube Workflow* | `.github/workflows/sonarcloud.yml` | SonarQube Integration with GitHub for Volunteer System 
 *CodeQL Workflow* | `.github/workflows/codeql.yml` | CodeQL created using GitHub Advanced Security 
+
+### Built With
+
+This section lists the major framework/libraries used in the project 
+
+* [![Next][Next.js]][Next-url]
+* [![React][React.js]][React-url]
+* [![PostgreSQL](https://www.postgresql.org/)
+* [!][pgAdmin](https://www.pgadmin.org/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
  
