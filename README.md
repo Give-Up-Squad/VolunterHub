@@ -12,5 +12,5 @@ GitHub Actions Workflow | Associated Files ( `.yml `) | Purpose
 *CodeQL Workflow* | `.github/workflows/codeql.yml` | CodeQL created using GitHub Advanced Security 
 
   
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
  
