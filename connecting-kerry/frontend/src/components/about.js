@@ -7,11 +7,9 @@ function About() {
   return (
     <div>
       <main>
-        {/* <Calendar /> */}
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>
             <h1>About</h1>
-            {/* About Us text*/}
             <p>What is Lorem Ipsum?</p>
 
             <p>
