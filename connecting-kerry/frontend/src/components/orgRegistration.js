@@ -69,9 +69,9 @@ const OrganisationRegistration = () => {
             required
           />
         </div>
-        <div className={styles.inputField}>
+        {/* <div className={styles.inputField}>
           <input type="file" name="file" onChange={handleFileChange} />
-        </div>
+        </div> */}
         <hr />
         <a href="/login" className={styles.link}>
           Already have an account? Login here

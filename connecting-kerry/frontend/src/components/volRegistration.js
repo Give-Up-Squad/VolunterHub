@@ -107,10 +107,10 @@ const VolunteerRegistration = () => {
             <p className={styles.error}>{errors.surname.message}</p>
           )}
         </div>
-        <div className={styles.inputField}>
+        {/* <div className={styles.inputField}>
           <input type="file" {...register("file")} />
           {errors.file && <p className={styles.error}>{errors.file.message}</p>}
-        </div>
+        </div> */}
         <hr />
         <a href="/login" className={styles.link}>
           Already have an account? Login here
