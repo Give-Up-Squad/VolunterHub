@@ -20,9 +20,21 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      await doSignInWithEmailAndPassword(data.email, data.password);
-      console.log("User logged in successfully");
-      navigate("/volunteer");
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("User logged in successfully", result);
+        navigate("/volunteer");
+      } else {
+        console.log("Failed to log in user");
+      }
     } catch (error) {
       console.log("Error logging in user", error);
     }
