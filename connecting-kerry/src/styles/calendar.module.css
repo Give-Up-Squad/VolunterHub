@@ -1,55 +1,133 @@
-form {
-    align-items: center;
-    margin-bottom: 20px;
-    min-width: 25em;
-    min-height: 20em;
+@keyframes gradientTransition {
+  0% {
+    background: #4ad18c;
   }
-  
-  input[type="text"],
-  input[type="date"] {
-    margin-right: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  50% {
+    background: #e0f7fa;
   }
-  .addEventButton{
-    text-align: center; 
-    width:100%; 
-    padding:0;
+  100% {
+    background: #4ad18c;
   }
-  .addEventButton > button{
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    background-color: rgba(56, 127, 151, 0.75);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    text-align: right;
-    margin-top: 2em;
-    margin-bottom: 2em;
-  }
+}
 
+.calendarContainer {
+  padding: 20px;
+  background: linear-gradient(135deg, #014421, #e0f7fa);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 90%;
+  animation: gradientTransition 10s infinite;
+}
 
-  .addEventButton > button:hover{
-    background: #d8d8d8;
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
-  }
-  
-  button[type="submit"] {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
+.calendarForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calendarForm label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #014421;
+}
+
+.calendarForm input[type="text"],
+.calendarForm input[type="date"],
+.calendarForm input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.calendarForm input[type="text"]:focus,
+.calendarForm input[type="date"]:focus,
+.calendarForm input[type="number"]:focus {
+  border-color: #014421;
+  outline: none;
+}
+
+.calendarForm button[type="submit"] {
+  padding: 12px;
+  background-color: #014421;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 16px;
+}
+
+.calendarForm button[type="submit"]:hover {
+  background-color: #013119;
+  transform: translateY(-2px);
+}
+
+.addEventButton {
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
+
+.addEventButton > button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background-color: rgba(1, 68, 33, 0.75);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.addEventButton > button:hover {
+  background: #013119;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+.fc-toolbar-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #014421;
+}
+
+.fc-button {
+  background-color: #014421 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 5px !important;
+  padding: 8px 16px !important;
+  transition: background-color 0.3s ease, transform 0.3s ease !important;
+}
+
+.fc-button:hover {
+  background-color: #013119 !important;
+  transform: translateY(-2px) !important;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 20px;
+}
+
+.fc-event {
+  background-color: #014421 !important;
+  border: none !important;
+  color: white !important;
+  padding: 5px !important;
+  border-radius: 5px !important;
+}
+
+.fc-event:hover {
+  background-color: #013119 !important;
+}

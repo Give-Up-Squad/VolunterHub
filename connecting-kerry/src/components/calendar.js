@@ -36,18 +36,17 @@ export default function Calendar() {
         maximumParticipants: newEvent.maximumParticipants,
       };
       setEvents(prevEvents => [...prevEvents, eventToAdd]);
-      setNewEvent({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumParticipants: '', maximumParticipants: ''});
-      setIsModalOpen(false); 
+      setNewEvent({ title: '', description: '', startDate: '', endDate: '', registrationDate: '', minimumParticipants: '', maximumParticipants: '' });
+      setIsModalOpen(false);
     } else {
       alert('Please fill out form details before submitting.');
     }
   };
 
   return (
-    <div>
+    <div className={Styles.calendarContainer}>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleAddEvent} className={Styles.calendarForm}>
-          <br></br>
           <label>Event Title: </label>
           <input
             type="text"
@@ -56,7 +55,6 @@ export default function Calendar() {
             value={newEvent.title}
             onChange={handleInputChange}
           />
-          <br></br>
           <label>Description: </label>
           <input
             type="text"
@@ -65,7 +63,6 @@ export default function Calendar() {
             value={newEvent.description}
             onChange={handleInputChange}
           />
-          <br></br>
           <label>Start Date: </label>
           <input
             type="date"
@@ -74,7 +71,6 @@ export default function Calendar() {
             value={newEvent.startDate}
             onChange={handleInputChange}
           />
-          <br></br>
           <label>End Date: </label>
           <input
             type="date"
@@ -83,7 +79,6 @@ export default function Calendar() {
             value={newEvent.endDate}
             onChange={handleInputChange}
           />
-          <br></br>
           <label>Registration Deadline: </label>
           <input
             type="date"
@@ -92,7 +87,6 @@ export default function Calendar() {
             value={newEvent.registrationDate}
             onChange={handleInputChange}
           />
-          <br></br>
           <label>Minimum Participants: </label>
           <input
             type="number"
@@ -101,7 +95,6 @@ export default function Calendar() {
             value={newEvent.minimumParticipants}
             onChange={handleInputChange}
           />
-          <br></br>
           <label>Maximum Participants: </label>
           <input
             type="number"
@@ -124,7 +117,7 @@ export default function Calendar() {
         }}
         customButtons={{
           myCustomButton: {
-            text: 'Add a new Event to Calendar',
+            text: 'Add Event',
             click: function() {
               setIsModalOpen(true);
             },
@@ -132,6 +125,14 @@ export default function Calendar() {
         }}
         height={'90vh'}
         events={events}
+        buttonText={{
+          today: 'Today',
+          month: 'Month',
+          week: 'Week',
+          day: 'Day',
+          list: 'List'
+        }}
+        themeSystem="standard"
       />
     </div>
   );
