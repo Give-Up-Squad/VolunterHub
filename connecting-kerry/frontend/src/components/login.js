@@ -4,10 +4,12 @@ import styles from "../styles/loginPage.module.css";
 import { LoginSchema } from "../validations/loginValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../contexts/authContext"; // Import useAuth hook
 import { doSignInWithEmailAndPassword } from "../firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
+  const { userLoggedIn } = useAuth(); // Access userLoggedIn from AuthContext
 
   const {
     register,
@@ -20,23 +22,16 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const userCredential = await doSignInWithEmailAndPassword(
+        data.email,
+        data.password
+      );
+      console.log("User logged in successfully:", userCredential.user);
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("User logged in successfully", result);
-        navigate("/volunteer");
-      } else {
-        console.log("Failed to log in user");
-      }
+      // Navigation handled by AuthProvider based on userLoggedIn state change
     } catch (error) {
-      console.log("Error logging in user", error);
+      console.log("Error logging in user", error.message);
+      // Handle error state or display error message to user
     }
   };
 
@@ -44,6 +39,12 @@ function Login() {
     e.preventDefault();
     navigate("/register");
   };
+
+  // Redirect if user is already logged in
+  if (userLoggedIn) {
+    navigate("/volunteer");
+    return null; // Or loading indicator if needed
+  }
 
   return (
     <div className={styles.loginForm}>

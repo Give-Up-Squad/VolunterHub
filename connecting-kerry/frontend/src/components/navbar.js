@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "../styles/navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
-import { doSignOut } from "../firebase/auth";
 
 const websiteLinks = [
   { name: "Home", path: "/" },
@@ -13,8 +12,8 @@ const websiteLinks = [
 function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
-  const { currentUser, userLoggedIn, loading } = useAuth();
-  console.log(currentUser, userLoggedIn, loading);
+  const { userLoggedIn, logout } = useAuth(); // Use useAuth hook to get logout function
+
   const handleNavigation = (path) => {
     navigate(path);
     setIsDrawerOpen(false);
@@ -26,13 +25,12 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await doSignOut();
+      await logout();
       navigate("/");
     } catch (error) {
       console.error("Error logging out:", error.message);
     }
   };
-
   return (
     <header>
       <div className={styles.navbarContainer}>

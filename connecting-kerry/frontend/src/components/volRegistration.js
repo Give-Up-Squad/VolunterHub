@@ -27,6 +27,8 @@ const VolunteerRegistration = () => {
       const user = userCredentials.user;
       console.log("User registered successfully:", user);
 
+      const authToken = await user.getIdToken();
+      sessionStorage.setItem("authToken", authToken);
       navigate("/volunteer");
     } catch (error) {
       console.error("Error registering user:", error.message);

@@ -4,7 +4,8 @@ const { createOrganisation } = require("../models/organisationModel");
 const firebase = require("firebase-admin");
 
 const login = async (req, res) => {
-  const idToken = req.body.idToken;
+  const idToken = req.body;
+  console.log("ID Token", idToken);
   try {
     const decodedToken = await firebase.auth().verifyIdToken(idToken);
     req.session.user = {
@@ -13,6 +14,7 @@ const login = async (req, res) => {
     };
     res.status(200).send("Logged in");
   } catch (error) {
+    console.error("Error verifying ID token:", error);
     res.status(401).send("Unauthorized");
   }
 };

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import styles from "../styles/registerForms.module.css";
+import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const OrganisationRegistration = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     orgName: "",
-    file: null,
   });
 
   const handleChange = (e) => {
@@ -19,10 +22,24 @@ const OrganisationRegistration = () => {
     setFormData({ ...formData, file: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission, e.g., send data to server
-    console.log(formData);
+    try {
+      const userCredentials = await doCreateUserWithEmailAndPassword(
+        formData.email,
+        formData.password
+      );
+
+      const user = userCredentials.user;
+      console.log("Organisation registered successfully:", user);
+
+      // Handle setting authToken in sessionStorage
+      const authToken = await user.getIdToken();
+      sessionStorage.setItem("authToken", authToken);
+      navigate("/volunteer");
+    } catch (error) {
+      console.error("Error registering organisation:", error.message);
+    }
   };
 
   return (
