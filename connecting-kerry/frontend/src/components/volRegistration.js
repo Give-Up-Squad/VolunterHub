@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect } from "react";
 import styles from "../styles/registerForms.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -12,10 +12,15 @@ const VolunteerRegistration = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(VolRegisterSchema),
     mode: "onTouched",
   });
+
+  useEffect(() => {
+    setValue("roles", "Volunteers");
+  }, [setValue]);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -109,10 +114,7 @@ const VolunteerRegistration = () => {
             <p className={styles.error}>{errors.surname.message}</p>
           )}
         </div>
-        {/* <div className={styles.inputField}>
-          <input type="file" {...register("file")} />
-          {errors.file && <p className={styles.error}>{errors.file.message}</p>}
-        </div> */}
+        <input type="hidden" {...register("roles")} value="Volunteers" />
         <hr />
         <a href="/login" className={styles.link}>
           Already have an account? Login here

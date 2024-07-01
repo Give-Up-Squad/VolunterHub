@@ -1,32 +1,6 @@
 const { createUser } = require("../models/userModel");
 const { createVolunteer } = require("../models/volunteerModel");
 const { createOrganisation } = require("../models/organisationModel");
-const firebase = require("firebase-admin");
-
-const login = async (req, res) => {
-  const idToken = req.body;
-  console.log("ID Token", idToken);
-  try {
-    const decodedToken = await firebase.auth().verifyIdToken(idToken);
-    req.session.user = {
-      uid: decodedToken.uid,
-      email: decodedToken.email,
-    };
-    res.status(200).send("Logged in");
-  } catch (error) {
-    console.error("Error verifying ID token:", error);
-    res.status(401).send("Unauthorized");
-  }
-};
-
-const logout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send("Error logging out");
-    }
-    res.status(200).send("Logged out");
-  });
-};
 
 const registerUser = async (req, res) => {
   const { username, email, password, isGardaVetted, roles, extraData } =
@@ -71,16 +45,4 @@ const registerUser = async (req, res) => {
   }
 };
 
-const checkSession = (req, res, next) => {
-  if (req.session.user) {
-    next();
-  } else {
-    res.status(401).send("Unauthorized");
-  }
-};
-
-const protectedRoute = (req, res) => {
-  res.send(`Hello ${req.session.user.email}, this is a protected route!`);
-};
-
-module.exports = { login, logout, registerUser, checkSession, protectedRoute };
+module.exports = { registerUser };

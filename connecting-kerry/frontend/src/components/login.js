@@ -9,7 +9,7 @@ import { doSignInWithEmailAndPassword } from "../firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
-  const { userLoggedIn } = useAuth(); // Access userLoggedIn from AuthContext
+  const { currentUser, userLoggedIn } = useAuth(); // Access userLoggedIn from AuthContext
 
   const {
     register,
@@ -27,11 +27,8 @@ function Login() {
         data.password
       );
       console.log("User logged in successfully:", userCredential.user);
-
-      // Navigation handled by AuthProvider based on userLoggedIn state change
     } catch (error) {
       console.log("Error logging in user", error.message);
-      // Handle error state or display error message to user
     }
   };
 

@@ -1,6 +1,6 @@
 body {
     color: rgb(0, 0, 0);
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     /* Ensure consistent font */
 }
 
@@ -18,6 +18,7 @@ body {
     padding: 35px 35px 0 35px;
     text-align: center;
     font-weight: 300;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .loginForm .content {
@@ -26,6 +27,7 @@ body {
     flex-direction: column;
     justify-content: center;
     row-gap: 5%;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .loginForm .inputField {
@@ -41,10 +43,12 @@ body {
     border-bottom: 1px solid #747474;
     outline: none;
     transition: all .2s;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .loginForm .inputField input::placeholder {
     text-transform: uppercase;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .loginForm .inputField input:focus {
@@ -63,41 +67,42 @@ body {
     text-transform: uppercase;
     display: inline-block;
     margin-top: 20px;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .loginForm .action {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    gap: 5%;
 }
 
 .loginForm .action button {
-    width: 100%;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
     border: none;
-    padding: 18px;
-    font-family: 'Rubik', sans-serif;
-    font-size: 16px;
+    border-radius: 50px;
     cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: 'Josefin Sans', sans-serif;
     text-transform: uppercase;
-    background: #e8e9ec;
-    color: #777;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 0;
-    letter-spacing: 0.2px;
     outline: 0;
-    transition: all .3s;
+    letter-spacing: 0.2px;
 }
 
 .loginForm .action button:hover {
-    background: #d8d8d8;
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
+    background-color: #305ac3;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
 }
 
 .loginForm .action button:nth-child(2) {
-    background: #777777;
+    background-color: rgba(16, 38, 46, 0.75);
     color: #fff;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 4px;
 }
 
 .loginForm .action button:nth-child(2):hover {
@@ -108,4 +113,5 @@ body {
     color: red;
     font-size: 0.875em;
     margin-top: 0.5em;
+    font-family: 'Josefin Sans', sans-serif;
 }

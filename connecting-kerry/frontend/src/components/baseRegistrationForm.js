@@ -4,7 +4,6 @@ import styles from "../styles/registerForms.module.css";
 const BaseRegistrationForm = ({
   formData,
   handleChange,
-  handleFileChange,
   handleSubmit,
   title,
   additionalFields,
@@ -40,9 +39,6 @@ const BaseRegistrationForm = ({
         required
       />
       {additionalFields}
-      {/* <div className={styles.inputField}>
-        <input type="file" name="file" onChange={handleFileChange} />
-      </div> */}
       <hr />
       <a href="/login" className={styles.link}>
         Already have an account? Login here
