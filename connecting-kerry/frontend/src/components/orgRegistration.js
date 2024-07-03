@@ -32,6 +32,34 @@ const OrganisationRegistration = () => {
 
       const authToken = await user.getIdToken();
       sessionStorage.setItem("authToken", authToken);
+
+      const backendData = {
+        username: data.username,
+        email: data.email,
+        is_garda_vetted: "Pending",
+        roles: data.roles,
+        dob: null,
+        forename: null,
+        surname: null,
+        org_name: data.orgName,
+      };
+
+      const response = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(backendData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to register organisation");
+      }
+
+      const responseData = await response.json();
+      console.log("Backend response:", responseData);
+
       navigate("/volunteer");
     } catch (error) {
       console.error("Error registering organisation:", error.message);

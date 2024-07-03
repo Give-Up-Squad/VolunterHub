@@ -9,12 +9,6 @@ const {
 
 const router = express.Router();
 
-router.post("/login", login);
-
-router.post("/logout", logout);
-
 router.post("/register", registerUser);
-
-router.get("/protected", checkSession, protectedRoute);
 
 module.exports = router;

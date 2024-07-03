@@ -15,15 +15,22 @@ const VolunteerRegistration = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(VolRegisterSchema),
-    mode: "onClick",
+    mode: "onTouched",
   });
 
   useEffect(() => {
-    setValue("roles", "Volunteers");
+    setValue("roles", "Volunteer");
   }, [setValue]);
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const userCredentials = await doCreateUserWithEmailAndPassword(
         data.email,
@@ -31,12 +38,39 @@ const VolunteerRegistration = () => {
       );
       const user = userCredentials.user;
       console.log("User registered successfully:", user);
-
       const authToken = await user.getIdToken();
       sessionStorage.setItem("authToken", authToken);
+
+      const backendData = {
+        username: data.username,
+        email: data.email,
+        is_garda_vetted: "Pending",
+        roles: data.roles,
+        dob: formatDate(data.dob),
+        forename: data.forename,
+        surname: data.surname,
+        org_name: null,
+      };
+
+      const response = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(backendData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to register volunteer");
+      }
+
+      const responseData = await response.json();
+      console.log("Backend response:", responseData);
+
       navigate("/volunteer");
     } catch (error) {
-      console.error("Error registering user:", error.message);
+      console.error("Error registering volunteer:", error.message);
     }
   };
 
@@ -77,17 +111,6 @@ const VolunteerRegistration = () => {
             <p className={styles.error}>{errors.password.message}</p>
           )}
         </div>
-        {/* <div className={styles.inputField}>
-          <select {...register("gender")} required>
-            <option value="">Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          {errors.gender && (
-            <p className={styles.error}>{errors.gender.message}</p>
-          )}
-        </div> */}
         <div className={styles.inputField}>
           <input type="date" {...register("dob")} required />
           {errors.dob && <p className={styles.error}>{errors.dob.message}</p>}
