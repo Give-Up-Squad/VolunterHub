@@ -1,0 +1,1 @@
+// get all activites using a function that proloy created in pgadmin get_all_activities_data()

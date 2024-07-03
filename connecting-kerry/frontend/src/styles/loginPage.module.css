@@ -1,7 +1,5 @@
 body {
     color: rgb(0, 0, 0);
-    font-family: 'Rubik', sans-serif;
-    /* Ensure consistent font */
 }
 
 .loginForm {
@@ -35,12 +33,29 @@ body {
 .loginForm .inputField input {
     font-size: 16px;
     display: block;
+    font-family: 'Rubik', sans-serif;
     width: 100%;
     padding: 10px 1px;
     border: 0;
     border-bottom: 1px solid #747474;
     outline: none;
     transition: all .2s;
+}
+
+.loginForm .inputField input::-webkit-input-placeholder {
+    text-transform: uppercase;
+}
+
+.loginForm .inputField input::-moz-placeholder {
+    text-transform: uppercase;
+}
+
+.loginForm .inputField input:-ms-input-placeholder {
+    text-transform: uppercase;
+}
+
+.loginForm .inputField input::-ms-input-placeholder {
+    text-transform: uppercase;
 }
 
 .loginForm .inputField input::placeholder {
@@ -51,7 +66,7 @@ body {
     border-color: #222;
 }
 
-.loginForm .inputField:hover {
+.loginForm .inputField:hover{
     transform: translateY(-5px);
     transition: all 0.3s ease;
 }
@@ -72,14 +87,15 @@ body {
 
 .loginForm .action button {
     width: 100%;
-    border: none;
-    padding: 18px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border:none;
+    border-radius: 10px;
+    font-weight: 600;
     font-family: 'Rubik', sans-serif;
-    font-size: 16px;
     cursor: pointer;
-    text-transform: uppercase;
-    background: #e8e9ec;
-    color: #777;
+    background-color: rgba(56, 127, 151, 0.75);
+    color: white;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 0;
     letter-spacing: 0.2px;
@@ -88,20 +104,18 @@ body {
 }
 
 .loginForm .action button:hover {
-    background: #d8d8d8;
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
+    background-color: #305ac3;
 }
 
 .loginForm .action button:nth-child(2) {
-    background: #777777;
-    color: #fff;
+    background-color: rgba(0, 102, 136, 0.75);
+    color: black;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 4px;
 }
 
 .loginForm .action button:nth-child(2):hover {
-    background: #3c4d6d;
+    background-color: #305ac3;
 }
 
 .error {
