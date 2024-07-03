@@ -30,4 +30,4 @@ const createUser = async (username, email, password, isGardaVetted, roles) => {
   }
 };
 
-module.exports = { createUser };
+const getUserByEmail = async (email) => (module.exports = { createUser });
