@@ -7,6 +7,7 @@ const websiteLinks = [
   { name: "Home", path: "/" },
   { name: "Volunteer", path: "/volunteer" },
   { name: "Calendar", path: "/calendar" },
+  { name: "Profile", path: "/profile" },
 ];
 
 function Navbar() {

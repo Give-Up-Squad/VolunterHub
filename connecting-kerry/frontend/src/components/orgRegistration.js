@@ -34,7 +34,7 @@ const OrganisationRegistration = () => {
       sessionStorage.setItem("authToken", authToken);
 
       const backendData = {
-        username: data.username,
+        username: null,
         email: data.email,
         is_garda_vetted: "Pending",
         roles: data.roles,

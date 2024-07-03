@@ -78,6 +78,7 @@ export default function Calendar() {
             placeholder="Event Title"
             value={newEvent.title}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
           <label>Description: </label>
           <input
@@ -86,6 +87,7 @@ export default function Calendar() {
             placeholder="Description"
             value={newEvent.description}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
           <label>Start Date: </label>
           <input
@@ -94,6 +96,7 @@ export default function Calendar() {
             placeholder="Start Date"
             value={newEvent.startDate}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
           <label>End Date: </label>
           <input
@@ -102,6 +105,7 @@ export default function Calendar() {
             placeholder="End Date"
             value={newEvent.endDate}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
           <label>Registration Deadline: </label>
           <input
@@ -110,6 +114,7 @@ export default function Calendar() {
             placeholder="Registration Deadline"
             value={newEvent.registrationDate}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
           <label>Minimum Participants: </label>
           <input
@@ -118,6 +123,7 @@ export default function Calendar() {
             placeholder="Minimum Participants"
             value={newEvent.minimumParticipants}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
           <label>Maximum Participants: </label>
           <input
@@ -126,8 +132,20 @@ export default function Calendar() {
             placeholder="Maximum Participants"
             value={newEvent.maximumParticipants}
             onChange={handleInputChange}
+            className={Styles.calendarInput}
           />
-          <button type="submit">Add Event</button>
+          <div className={Styles.formButtons}>
+            <button type="submit" className={Styles.calendarSubmitButton}>
+              Add Event
+            </button>
+            <button
+              type="button"
+              className={Styles.cancelButton}
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </Modal>
 

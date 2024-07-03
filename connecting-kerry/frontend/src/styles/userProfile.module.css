@@ -1,0 +1,66 @@
+.userProfile {
+    font-family: "Josefin Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-color: #e6e3c6;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #014421;
+    margin-bottom: 20px;
+}
+
+.profileDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.profileField {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.profileLabel {
+    font-size: 18px;
+    font-weight: 600;
+    color: #014421;
+}
+
+.profileInput {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #014421;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profileInput[readonly] {
+    background-color: #f3f3f3;
+    cursor: not-allowed;
+}
+
+.profileInput:focus {
+    outline: none;
+    border-color: #305ac3;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(48, 90, 195, 0.3);
+}

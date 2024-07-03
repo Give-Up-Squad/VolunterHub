@@ -54,6 +54,23 @@ const createUser = async (
   }
 };
 
-const getUserByEmail = async (email) => {};
+const getUserByEmail = async (email) => {
+  const client = await pool.connect();
 
-module.exports = { createUser };
+  try {
+    const queryText = `
+      SELECT * FROM get_user_data_by_email($1)
+    `;
+    const params = [email];
+    const { rows } = await client.query(queryText, params);
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching user by email:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { createUser, getUserByEmail };

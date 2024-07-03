@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/loginPage.module.css";
 import { LoginSchema } from "../validations/loginValidation";
@@ -10,6 +10,7 @@ import { doSignInWithEmailAndPassword } from "../firebase/auth";
 function Login() {
   const navigate = useNavigate();
   const { currentUser, userLoggedIn } = useAuth(); // Access userLoggedIn from AuthContext
+  const [error, setError] = useState(null); // State to hold error message
 
   const {
     register,
@@ -27,8 +28,10 @@ function Login() {
         data.password
       );
       console.log("User logged in successfully:", userCredential.user);
+      navigate("/volunteer");
     } catch (error) {
-      console.log("Error logging in user", error.message);
+      console.error("Error logging in user", error.message);
+      setError("Failed to login. Please check your email and password.");
     }
   };
 
@@ -39,6 +42,7 @@ function Login() {
 
   // Redirect if user is already logged in
   if (userLoggedIn) {
+    console.log("User already logged in:", currentUser);
     navigate("/volunteer");
     return null; // Or loading indicator if needed
   }
@@ -66,9 +70,7 @@ function Login() {
               autoComplete="new-password"
               {...register("password")}
             />
-            {errors.password && (
-              <div className={styles.error}>{errors.password.message}</div>
-            )}
+            {error && <div className={styles.error}>{error}</div>}{" "}
           </div>
           <a href="#" className={styles.link}>
             Forgot Your Password?
