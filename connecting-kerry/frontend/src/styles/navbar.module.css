@@ -52,13 +52,11 @@
 }
 .navbarButtons>button:hover,
 .navbarButtons>li:hover {
-    border-color: #1A1A1A;
+    border-color: #305ac3;
     top: -0.16em;
-    padding: 3px;
     transition: padding .5s, top .35s, box-shadow .4s;
-    box-shadow: 0 0.4rem 0 -0.2rem #000000;
+    box-shadow: 0 0.4rem 0 -0.2rem #305ac3;
     cursor: pointer;
-    transform: translateY(-2px);
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
 }
 
