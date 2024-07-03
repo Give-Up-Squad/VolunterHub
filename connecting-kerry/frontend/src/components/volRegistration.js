@@ -15,7 +15,7 @@ const VolunteerRegistration = () => {
     setValue,
   } = useForm({
     resolver: yupResolver(VolRegisterSchema),
-    mode: "onTouched",
+    mode: "onClick",
   });
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const VolunteerRegistration = () => {
             <p className={styles.error}>{errors.password.message}</p>
           )}
         </div>
-        <div className={styles.inputField}>
+        {/* <div className={styles.inputField}>
           <select {...register("gender")} required>
             <option value="">Gender</option>
             <option value="male">Male</option>
@@ -87,7 +87,7 @@ const VolunteerRegistration = () => {
           {errors.gender && (
             <p className={styles.error}>{errors.gender.message}</p>
           )}
-        </div>
+        </div> */}
         <div className={styles.inputField}>
           <input type="date" {...register("dob")} required />
           {errors.dob && <p className={styles.error}>{errors.dob.message}</p>}
