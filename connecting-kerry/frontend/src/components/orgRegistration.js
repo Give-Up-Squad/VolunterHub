@@ -1,77 +1,110 @@
-import React, { useState } from "react";
+import { React, useEffect } from "react";
 import styles from "../styles/registerForms.module.css";
+import { useForm } from "react-hook-form";
+import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const OrganisationRegistration = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    orgName: "",
-    file: null,
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    mode: "onTouched",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  useEffect(() => {
+    setValue("roles", "Organisation");
+  }, [setValue]);
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
-  };
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const userCredentials = await doCreateUserWithEmailAndPassword(
+        data.email,
+        data.password
+      );
+      const user = userCredentials.user;
+      console.log("Organisation registered successfully:", user);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission, e.g., send data to server
-    console.log(formData);
+      const authToken = await user.getIdToken();
+      sessionStorage.setItem("authToken", authToken);
+
+      const backendData = {
+        username: null,
+        email: data.email,
+        is_garda_vetted: "Pending",
+        roles: data.roles,
+        dob: null,
+        forename: null,
+        surname: null,
+        org_name: data.orgName,
+      };
+
+      const response = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(backendData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to register organisation");
+      }
+
+      const responseData = await response.json();
+      console.log("Backend response:", responseData);
+
+      navigate("/volunteer");
+    } catch (error) {
+      console.error("Error registering organisation:", error.message);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.registerForm}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.registerForm}>
       <h2>Organisation Registration</h2>
       <div className={styles.content}>
         <div className={styles.inputField}>
           <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Username"
-            required
-          />
-        </div>
-        <div className={styles.inputField}>
-          <input
             type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+            {...register("email")}
             placeholder="Email"
             required
           />
+          {errors.email && (
+            <p className={styles.error}>{errors.email.message}</p>
+          )}
         </div>
         <div className={styles.inputField}>
           <input
             type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
+            {...register("password")}
             placeholder="Password"
             required
           />
+          {errors.password && (
+            <p className={styles.error}>{errors.password.message}</p>
+          )}
         </div>
         <div className={styles.inputField}>
           <input
             type="text"
-            name="orgName"
-            value={formData.orgName}
-            onChange={handleChange}
+            {...register("orgName")}
             placeholder="Organisation Name"
             required
           />
+          {errors.orgName && (
+            <p className={styles.error}>{errors.orgName.message}</p>
+          )}
         </div>
-        {/* <div className={styles.inputField}>
-          <input type="file" name="file" onChange={handleFileChange} />
-        </div> */}
+        <input type="hidden" {...register("roles")} value="Organisation" />
+
         <hr />
         <a href="/login" className={styles.link}>
           Already have an account? Login here

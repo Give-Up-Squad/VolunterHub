@@ -3,11 +3,19 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const firebase = require("firebase-admin");
-const userRoutes = require("./routes/userRoutes"); // Import user routes
+const userRoutes = require("./routes/userRoutes");
+const cors = require("cors");
 
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true, // Allow cookies to be sent with requests
+};
+
 // Middleware setup
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(

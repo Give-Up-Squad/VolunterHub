@@ -16,7 +16,7 @@
     border-radius: 5px;
     width: 400px;
     max-width: 80%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: #e6e3c6;
   }
   
   .modal > form > input{

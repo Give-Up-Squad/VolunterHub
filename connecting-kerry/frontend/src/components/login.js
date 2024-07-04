@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/loginPage.module.css";
 import { LoginSchema } from "../validations/loginValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../contexts/authContext"; // Import useAuth hook
 import { doSignInWithEmailAndPassword } from "../firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
+  const { currentUser, userLoggedIn } = useAuth(); // Access userLoggedIn from AuthContext
+  const [error, setError] = useState(null); // State to hold error message
 
   const {
     register,
@@ -20,23 +23,15 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("User logged in successfully", result);
-        navigate("/volunteer");
-      } else {
-        console.log("Failed to log in user");
-      }
+      const userCredential = await doSignInWithEmailAndPassword(
+        data.email,
+        data.password
+      );
+      console.log("User logged in successfully:", userCredential.user);
+      navigate("/volunteer");
     } catch (error) {
-      console.log("Error logging in user", error);
+      console.error("Error logging in user", error.message);
+      setError("Failed to login. Please check your email and password.");
     }
   };
 
@@ -44,6 +39,13 @@ function Login() {
     e.preventDefault();
     navigate("/register");
   };
+
+  // Redirect if user is already logged in
+  if (userLoggedIn) {
+    console.log("User already logged in:", currentUser);
+    navigate("/volunteer");
+    return null; // Or loading indicator if needed
+  }
 
   return (
     <div className={styles.loginForm}>
@@ -68,9 +70,7 @@ function Login() {
               autoComplete="new-password"
               {...register("password")}
             />
-            {errors.password && (
-              <div className={styles.error}>{errors.password.message}</div>
-            )}
+            {error && <div className={styles.error}>{error}</div>}{" "}
           </div>
           <a href="#" className={styles.link}>
             Forgot Your Password?

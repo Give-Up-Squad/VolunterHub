@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/aboutUs.module.css";
 import Navbar from "./navbar";
 import Footer from "./footer";
-import Calendar from "./calendar";
+
 function About() {
   return (
     <div>
@@ -11,7 +11,6 @@ function About() {
           <div className={styles.aboutUsContainer}>
             <h1>About</h1>
             <p>What is Lorem Ipsum?</p>
-
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
@@ -39,15 +38,15 @@ function About() {
             <p>
               The standard chunk of Lorem Ipsum used since the 1500s is
               reproduced below for those interested. Sections 1.10.32 and
-              1.10.33 from " de Finibus Bonorum et Malorum" by Cicero are also
+              1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also
               reproduced in their exact original form, accompanied by English
               versions from the 1914 translation by H. Rackham.
             </p>
           </div>
-          {/* Images on the right hand side of the page*/}
+          {/* Images on the right hand side of the page */}
           <aside className={styles.picturesContainer}>
-            <img src="/images/beachCleaning.jpg" width="100%"></img>
-            <img src="/images/personPhone.jpg" width="100%"></img>
+            <img src="/images/beachCleaning.jpg" alt="Beach Cleaning" />
+            <img src="/images/personPhone.jpg" alt="Person on Phone" />
           </aside>
         </div>
       </main>
