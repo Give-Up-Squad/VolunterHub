@@ -71,9 +71,9 @@ jobs:
         # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
 
-        - name: Setup dotnet
-          uses: actions/setup-dotnet@v1
-          with:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
             dotnet-version: '6.0.x'
           
 
@@ -97,3 +97,9 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+    - name: GitHub Security Report Action
+      uses: peter-murray/github-security-report-action@v2
+      with:
+        token: ${{ secrets.SECURITY_TOKEN }}
+            
