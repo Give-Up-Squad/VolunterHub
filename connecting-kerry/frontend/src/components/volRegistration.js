@@ -52,13 +52,16 @@ const VolunteerRegistration = () => {
         org_name: null,
       };
 
-      const response = await fetch("http://localhost:5000/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(backendData),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(backendData),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

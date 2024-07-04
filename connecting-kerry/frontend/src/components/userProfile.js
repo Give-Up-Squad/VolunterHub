@@ -19,7 +19,7 @@ const UserProfile = () => {
         console.log("Fetching user details for:", currentUser);
 
         const response = await fetch(
-          `http://localhost:5000/api/users/display/${currentUser.email}`
+          `${process.env.REACT_APP_API_URL}/api/users/display/${currentUser.email}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch user details");
