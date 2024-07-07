@@ -32,8 +32,11 @@ jobs:
       run: npm install
 
     - name: Log Environment Variables
-      working-directory: connecting-kerry/frontend
-      run: printenv | grep REACT_APP_API_URL
+      run: |
+        echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}"
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
+        echo "DB_CERT=${{ secrets.DB_CERT }}"
+        echo "SESSION_SECRET=${{ secrets.SESSION_SECRET }}"
 
     - name: Build frontend
       working-directory: connecting-kerry/frontend
