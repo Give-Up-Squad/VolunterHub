@@ -1,1 +1,5 @@
-/*    /index.html   200
+# Redirect API requests to serverless functions
+/api/*  /.netlify/functions/:splat  200
+
+# Fallback for frontend routes
+/*      /index.html                 200
