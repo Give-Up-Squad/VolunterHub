@@ -1,6 +1,18 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env.backend") });
 const fs = require("fs");
 const { Pool } = require("pg");
+
+const certPath = path.resolve(__dirname, "../", process.env.DB_CERT);
+
+// Debugging: Print the resolved path and check if the file exists
+// console.log("DB_CERT environment variable:", process.env.DB_CERT);
+// console.log("Resolved DB_CERT path:", certPath);
+
+if (!fs.existsSync(certPath)) {
+  console.error("Certificate file not found at path:", certPath);
+  process.exit(1);
+}
 
 const config = {
   user: "avnadmin",
@@ -10,7 +22,7 @@ const config = {
   database: "connecting-kerry",
   ssl: {
     rejectUnauthorized: true,
-    ca: fs.readFileSync(process.env.DB_CERT).toString(),
+    ca: fs.readFileSync(certPath).toString(),
   },
 };
 
