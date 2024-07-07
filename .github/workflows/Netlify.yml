@@ -31,8 +31,14 @@ jobs:
       working-directory: connecting-kerry/frontend
       run: npm install
 
+    - name: Log Environment Variables
+      working-directory: connecting-kerry/frontend
+      run: printenv | grep REACT_APP_API_URL
+
     - name: Build frontend
       working-directory: connecting-kerry/frontend
+      env:
+        REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
       run: npm run build
 
     - name: Deploy to Netlify
