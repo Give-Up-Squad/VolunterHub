@@ -46,6 +46,10 @@ jobs:
       env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_CERT: ${{ secrets.DB_CERT }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
         
     - name: Display Deployment URL
       run: echo "Netlify Deployment URL - https://connectingkerry.netlify.app/"
