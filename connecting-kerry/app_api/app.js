@@ -9,7 +9,7 @@ const cors = require("cors");
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:8888",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies to be sent with requests
 };
