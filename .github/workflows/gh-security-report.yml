@@ -24,6 +24,6 @@ jobs:
       uses: peter-murray/github-security-report-action@v2
       with:
         token: ${{ secrets.SECURITY_TOKEN }}
-        sarifReportDir: results
+        sarifReportDir: /.github
         outputDir: /home/VolunterHub
         repository: Give-Up-Squad/VolunterHub
