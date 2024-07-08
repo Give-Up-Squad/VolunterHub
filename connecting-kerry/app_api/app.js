@@ -9,7 +9,7 @@ const cors = require("cors");
 const app = express();
 
 const corsOptions = {
-  origin: `${process.env.FRONTEND_URL_PATH}`,
+  origin: `${process.env.FRONTEND_URL_PATH}`, //added env var
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies to be sent with requests
 };
