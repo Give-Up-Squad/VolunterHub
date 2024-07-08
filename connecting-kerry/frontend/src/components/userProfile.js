@@ -21,7 +21,7 @@ const UserProfile = () => {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/api-users-display/${currentUser.email}`
         );
-        console.log("response before !response.ok", response);
+        console.log(response);
         if (!response.ok) {
           console.log(response);
           throw new Error("Failed to fetch user details");

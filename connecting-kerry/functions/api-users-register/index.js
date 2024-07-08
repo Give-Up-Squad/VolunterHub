@@ -1,4 +1,4 @@
-const { pool } = require("../app_api/config/database");
+const { pool } = require("../../app_api/config/database");
 
 const createUser = async (
   username,

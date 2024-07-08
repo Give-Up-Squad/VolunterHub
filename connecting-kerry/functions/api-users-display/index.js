@@ -3,7 +3,7 @@ require("dotenv").config({
   path: path.resolve(__dirname, "../app_api/.env.backend"),
 });
 
-const { pool } = require("../app_api/config/database");
+const { pool } = require("../../app_api/config/database");
 
 const getUserByEmail = async (email) => {
   const client = await pool.connect();
