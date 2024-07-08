@@ -1,7 +1,8 @@
 name: CodeQL Analysis and PDF Report
 
 on:
-     workflow_dispatch:
+    workflow_dispatch:
+
 jobs:
   codeql-analysis:
     name: Perform CodeQL Analysis
