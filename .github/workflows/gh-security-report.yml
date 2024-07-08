@@ -25,5 +25,5 @@ jobs:
       with:
         token: ${{ secrets.SECURITY_TOKEN }}
         sarifReportDir: results
-        outputDir: /home/runner/work/VolunterHub/VolunterHub
+        outputDir: /home/VolunterHub
         repository: Give-Up-Squad/VolunterHub
