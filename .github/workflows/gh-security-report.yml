@@ -1,29 +1,50 @@
-name: Generate Security Report
+name: CodeQL Analysis and PDF Report
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+   workflow_dispatch:
+  
 jobs:
-
-  generate-report:
+  codeql-analysis:
+    name: Perform CodeQL Analysis
     runs-on: ubuntu-latest
-    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write  # To upload the results to GitHub
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Generate SARIF Reports
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize the CodeQL bundle
+      uses: github/codeql-action/init@v2
+      with:
+        languages: 'javascript'  # Update with the languages you use
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+
+    - name: Format CodeQL Results
+      id: format_results
+      run: |
+        # Extract CodeQL results and format them for the report
+        codeql database analyze --format=json ./codeql-database --output=results.json
+        jq -r '.[] | "\(.ruleId) - \(.message.text)\nFile: \(.locations[].physicalLocation.artifactLocation.uri):\(.locations[].physicalLocation.region.startLine)"' results.json > report.txt
+        echo "Results formatted for PDF generation."
+
+    - name: Install pandoc
+      run: sudo apt-get install -y pandoc
+
+    - name: Convert Report to PDF
+      run: |
+        pandoc report.txt -o codeql_report.pdf
+        echo "PDF report generated."
+
+    - name: Upload PDF Report
+      uses: actions/upload-artifact@v3
       with:
-        token: ${{ secrets.SECURITY_TOKEN }}
-        repository: Give-Up-Squad/VolunterHub
-    
-    - name: Generate Security Report
-      uses: peter-murray/github-security-report-action@v2
-      with:
-        token: ${{ secrets.SECURITY_TOKEN }}
-        sarifReportDir: /results
-        outputDir: /home/VolunterHub
-        repository: Give-Up-Squad/VolunterHub
+        name: codeql-report
+        path: codeql_report.pdf
