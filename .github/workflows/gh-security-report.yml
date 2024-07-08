@@ -10,7 +10,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-      security-events: write  # To upload the results to GitHub
+      security-events: write  # Necessary for uploading the results to GitHub
 
     steps:
     - name: Checkout repository
@@ -22,16 +22,15 @@ jobs:
         languages: 'javascript'  # Update with the languages you use
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        output: ./codeql-results.json
+      run: |
+        codeql database create codeql-db --language=javascript --source-root=.
+        codeql database analyze codeql-db --format=json --output=codeql-results.json
 
     - name: Format CodeQL Results
       id: format_results
       run: |
         # Extract CodeQL results and format them for the report
-        codeql database analyze --format=json --output=./codeql-results.json ./codeql-database
-        jq -r '.runs[].results[] | "\(.ruleId) - \(.message.text)\nFile: \(.locations[].physicalLocation.artifactLocation.uri):\(.locations[].physicalLocation.region.startLine)\n"' codeql-results.json > report.txt
+        jq -r '.[] | "\(.ruleId) - \(.message.text)\nFile: \(.locations[].physicalLocation.artifactLocation.uri):\(.locations[].physicalLocation.region.startLine)\n"' codeql-results.json > report.txt
         echo "Results formatted for PDF generation."
 
     - name: Install pandoc
