@@ -41,7 +41,6 @@ jobs:
       uses: nwtgck/actions-netlify@v1.2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         publish-dir: frontend/build
         functions-dir: connecting-kerry/functions
         production-branch: main
