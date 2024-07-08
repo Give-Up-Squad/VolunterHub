@@ -1,8 +1,7 @@
 name: CodeQL Analysis and PDF Report
 
 on:
-   workflow_dispatch:
-
+     workflow_dispatch:
 jobs:
   codeql-analysis:
     name: Perform CodeQL Analysis
@@ -16,10 +15,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Initialize the CodeQL bundle
-      uses: github/codeql-action/init@v2
+    - name: Set up CodeQL
+      uses: github/codeql-action/setup@v2
       with:
-        languages: 'javascript'  # Update with the languages you use
+        tools: latest
+
 
     - name: Perform CodeQL Analysis
       run: |
@@ -38,11 +38,11 @@ jobs:
 
     - name: Convert Report to PDF
       run: |
-        pandoc report.txt -o codeql_report.pdf
-        echo "PDF report generated."
+        pandoc report.txt -o $GITHUB_WORKSPACE/codeql_report.pdf
+        echo "PDF report generated in repository's home directory."
 
     - name: Upload PDF Report
       uses: actions/upload-artifact@v3
       with:
         name: codeql-report
-        path: codeql_report.pdf
+        path: $GITHUB_WORKSPACE/codeql_report.pdf
