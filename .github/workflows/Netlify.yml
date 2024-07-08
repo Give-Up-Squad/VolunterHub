@@ -37,19 +37,19 @@ jobs:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
         run: npm run build
 
-    - name: Install dependencies for connecting-kerry directory
-      working-directory: connecting-kerry
-      run: npm install
+      - name: Install dependencies for connecting-kerry directory
+        working-directory: connecting-kerry
+        run: npm install
 
-    - name: Deploy to Netlify
-      uses: nwtgck/actions-netlify@v3.0.0
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        publish-dir: connecting-kerry/frontend/build
-        functions-dir: connecting-kerry/functions
-        production-branch: main
-        deploy-message: 'Deploying frontend and backend as serverless functions'
-      env:
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          publish-dir: connecting-kerry/frontend/build
+          functions-dir: connecting-kerry/functions
+          production-branch: main
+          deploy-message: "Deploying frontend and backend as serverless functions"
+        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
