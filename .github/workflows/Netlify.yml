@@ -13,7 +13,6 @@ on:
 jobs:
   deploy-to-render:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run' && github.event.workflow == 'SonarCloud analysis' && github.event.action == 'completed'
 
     steps:
       - name: Checkout code
@@ -44,7 +43,6 @@ jobs:
 
   deploy-to-netlify:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run' && github.event.workflow == 'SonarCloud analysis' && github.event.action == 'completed'
     needs: deploy-to-render
 
     steps:
