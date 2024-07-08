@@ -1,49 +1,19 @@
-name: CodeQL Analysis and PDF Report
+name: Generate Security Report
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
-  codeql-analysis:
-    name: Perform CodeQL Analysis
+
+  generate-report:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write  # Necessary for uploading the results to GitHub
-
+    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Set up CodeQL
-      uses: github/codeql-action/setup@v2
+    - uses: actions/checkout@v2
+    
+    - name: Generate Security Report
+      uses: peter-murray/github-security-report-action@v2
       with:
-        tools: latest
-
-
-    - name: Perform CodeQL Analysis
-      run: |
-        codeql database create codeql-db --language=javascript --source-root=.
-        codeql database analyze codeql-db --format=json --output=codeql-results.json
-
-    - name: Format CodeQL Results
-      id: format_results
-      run: |
-        # Extract CodeQL results and format them for the report
-        jq -r '.[] | "\(.ruleId) - \(.message.text)\nFile: \(.locations[].physicalLocation.artifactLocation.uri):\(.locations[].physicalLocation.region.startLine)\n"' codeql-results.json > report.txt
-        echo "Results formatted for PDF generation."
-
-    - name: Install pandoc
-      run: sudo apt-get install -y pandoc
-
-    - name: Convert Report to PDF
-      run: |
-        pandoc report.txt -o $GITHUB_WORKSPACE/codeql_report.pdf
-        echo "PDF report generated in repository's home directory."
-
-    - name: Upload PDF Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: codeql-report
-        path: $GITHUB_WORKSPACE/codeql_report.pdf
+        token: ${{ secrets.SECURITY_TOKEN }}
+        outputDir: /home/VolunterHub
+        repository: Give-Up-Squad/VolunterHub
