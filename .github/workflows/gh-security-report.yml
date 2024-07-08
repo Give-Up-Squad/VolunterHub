@@ -19,7 +19,7 @@ jobs:
     - name: Initialize the CodeQL bundle
       uses: github/codeql-action/init@v2
       with:
-        languages: 'javascript,python'  # Update with the languages you use
+        languages: 'javascript'  # Update with the languages you use
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
