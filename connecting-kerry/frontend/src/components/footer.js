@@ -41,7 +41,10 @@ function Footer() {
                   Volunteer Services
                 </a>
                 <a className={styles.footerLink} href="/calendar">
-                  Your Calendar
+                  My Calendar
+                </a>
+                <a className={styles.footerLink} href="/profile">
+                  My Profile
                 </a>
               </>
             )}

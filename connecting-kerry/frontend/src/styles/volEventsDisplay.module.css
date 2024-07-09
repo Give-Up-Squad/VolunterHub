@@ -1,88 +1,151 @@
+.container {
+    background: #e6e3c6;
+    padding: 0 20%;
+}
+
 .volEventsDisplay {
-    background: #fff;
-    width: 90%;
-    max-width: 1000px;
-    margin: 65px auto;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
 }
 
 .volEventsDisplay h1 {
     text-align: center;
+    font-size: 40px;
     font-weight: 300;
     padding-bottom: 20px;
+    color: #014421;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
+.activityCard {
+    background: #f9f9f9;
     margin: 20px 0;
-    font-family: 'Rubik', sans-serif;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.table th,
-.table td {
-    padding: 12px;
-    border-bottom: 1px solid #747474;
-    text-align: left;
+.activityCard:hover {
+    background: #f1f1f1;
 }
 
-.table th {
-    background-color: #f2f2f2;
+.cardContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;;
 }
 
-.table tr:nth-child(even) {
-    background-color: #f9f9f9;
+.cardContent label {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 5px;
 }
 
-.table tr:hover {
-    background-color: #f1f1f1;
+.cardContent p {
+    font-family: "Josefin Sans", sans-serif;
+    margin: 0 0 10px 0;
+    font-size: 22px;
+}
+
+.cardSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin-right: 40px;
+    gap: 5px;
+}
+
+.eventImage {
+    width: 250px;
+    height: 250px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.volButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.volButtons button {
+    padding: 8px 20px;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.applyButton {
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
+}
+
+.applyButton:hover {
+    background-color: #305ac3;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
 }
 
 .viewButton {
-    background: #e8e9ec;
-    color: #777;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-family: 'Rubik', sans-serif;
-    transition: all 0.3s;
+    background-color: #ccc;
+    color: black;
 }
 
 .viewButton:hover {
-    background: #d8d8d8;
+    background-color: #999;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination ul {
+    list-style: none;
+    padding: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 1000;
 }
 
+.pagination li {
+    margin: 0 5px;
+}
 
-.closeButton {
-    margin-top: 20px;
-    padding: 10px 15px;
-    background-color: #ff6347;
-    color: white;
-    border: none;
+.pagination a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-family: 'Rubik', sans-serif;
+    transition: background-color 0.3s ease;
 }
 
-.closeButton:hover {
-    background-color: #e53e3e;
+.pagination a:hover {
+    background-color: #f0f0f0;
 }
 
+.pagination .active a {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
 
+.pagination .disabled a {
+    pointer-events: none;
+    background-color: #ccc;
+    color: #666;
+    border-color: #ccc;
+}
