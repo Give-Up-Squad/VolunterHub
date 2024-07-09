@@ -114,39 +114,40 @@ const UserProfile = () => {
               </div>
             </>
           )}
-          {userDetails.roles === "Organisation" && (
-            <>
-              <div className={styles.profileField}>
-                <label className={styles.profileLabel}>
-                  Organisation Name:
-                </label>
-                <input
-                  className={styles.profileInput}
-                  type="text"
-                  value={userDetails.org_name}
-                  readOnly
-                />
-              </div>
-              <div className={styles.profileField}>
-                <label className={styles.profileLabel}>Email:</label>
-                <input
-                  className={styles.profileInput}
-                  type="email"
-                  value={userDetails.email}
-                  readOnly
-                />
-              </div>
-              <div className={styles.profileField}>
-                <label className={styles.profileLabel}>Garda Vetted:</label>
-                <input
-                  className={styles.profileInput}
-                  type="text"
-                  value={userDetails.is_garda_vetted}
-                  readOnly
-                />
-              </div>
-            </>
-          )}
+          {userDetails.roles === "Organisation" ||
+            (userDetails.roles === "Admin" && (
+              <>
+                <div className={styles.profileField}>
+                  <label className={styles.profileLabel}>
+                    Organisation Name:
+                  </label>
+                  <input
+                    className={styles.profileInput}
+                    type="text"
+                    value={userDetails.org_name}
+                    readOnly
+                  />
+                </div>
+                <div className={styles.profileField}>
+                  <label className={styles.profileLabel}>Email:</label>
+                  <input
+                    className={styles.profileInput}
+                    type="email"
+                    value={userDetails.email}
+                    readOnly
+                  />
+                </div>
+                <div className={styles.profileField}>
+                  <label className={styles.profileLabel}>Garda Vetted:</label>
+                  <input
+                    className={styles.profileInput}
+                    type="text"
+                    value={userDetails.is_garda_vetted}
+                    readOnly
+                  />
+                </div>
+              </>
+            ))}
         </div>
       ) : (
         <p>No user details found.</p>

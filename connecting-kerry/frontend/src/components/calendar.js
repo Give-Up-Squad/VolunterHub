@@ -3,10 +3,13 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
 import Modal from "./modal.js";
 import Styles from "../styles/calendar.module.css";
+import useActivities from "../hooks/useActivities.js";
 
 export default function Calendar() {
+  const { activities, loading, error } = useActivities();
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({
     title: "",
@@ -20,11 +23,22 @@ export default function Calendar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetch("/events.json")
-      .then((response) => response.json())
-      .then((data) => setEvents(data))
-      .catch((error) => console.error("Error fetching events:", error));
-  }, []);
+    if (!loading && activities.length) {
+      const formattedActivities = activities.map((activity) => ({
+        id: activity.activity_id,
+        title: activity.activity_name,
+        start: activity.activity_start_date,
+        end: activity.activity_end_date,
+        description: activity.description,
+        deadline: activity.activity_deadline,
+        status: activity.activity_status,
+        availableParticipants: activity.available_participants,
+        minimumParticipants: activity.minimum_participants,
+        maximumParticipants: activity.maximum_participants,
+      }));
+      setEvents(formattedActivities);
+    }
+  }, [loading, activities]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -150,12 +164,12 @@ export default function Calendar() {
       </Modal>
 
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"
         headerToolbar={{
           start: "today prev,next",
           center: "title",
-          end: "myCustomButton dayGridMonth timeGridWeek,timeGridDay",
+          end: "myCustomButton dayGridMonth,timeGridWeek,timeGridDay listWeek",
         }}
         customButtons={{
           myCustomButton: {

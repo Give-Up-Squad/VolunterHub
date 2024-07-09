@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const firebase = require("firebase-admin");
 const userRoutes = require("./routes/userRoutes");
+const activityRoutes = require("./routes/activityRoutes");
 const cors = require("cors");
 
 const app = express();
@@ -39,5 +40,6 @@ firebase.initializeApp({
 app.use(express.json());
 // Use the user routes
 app.use("/api/users", userRoutes);
+app.use("/api/activities", activityRoutes);
 
 module.exports = app;
