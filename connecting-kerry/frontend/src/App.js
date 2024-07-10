@@ -10,6 +10,8 @@ import VolEventsDisplay from "./components/volEventsDisplay";
 import Calendar from "./components/calendar";
 import Footer from "./components/footer";
 import Error404 from "./components/error404";
+import Privacy from "./components/privacy";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,6 +39,7 @@ function Content() {
         <Route path="/login" element={<Login />} />
         <Route path="/volRegister" element={<VolunteerRegistration />} />
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
+        <Route path="/privacy" element={<Privacy/>} />
 
         {/* Protected Routes */}
         {userLoggedIn ? (
