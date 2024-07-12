@@ -1,3 +1,5 @@
+// src/components/Calendar.js
+
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,20 +9,24 @@ import listPlugin from "@fullcalendar/list";
 import Modal from "./modal.js";
 import Styles from "../styles/calendar.module.css";
 import useActivities from "../hooks/useActivities.js";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { EventRegisterSchema } from "../validations/eventRegValidation";
 
 export default function Calendar() {
   const { activities, loading, error } = useActivities();
   const [events, setEvents] = useState([]);
-  const [newEvent, setNewEvent] = useState({
-    title: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    registrationDate: "",
-    minimumParticipants: "",
-    maximumParticipants: "",
-  });
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(EventRegisterSchema),
+    mode: "onTouched",
+  });
 
   useEffect(() => {
     if (!loading && activities.length) {
@@ -40,114 +46,88 @@ export default function Calendar() {
     }
   }, [loading, activities]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
-  };
-
-  const handleAddEvent = (e) => {
-    e.preventDefault();
-    if (
-      newEvent.title &&
-      newEvent.description &&
-      newEvent.startDate &&
-      newEvent.endDate &&
-      newEvent.registrationDate &&
-      newEvent.minimumParticipants &&
-      newEvent.maximumParticipants
-    ) {
-      const eventToAdd = {
-        title: newEvent.title,
-        start: newEvent.startDate,
-        end: newEvent.endDate,
-        description: newEvent.description,
-        registrationDate: newEvent.registrationDate,
-        minimumParticipants: newEvent.minimumParticipants,
-        maximumParticipants: newEvent.maximumParticipants,
-      };
-      setEvents((prevEvents) => [...prevEvents, eventToAdd]);
-      setNewEvent({
-        title: "",
-        description: "",
-        startDate: "",
-        endDate: "",
-        registrationDate: "",
-        minimumParticipants: "",
-        maximumParticipants: "",
-      });
-      setIsModalOpen(false);
-    } else {
-      alert("Please fill out form details before submitting.");
-    }
+  const onSubmit = (data) => {
+    const eventToAdd = {
+      title: data.title,
+      start: data.startDate,
+      end: data.endDate,
+      description: data.description,
+      registrationDate: data.registrationDate,
+      minimumParticipants: data.minimumParticipants,
+      maximumParticipants: data.maximumParticipants,
+    };
+    setEvents((prevEvents) => [...prevEvents, eventToAdd]);
+    reset();
+    setIsModalOpen(false);
   };
 
   return (
     <div className={Styles.calendarContainer}>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <form onSubmit={handleAddEvent} className={Styles.calendarForm}>
+        <form onSubmit={handleSubmit(onSubmit)} className={Styles.calendarForm}>
           <label>Event Title: </label>
           <input
             type="text"
-            name="title"
+            {...register("title")}
             placeholder="Event Title"
-            value={newEvent.title}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.title && <p className={Styles.error}>{errors.title.message}</p>}
+
           <label>Description: </label>
           <input
             type="text"
-            name="description"
+            {...register("description")}
             placeholder="Description"
-            value={newEvent.description}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.description && <p className={Styles.error}>{errors.description.message}</p>}
+
           <label>Start Date: </label>
           <input
-            type="date"
-            name="startDate"
+            type="datetime-local"
+            {...register("startDate")}
             placeholder="Start Date"
-            value={newEvent.startDate}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.startDate && <p className={Styles.error}>{errors.startDate.message}</p>}
+
           <label>End Date: </label>
           <input
-            type="date"
-            name="endDate"
+            type="datetime-local"
+            {...register("endDate")}
             placeholder="End Date"
-            value={newEvent.endDate}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.endDate && <p className={Styles.error}>{errors.endDate.message}</p>}
+
           <label>Registration Deadline: </label>
           <input
-            type="date"
-            name="registrationDate"
+            type="datetime-local"
+            {...register("registrationDate")}
             placeholder="Registration Deadline"
-            value={newEvent.registrationDate}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.registrationDate && <p className={Styles.error}>{errors.registrationDate.message}</p>}
+
           <label>Minimum Participants: </label>
           <input
             type="number"
-            name="minimumParticipants"
+            {...register("minimumParticipants")}
             placeholder="Minimum Participants"
-            value={newEvent.minimumParticipants}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.minimumParticipants && <p className={Styles.error}>{errors.minimumParticipants.message}</p>}
+
           <label>Maximum Participants: </label>
           <input
             type="number"
-            name="maximumParticipants"
+            {...register("maximumParticipants")}
             placeholder="Maximum Participants"
-            value={newEvent.maximumParticipants}
-            onChange={handleInputChange}
             className={Styles.calendarInput}
           />
+          {errors.maximumParticipants && <p className={Styles.error}>{errors.maximumParticipants.message}</p>}
+
           <div className={Styles.formButtons}>
             <button type="submit" className={Styles.calendarSubmitButton}>
               Add Event
