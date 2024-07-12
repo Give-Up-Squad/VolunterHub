@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "../styles/volEventsDisplay.module.css";
 import EventCard from "./eventCard";
 import useActivities from "../hooks/useActivities";
