@@ -18,19 +18,23 @@ export const EventRegisterSchema = yup.object().shape({
   endDate: yup
     .date()
     .required("End date is required")
-    .min(yup.ref('startDate'), "End date cannot be less than start date"),
+    .min(yup.ref("startDate"), "End date cannot be less than start date"),
   registrationDate: yup
     .date()
     .required("Registration deadline is required")
-    .max(yup.ref('startDate'), "Registration deadline must be before start date")
+    .max(
+      yup.ref("startDate"),
+      "Registration deadline must be before start date"
+    )
     .test(
       "registrationDate",
       "Registration deadline has to be at least 4 days before start date",
-      function(value) {
+      function (value) {
         const startDate = this.parent.startDate;
         return (
           startDate &&
-          new Date(value) <= new Date(startDate.setDate(startDate.getDate() - 4))
+          new Date(value) <=
+            new Date(startDate.setDate(startDate.getDate() - 4))
         );
       }
     ),
@@ -44,8 +48,9 @@ export const EventRegisterSchema = yup.object().shape({
     .required("Maximum participants is required")
     .positive("Maximum participants must be a positive number")
     .integer("Maximum participants must be an integer")
-    .min(yup.ref('minimumParticipants'), "Maximum participants cannot be less than minimum participants"),
-  location: yup
-  .string()
-  .required("Location is required")
+    .min(
+      yup.ref("minimumParticipants"),
+      "Maximum participants cannot be less than minimum participants"
+    ),
+  location: yup.string().required("Location is required"),
 });
