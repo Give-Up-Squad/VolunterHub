@@ -32,6 +32,8 @@ coverage/
 .yarn-integrity
 
 # dotenv environment variables file
+.env
+.env.backend
 .env.local
 .env.development.local
 .env.test.local

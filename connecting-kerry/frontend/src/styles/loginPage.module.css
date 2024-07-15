@@ -1,9 +1,3 @@
-body {
-    color: rgb(0, 0, 0);
-    font-family: 'Josefin Sans', sans-serif;
-    /* Ensure consistent font */
-}
-
 .loginForm {
     background: #fff;
     width: 500px;
@@ -56,7 +50,6 @@ body {
 }
 
 .loginForm .inputField:hover {
-    transform: translateY(-5px);
     transition: all 0.3s ease;
 }
 

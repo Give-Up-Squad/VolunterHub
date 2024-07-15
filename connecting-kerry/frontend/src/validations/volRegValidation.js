@@ -15,10 +15,10 @@ export const VolRegisterSchema = yup.object().shape({
     .matches(/[a-z]/, "Password must have at least one lowercase letter")
     .matches(/[0-9]/, "Password must have at least one number")
     .matches(/[\W_]/, "Password must have at least one special character"),
-  gender: yup
-    .string()
-    .oneOf(["male", "female", "other"], "Invalid gender selection")
-    .required("Gender is required"),
+  // gender: yup
+  //   .string()
+  //   .oneOf(["male", "female", "other"], "Invalid gender selection")
+  //   .required("Gender is required"),
   dob: yup
     .date()
     .required("Date of Birth is required")

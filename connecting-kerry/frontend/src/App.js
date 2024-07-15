@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React } from "react";
 import "./App.css";
 import Navbar from "./components/navbar";
 import Landing from "./components/landing";
@@ -20,6 +20,7 @@ import {
 import Disclaimer from "./components/disclaimer";
 import RoleChoice from "./components/roleChoice";
 import { useAuth } from "./contexts/authContext";
+import UserProfile from "./components/userProfile";
 
 function Content() {
   const { userLoggedIn } = useAuth();
@@ -42,6 +43,7 @@ function Content() {
           <>
             <Route path="/volunteer" element={<VolEventsDisplay />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/profile" element={<UserProfile />} />
           </>
         ) : (
           <>

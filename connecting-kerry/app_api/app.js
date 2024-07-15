@@ -4,12 +4,13 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const firebase = require("firebase-admin");
 const userRoutes = require("./routes/userRoutes");
+const activityRoutes = require("./routes/activityRoutes");
 const cors = require("cors");
 
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: `${process.env.FRONTEND_URL_PATH}`, //added env var
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // Allow cookies to be sent with requests
 };
@@ -39,5 +40,6 @@ firebase.initializeApp({
 app.use(express.json());
 // Use the user routes
 app.use("/api/users", userRoutes);
+app.use("/api/activities", activityRoutes);
 
 module.exports = app;

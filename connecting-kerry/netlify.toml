@@ -1,0 +1,9 @@
+[build]
+  base = "connecting-kerry"  
+  publish = "frontend" 
+  functions = "functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

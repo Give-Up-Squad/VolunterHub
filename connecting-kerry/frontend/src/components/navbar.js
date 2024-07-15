@@ -7,12 +7,13 @@ const websiteLinks = [
   { name: "Home", path: "/" },
   { name: "Volunteer", path: "/volunteer" },
   { name: "Calendar", path: "/calendar" },
+  { name: "Profile", path: "/profile" },
 ];
 
 function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
-  const { userLoggedIn, logout } = useAuth(); // Use useAuth hook to get logout function
+  const { userLoggedIn, logout } = useAuth();
 
   const handleNavigation = (path) => {
     navigate(path);

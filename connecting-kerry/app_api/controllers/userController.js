@@ -1,41 +1,28 @@
-const { createUser } = require("../models/userModel");
-const { createVolunteer } = require("../models/volunteerModel");
-const { createOrganisation } = require("../models/organisationModel");
+const { createUser, getUserByEmail } = require("../models/userModel");
 
 const registerUser = async (req, res) => {
-  const { username, email, password, isGardaVetted, roles, extraData } =
-    req.body;
+  const {
+    username,
+    email,
+    is_garda_vetted,
+    roles,
+    dob,
+    forename,
+    surname,
+    org_name,
+  } = req.body;
 
   try {
     const user = await createUser(
       username,
       email,
-      password,
-      isGardaVetted,
-      roles
+      is_garda_vetted,
+      roles,
+      dob,
+      forename,
+      surname,
+      org_name
     );
-    // if (roles === "volunteer") {
-    //   await createVolunteer(
-    //     user.user_id,
-    //     extraData.fileUrl,
-    //     extraData.gender,
-    //     extraData.dob,
-    //     extraData.forename,
-    //     extraData.surname
-    //   );
-    // } else if (roles === "organisation") {
-    //   await createOrganisation(
-    //     user.user_id,
-    //     extraData.orgName,
-    //     extraData.fileUrl
-    //   );
-    // }
-
-    // Create session for the user
-    req.session.user = {
-      uid: user.user_id,
-      email: email,
-    };
 
     res
       .status(201)
@@ -45,4 +32,21 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+const displayUser = async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await getUserByEmail(email);
+
+    if (!user || user.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error displaying user:", error.message);
+    res.status(500).json({ error: "Failed to fetch user data" });
+  }
+};
+
+module.exports = { registerUser, displayUser };

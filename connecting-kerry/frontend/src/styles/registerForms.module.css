@@ -1,10 +1,5 @@
-body {
-    color: rgb(0, 0, 0);
-    font-family: "Josefin Sans", sans-serif;
-}
-
 .registerForm {
-    background: #fff;
+    background: #e6e3c6;
     width: 500px;
     margin: 65px auto;
     display: flex;
@@ -48,7 +43,6 @@ body {
 }
 
 .registerForm .inputField:hover {
-    transform: translateY(-5px);
     transition: all 0.3s ease;
 }
 
