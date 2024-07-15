@@ -30,6 +30,7 @@ const useActivities = () => {
         }
 
         const data = await response.json();
+        console.log("Activities data:", data);
         setActivities(data.activities);
       } catch (err) {
         setError(err.message);
