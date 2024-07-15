@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EventRegisterSchema } from "../validations/eventRegValidation";
 import styles from "../styles/eventForm.module.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 export default function EventForm({ onSubmit, onCancel }) {
+  const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "images"));
+        const urls = querySnapshot.docs.map((doc) => doc.data().url);
+        setImageUrls(urls);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -13,6 +35,14 @@ export default function EventForm({ onSubmit, onCancel }) {
     resolver: yupResolver(EventRegisterSchema),
     mode: "onTouched",
   });
+
+  if (loading) {
+    return <p>Loading images...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading images: {error}</p>;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.calendarForm}>
@@ -46,7 +76,7 @@ export default function EventForm({ onSubmit, onCancel }) {
         <div className={styles.formGroup}>
           <label>Start Date* </label>
           <input
-            type="date"
+            type="datetime-local"
             {...register("startDate")}
             placeholder="Start Date"
             className={styles.calendarInput}
@@ -58,7 +88,7 @@ export default function EventForm({ onSubmit, onCancel }) {
         <div className={styles.formGroup}>
           <label>End Date* </label>
           <input
-            type="date"
+            type="datetime-local"
             {...register("endDate")}
             placeholder="End Date"
             className={styles.calendarInput}
@@ -72,7 +102,7 @@ export default function EventForm({ onSubmit, onCancel }) {
         <div className={styles.formGroup}>
           <label>Registration Deadline* </label>
           <input
-            type="date"
+            type="datetime-local"
             {...register("registrationDate")}
             placeholder="Registration Deadline"
             className={styles.calendarInput}
@@ -122,13 +152,15 @@ export default function EventForm({ onSubmit, onCancel }) {
       </div>
       <div className={styles.formSection}>
         <div className={styles.formGroup}>
-          <label>Upload Image* </label>
-          <input
-            type="file"
-            {...register("image")}
-            accept="image/*"
-            className={styles.calendarInput}
-          />
+          <label>Select Image* </label>
+          <select {...register("image")} className={styles.calendarInput}>
+            <option value="">Select an image</option>
+            {imageUrls.map((url, index) => (
+              <option key={index} value={url}>
+                {url}
+              </option>
+            ))}
+          </select>
           {errors.image && (
             <p className={styles.error}>{errors.image.message}</p>
           )}

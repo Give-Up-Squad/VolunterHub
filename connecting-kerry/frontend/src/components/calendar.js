@@ -9,10 +9,10 @@ import EventCard from "./eventCard";
 import EventForm from "./eventForm";
 import Styles from "../styles/calendar.module.css";
 import useActivities from "../hooks/useActivities.js";
-import useDateFormat from "../hooks/useDates.js";
+import { useUser } from "../contexts/userContext/index.js";
 
 export default function Calendar() {
-  const { formatDate, formatDateTime } = useDateFormat();
+  const { user, loading: userLoading, error: userError } = useUser();
   const { activities, loading, error } = useActivities();
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -25,28 +25,27 @@ export default function Calendar() {
     if (!loading && activities.length) {
       const formattedActivities = activities.map((activity) => ({
         id: activity.activity_id,
-        title: activity.activity_name, // Ensure 'title' is set for FullCalendar events
+        title: activity.activity_name,
         start: activity.activity_start_date,
         end: activity.activity_end_date,
-        extendedProps: {
-          description: activity.activity_description,
-          deadline: activity.activity_deadline,
-          status: activity.activity_status,
-          available_participants: activity.available_participants,
-          min_participants: activity.min_participants,
-          max_participants: activity.max_participants,
-          location: activity.location,
-          image: activity.image,
-        },
+        description: activity.activity_description,
+        deadline: activity.activity_deadline,
+        status: activity.activity_status,
+        max_participants: activity.max_participants,
+        min_participants: activity.min_participants,
+        available_participants: activity.available_participants,
+        location: activity.location,
+        image: activity.image,
       }));
       console.log("Formatted Activities:", formattedActivities);
       setEvents(formattedActivities);
     }
   }, [loading, activities]);
 
+  console.log("User:", user);
   useEffect(() => {
-    console.log("Events state:", events);
-  }, [events]);
+    console.log("Selected Event:", selectedEvent);
+  }, [selectedEvent]);
 
   const handleAddEvent = (data) => {
     if (
@@ -60,14 +59,14 @@ export default function Calendar() {
       data.location
     ) {
       const eventToAdd = {
-        id: events.length + 1,
         title: data.title,
         start: data.startDate,
         end: data.endDate,
         description: data.description,
-        registrationDate: data.registrationDate,
-        minimumParticipants: data.minimumParticipants,
-        maximumParticipants: data.maximumParticipants,
+        deadline: data.registrationDate,
+        max_participants: data.maximumParticipants,
+        min_participants: data.minimumParticipants,
+        available_participants: data.maximumParticipants,
         location: data.location,
         image: data.image,
       };
@@ -84,10 +83,13 @@ export default function Calendar() {
   };
 
   const handleViewClick = (info) => {
-    const activity = info.event.extendedProps;
-    console.log(activity);
-    setSelectedEvent(activity);
-
+    const { extendedProps } = info.event;
+    setSelectedEvent({
+      activity_name: info.event.title,
+      activity_start_date: info.event.start,
+      activity_end_date: info.event.end,
+      ...extendedProps,
+    });
     setIsModalOpen(true);
   };
 
@@ -95,7 +97,18 @@ export default function Calendar() {
     <div className={Styles.calendarContainer}>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {selectedEvent ? (
-          <EventCard {...selectedEvent} closeModal={closeModal} />
+          <EventCard
+            activity_name={selectedEvent.activity_name}
+            activity_description={selectedEvent.description}
+            activity_start_date={selectedEvent.activity_start_date}
+            activity_end_date={selectedEvent.activity_end_date}
+            activity_deadline={selectedEvent.deadline}
+            activity_status={selectedEvent.status}
+            max_participants={selectedEvent.max_participants}
+            min_participants={selectedEvent.min_participants}
+            available_participants={selectedEvent.available_participants}
+            closeModal={closeModal}
+          />
         ) : null}
       </Modal>
       <Modal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)}>
@@ -110,7 +123,10 @@ export default function Calendar() {
         headerToolbar={{
           start: "today prev,next",
           center: "title",
-          end: "myCustomButton dayGridMonth,timeGridWeek,timeGridDay listMonth",
+          end:
+            user.roles !== "Volunteer"
+              ? "myCustomButton dayGridMonth,timeGridWeek,timeGridDay listMonth"
+              : "dayGridMonth,timeGridWeek,timeGridDay listMonth",
         }}
         customButtons={{
           myCustomButton: {
