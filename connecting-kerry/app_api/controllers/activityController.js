@@ -4,6 +4,7 @@ const {
   updateAvailableParticipants,
   getActivitiesByVolID,
   createVolActivity,
+  getActivitiesByOrgID,
 } = require("../models/activityModel");
 
 const displayAllActivitiesByID = async (req, res) => {
@@ -69,9 +70,26 @@ const displayVolAppliedAvtivities = async (req, res) => {
   }
 };
 
+const displayOrgCreatedActivities = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const activities = await getActivitiesByOrgID(id);
+
+    if (!activities || activities.length === 0) {
+      return res.status(404).json({ error: "No activities" });
+    }
+
+    res.status(200).json({ activities });
+  } catch (error) {
+    console.error("Error displaying activites:", error.message);
+    res.status(500).json({ error: "Failed to fetch activities data" });
+  }
+};
+
 module.exports = {
   displayAllActivities,
   displayAllActivitiesByID,
+  displayOrgCreatedActivities,
   displayVolAppliedAvtivities,
   applyActivity,
 };

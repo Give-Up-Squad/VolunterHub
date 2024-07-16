@@ -12,8 +12,8 @@ const useActivities = () => {
 
     const fetchActivities = async () => {
       try {
-        let apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/display`;
-        if (user.roles === "Volunteer") {
+        let apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/display/${user.org_id}`;
+        if (user && user.roles === "Volunteer") {
           apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/display/${user.volunteer_id}`;
         }
 

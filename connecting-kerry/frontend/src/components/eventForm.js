@@ -3,22 +3,31 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EventRegisterSchema } from "../validations/eventRegValidation";
 import styles from "../styles/eventForm.module.css";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { ref, listAll, getDownloadURL, getMetadata } from "firebase/storage";
+import { storage } from "../firebase/firebase";
 
 export default function EventForm({ onSubmit, onCancel }) {
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "images"));
-        const urls = querySnapshot.docs.map((doc) => doc.data().url);
+        const listRef = ref(storage, "volunteerImages/");
+        const res = await listAll(listRef);
+        const urls = await Promise.all(
+          res.items.map(async (itemRef) => {
+            const url = await getDownloadURL(itemRef);
+            const metadata = await getMetadata(itemRef);
+            return { url, name: metadata.name };
+          })
+        );
         setImageUrls(urls);
         setLoading(false);
       } catch (err) {
+        console.error("Error fetching images:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -35,6 +44,11 @@ export default function EventForm({ onSubmit, onCancel }) {
     resolver: yupResolver(EventRegisterSchema),
     mode: "onTouched",
   });
+
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.value;
+    setSelectedImageUrl(selectedImage);
+  };
 
   if (loading) {
     return <p>Loading images...</p>;
@@ -153,30 +167,42 @@ export default function EventForm({ onSubmit, onCancel }) {
       <div className={styles.formSection}>
         <div className={styles.formGroup}>
           <label>Select Image* </label>
-          <select {...register("image")} className={styles.calendarInput}>
+          <select
+            {...register("image")}
+            className={styles.calendarInput}
+            onChange={handleImageChange}
+            style={{ marginBottom: "30px" }}
+          >
             <option value="">Select an image</option>
-            {imageUrls.map((url, index) => (
-              <option key={index} value={url}>
-                {url}
+            {imageUrls.map((image, index) => (
+              <option key={index} value={image.url}>
+                {image.name}
               </option>
             ))}
           </select>
+          <div className={styles.formButtons}>
+            <button type="submit" className={styles.calendarSubmitButton}>
+              Add Event
+            </button>
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          </div>
           {errors.image && (
             <p className={styles.error}>{errors.image.message}</p>
           )}
         </div>
-      </div>
-      <div className={styles.formButtons}>
-        <button type="submit" className={styles.calendarSubmitButton}>
-          Add Event
-        </button>
-        <button
-          type="button"
-          className={styles.cancelButton}
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
+        {selectedImageUrl && (
+          <img
+            src={selectedImageUrl}
+            alt="Selected"
+            className={styles.selectedImage}
+          />
+        )}
       </div>
     </form>
   );

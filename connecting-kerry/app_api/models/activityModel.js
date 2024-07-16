@@ -37,6 +37,43 @@ const getAllActivities = async () => {
   }
 };
 
+const getActivitiesByOrgID = async (org_id) => {
+  const client = await pool.connect();
+
+  try {
+    const queryText = `
+      SELECT * FROM get_activities_by_org_id($1) WHERE activity_status = 'Upcoming' ORDER BY activity_start_date
+    `;
+    const params = [org_id];
+    const { rows } = await client.query(queryText, params);
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching user by email:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const getActivitiesByVolID = async (volunteer_id) => {
+  const client = await pool.connect();
+  try {
+    const queryText = `
+      SELECT * FROM  get_activities_by_volunteer_id($1) WHERE activity_start_date > NOW() ORDER BY activity_start_date
+    `;
+    const params = [volunteer_id];
+    const { rows } = await client.query(queryText, params);
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching user by email:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
 const updateAvailableParticipants = async (activity_id) => {
   const client = await pool.connect();
 
@@ -65,24 +102,6 @@ const updateAvailableParticipants = async (activity_id) => {
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error updating available participants:", error.message);
-    throw error;
-  } finally {
-    client.release();
-  }
-};
-
-const getActivitiesByVolID = async (volunteer_id) => {
-  const client = await pool.connect();
-  try {
-    const queryText = `
-      SELECT * FROM  get_activities_by_volunteer_id($1)
-    `;
-    const params = [volunteer_id];
-    const { rows } = await client.query(queryText, params);
-
-    return rows;
-  } catch (error) {
-    console.error("Error fetching user by email:", error.message);
     throw error;
   } finally {
     client.release();
@@ -154,4 +173,5 @@ module.exports = {
   createActivity,
   createVolActivity,
   updateAvailableParticipants,
+  getActivitiesByOrgID,
 };
