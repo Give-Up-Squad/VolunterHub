@@ -38,7 +38,14 @@ function Navbar() {
         <div className={styles.menuButton} onClick={toggleDrawer}>
           ☰
         </div>
-        <ul className={styles.navbarButtons} style={{ flex: "1" }}>
+        <ul className={styles.navbarButtons}>
+          <img
+            src="/images/logo-no-background.png"
+            height={100}
+            alt="Connecting Kerry"
+            onClick={() => handleNavigation("/")}
+            style={{ cursor: "pointer", marginRight: "10px" }}
+          />
           <li onClick={() => handleNavigation("/")}>Home</li>
           {userLoggedIn &&
             websiteLinks.slice(1).map((link) => (
@@ -47,15 +54,7 @@ function Navbar() {
               </li>
             ))}
         </ul>
-        <div id={styles.navbarTitle} style={{ flex: "3" }}>
-          <img
-            src="/images/logo-no-background.png"
-            height={100}
-            alt="Connecting Kerry"
-            onClick={() => handleNavigation("/")}
-          />
-        </div>
-        <div style={{ flex: "3", margin: "10px" }}>
+        <div style={{ margin: "20px" }}>
           {!userLoggedIn ? (
             <button
               className={styles.loginButton}

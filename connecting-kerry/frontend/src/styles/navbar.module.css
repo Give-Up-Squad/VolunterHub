@@ -13,29 +13,31 @@
 
 #navbarTitle {
     text-align: center;
+    font-size: 2.5em;
     z-index: 4;
     position: relative;
 }
 
 .navbarButtons {
     list-style: none;
-    font-size: 24px;
+    font-size: 22px;
     display: flex;
+    align-items: center;
 }
 
 .navbarButtons>li {
-    margin-right: 3.5em;
+    margin-right: 1.5em;
     cursor: pointer;
 }
 
 .navbarLoginButton {
     display: flex;
-    
+    justify-content: center;
+    align-items: center;
 }
 
 .loginButton {
     padding: 15px 30px;
-    margin-left:250px;
     font-size: 1.2rem;
     font-weight: 600;
     background-color: rgba(56, 127, 151, 0.75);
@@ -44,7 +46,6 @@
     border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 }
 .loginButton:hover {
     background-color: #305ac3;
