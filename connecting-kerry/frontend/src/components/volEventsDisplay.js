@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "../styles/volEventsDisplay.module.css";
 import EventCard from "./eventCard";
 import useActivities from "../hooks/useActivities";
@@ -66,9 +65,11 @@ export default function VolEventsDisplay() {
               </div>
             </div>
             <div className={styles.volButtons}>
-              <button type="button" className={styles.applyButton}>
-                Apply
-              </button>
+              {user.roles !== "Organisation" && (
+                <button type="button" className={styles.applyButton}>
+                  Apply
+                </button>
+              )}
               <button
                 className={styles.viewButton}
                 onClick={() => handleViewClick(activity)}

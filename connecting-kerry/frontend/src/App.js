@@ -10,6 +10,7 @@ import VolEventsDisplay from "./components/volEventsDisplay";
 import Calendar from "./components/calendar";
 import Footer from "./components/footer";
 import Error404 from "./components/error404";
+import Applications from "./components/applications";
 import {
   BrowserRouter as Router,
   Routes,
@@ -44,6 +45,7 @@ function Content() {
             <Route path="/volunteer" element={<VolEventsDisplay />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/applications" element={<Applications />} />
           </>
         ) : (
           <>

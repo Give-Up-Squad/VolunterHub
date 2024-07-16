@@ -58,7 +58,7 @@ const getUserByEmail = async (email) => {
   const client = await pool.connect();
 
   try {
-    const queryText = `
+    const queryText = ` 
       SELECT * FROM get_user_data_by_email($1)
     `;
     const params = [email];
