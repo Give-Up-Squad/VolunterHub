@@ -46,6 +46,11 @@ function Footer() {
                     My Profile
                   </a>
                 </li>
+                <li>
+                  <a className={styles.footerLink} href="/applications">
+                    My Events
+                  </a>
+                </li>
               </>
             )}
           </ul>
