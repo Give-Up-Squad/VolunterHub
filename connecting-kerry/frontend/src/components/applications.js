@@ -10,7 +10,7 @@ export default function Applications() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activities, setActivities] = useState([]);
-  const { formatDate, formatDateTime } = useDateFormat();
+  const { formatDateTime } = useDateFormat();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,7 +37,6 @@ export default function Applications() {
 
         if (!response.ok) {
           if (response.status === 404) {
-            // Assuming 404 is returned when there are no activities
             setActivities([]);
           } else {
             throw new Error("Failed to fetch applications");
