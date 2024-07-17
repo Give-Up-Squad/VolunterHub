@@ -14,17 +14,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Generate SARIF Reports
-      uses: github/codeql-action/analyze@v2
-      with:
-        token: ${{ secrets.SECURITY_TOKEN }}
-        repository: Give-Up-Squad/VolunterHub
-    
+
     - name: Generate Security Report
       uses: peter-murray/github-security-report-action@v2
       with:
         token: ${{ secrets.SECURITY_TOKEN }}
-        sarifReportDir: /results
-        outputDir: /home/VolunterHub
-        repository: Give-Up-Squad/VolunterHub
+        
