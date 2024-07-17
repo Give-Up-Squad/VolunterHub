@@ -4,61 +4,76 @@ import { useAuth } from "../contexts/authContext";
 
 function Footer() {
   const { userLoggedIn } = useAuth();
-  
+
   return (
     <footer className={styles.footer}>
       <div className={`${styles.row} ${styles.primary}`}>
         <div className={styles.column}>
-          <img src="/images/logo-no-background.png" width="250" alt="Connecting Kerry Logo" className={styles.imageLogoFooter}></img>
-          
-          
+          <img
+            src="/images/logo-no-background.png"
+            width="250"
+            alt="Connecting Kerry Logo"
+            className={styles.imageLogoFooter}
+          ></img>
         </div>
         <div className={styles.column}>
           <h2>Services</h2>
           <ul className={styles.links}>
             <li>
-                <a className={styles.footerLink} href="/">
-                  Home
-                </a>
+              <a className={styles.footerLink} href="/">
+                Home
+              </a>
             </li>
             <li>
-                <a className={styles.footerLink} href="/about">
-                  About
-                </a>
+              <a className={styles.footerLink} href="/about">
+                About
+              </a>
             </li>
             {userLoggedIn && (
               <>
-              <li>
+                <li>
                   <a className={styles.footerLink} href="/volunteer">
                     Volunteer Services
                   </a>
                 </li>
                 <li>
-                <a className={styles.footerLink} href="/calendar">
-                  My Calendar
-                </a>
+                  <a className={styles.footerLink} href="/calendar">
+                    My Calendar
+                  </a>
                 </li>
                 <li>
-                <a className={styles.footerLink} href="/profile">
-                  My Profile
-                </a>
+                  <a className={styles.footerLink} href="/profile">
+                    My Profile
+                  </a>
+                </li>
+                <li>
+                  <a className={styles.footerLink} href="/applications">
+                    My Events
+                  </a>
                 </li>
               </>
             )}
-
           </ul>
         </div>
         <div className={styles.column}>
           <h2>Contact Us</h2>
           <ul className={styles.links}>
-            <li><a href="#faq" className={styles.footerLink}>Contact</a></li>
-            <li><a href="#cookies-policy" className={styles.footerLink}>Garda Vetting</a></li>
+            <li>
+              <a href="#faq" className={styles.footerLink}>
+                Contact
+              </a>
+            </li>
+            <li>
+              <a href="#cookies-policy" className={styles.footerLink}>
+                Garda Vetting
+              </a>
+            </li>
           </ul>
         </div>
         <div className={styles.column}>
           <h2>Social Media</h2>
           <ul className={styles.links}>
-          <a
+            <a
               className={styles.footerLink}
               href="https://www.facebook.com/profile.php?id=61560397315033&mibextid=LQQJ4d&rdid=qdT0q2nURnbmhtB0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2FcNf9SyMPnHm6SRoc%2F%3Fmibextid%3DLQQJ4d"
             >
@@ -72,7 +87,7 @@ function Footer() {
                 <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
               </svg>
             </a>
-              <br></br>
+            <br></br>
             <a className={styles.footerLink} href="https://x.com/CKerry2024">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,11 +99,10 @@ function Footer() {
                 <path d="M23.643 4.937c-.835.372-1.732.623-2.675.735a4.725 4.725 0 0 0 2.062-2.606 9.587 9.587 0 0 1-2.971 1.134 4.785 4.785 0 0 0-8.166 4.344c-3.978-.198-7.533-2.106-9.901-5.006a4.78 4.78 0 0 0-.647 2.405 4.771 4.771 0 0 0 2.123 3.976 4.74 4.74 0 0 1-2.163-.598v.059a4.778 4.778 0 0 0 3.832 4.679 4.77 4.77 0 0 1-2.158.083 4.78 4.78 0 0 0 4.464 3.315 9.607 9.607 0 0 1-5.934 2.036 9.785 9.785 0 0 1-1.145-.067 13.567 13.567 0 0 0 7.358 2.154c8.83 0 13.665-7.325 13.665-13.669 0-.209 0-.418-.015-.626a9.721 9.721 0 0 0 2.381-2.471l.002-.003z" />
               </svg>
             </a>
-              <br></br>
+            <br></br>
             <a
               className={styles.footerLink}
               href="https://www.instagram.com/connectingkerry/?igsh=MWZ6eDcxdGdoemdhMw%3D%3D&utm_source=qr"
-            
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +117,6 @@ function Footer() {
             </a>
           </ul>
         </div>
-        
       </div>
     </footer>
   );

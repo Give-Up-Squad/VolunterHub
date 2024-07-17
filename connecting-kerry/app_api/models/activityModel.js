@@ -145,15 +145,37 @@ const createActivity = async (activity) => {
   try {
     await client.query("BEGIN");
     const queryText = `
-      INSERT INTO activities (activity_name, activity_description, activity_deadline, activity_location, available_participants)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO activities (
+        org_id,
+        activity_name,
+        activity_description,
+        activity_start_date,
+        activity_end_date,
+        activity_deadline,
+        max_participants,
+        min_participants,
+        available_participants,
+        activity_status,
+        activity_location,
+        activity_image,
+        activity_approval_status
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     `;
     const params = [
+      activity.org_id,
       activity.activity_name,
       activity.activity_description,
+      activity.activity_start_date,
+      activity.activity_end_date,
       activity.activity_deadline,
-      activity.activity_location,
+      activity.max_participants,
+      activity.min_participants,
       activity.available_participants,
+      activity.activity_status,
+      activity.activity_location,
+      activity.activity_image,
+      activity.activity_approval_status,
     ];
     await client.query(queryText, params);
     await client.query("COMMIT");

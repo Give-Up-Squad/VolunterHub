@@ -41,9 +41,10 @@ const VolunteerRegistration = () => {
       const authToken = await user.getIdToken();
       sessionStorage.setItem("authToken", authToken);
 
+      const email = data.email.toLowerCase();
       const backendData = {
         username: data.username,
-        email: data.email,
+        email: email,
         is_garda_vetted: "Pending",
         roles: data.roles,
         dob: formatDate(data.dob),

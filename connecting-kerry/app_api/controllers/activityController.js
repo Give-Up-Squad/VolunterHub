@@ -5,6 +5,7 @@ const {
   getActivitiesByVolID,
   createVolActivity,
   getActivitiesByOrgID,
+  createActivity,
 } = require("../models/activityModel");
 
 const displayAllActivitiesByID = async (req, res) => {
@@ -86,10 +87,52 @@ const displayOrgCreatedActivities = async (req, res) => {
   }
 };
 
+const createVolunteerActivity = async (req, res) => {
+  const {
+    activity_name,
+    activity_description,
+    activity_start_date,
+    activity_end_date,
+    activity_deadline,
+    max_participants,
+    min_participants,
+    available_participants,
+    org_id,
+    activity_status,
+    activity_location,
+    activity_image,
+    activity_approval_status,
+  } = req.body;
+
+  try {
+    await createActivity({
+      activity_name,
+      activity_description,
+      activity_start_date,
+      activity_end_date,
+      activity_deadline,
+      max_participants,
+      min_participants,
+      available_participants,
+      org_id,
+      activity_status,
+      activity_location,
+      activity_image,
+      activity_approval_status,
+    });
+
+    res.status(201).json({ message: "Activity created successfully" });
+  } catch (error) {
+    console.error("Error creating activity:", error.message);
+    res.status(500).json({ error: "Failed to create activity" });
+  }
+};
+
 module.exports = {
   displayAllActivities,
   displayAllActivitiesByID,
   displayOrgCreatedActivities,
   displayVolAppliedAvtivities,
   applyActivity,
+  createVolunteerActivity,
 };
