@@ -36,12 +36,17 @@ export default function Applications() {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch applications");
+          if (response.status === 404) {
+            // Assuming 404 is returned when there are no activities
+            setActivities([]);
+          } else {
+            throw new Error("Failed to fetch applications");
+          }
+        } else {
+          const data = await response.json();
+          console.log("Applications data:", data.activities);
+          setActivities(data.activities);
         }
-
-        const data = await response.json();
-        console.log("Applications data:", data.activities);
-        setActivities(data.activities);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -54,12 +59,12 @@ export default function Applications() {
   }, [user, userLoading]);
 
   const handleViewClick = (activity) => {
+    console.log("View activity:", activity);
     setSelectedEvent(activity);
     setIsModalOpen(true);
   };
 
   const handleCancelClick = (activityId) => {
-    // Implement cancel functionality here
     console.log(`Cancel activity with ID: ${activityId}`);
   };
 
@@ -72,50 +77,70 @@ export default function Applications() {
     return <div>Loading...</div>;
   }
 
-  if (userError || error) {
+  if (userError || (error && activities.length === 0)) {
     return <div>Error: {userError || error}</div>;
   }
 
   return (
     <div className={styles.applicationContainer}>
-      <h1 className={styles.title}>Applications</h1>
-      <table className={styles.applicationTable}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {activities.map((activity) => (
-            <tr key={activity.activity_id}>
-              <td>{activity.activity_name}</td>
-              <td>{formatDateTime(activity.activity_start_date)}</td>
-              <td>{formatDateTime(activity.activity_end_date)}</td>
-              <td>
-                <button
-                  className={styles.viewButton}
-                  onClick={() => handleViewClick(activity)}
-                >
-                  View
-                </button>
-                <button
-                  className={styles.cancelButton}
-                  onClick={() => handleCancelClick(activity)}
-                >
-                  Cancel
-                </button>
-              </td>
+      <h1 className={styles.title}>
+        {user.roles === "Volunteer" ? "Applications" : "Events"}
+      </h1>
+      {activities.length === 0 ? (
+        <p>
+          {user.roles !== "Volunteer"
+            ? "You have not created any events."
+            : "You have not joined any events."}
+        </p>
+      ) : (
+        <table className={styles.applicationTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              {user.roles !== "Volunteer" ? (
+                <th>Approval Status</th>
+              ) : (
+                <th>Activity Status</th>
+              )}
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {activities.map((activity) => (
+              <tr key={activity.activity_id}>
+                <td>{activity.activity_name}</td>
+                <td>{formatDateTime(activity.activity_start_date)}</td>
+                <td>{formatDateTime(activity.activity_end_date)}</td>
+                {user.roles !== "Volunteer" ? (
+                  <td>{activity.activity_approval_status}</td>
+                ) : (
+                  <td>{activity.activity_status}</td>
+                )}
+                <td>
+                  <button
+                    className={styles.viewButton}
+                    onClick={() => handleViewClick(activity)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={() => handleCancelClick(activity.activity_id)}
+                  >
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       {selectedEvent && (
         <div className={styles.overlay}>
           <Modal isOpen={isModalOpen} onClose={closeModal}>
-            <EventCard {...selectedEvent} closeModal={closeModal} />
+            <EventCard activity={selectedEvent} closeModal={closeModal} />
           </Modal>
         </div>
       )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../contexts/authContext"; // Import useAuth hook for authentication context
+import { useAuth } from "../contexts/authContext";
 import styles from "../styles/userProfile.module.css";
 
 const UserProfile = () => {
@@ -12,6 +12,7 @@ const UserProfile = () => {
     const fetchUserDetails = async () => {
       if (!currentUser) {
         setLoading(false);
+        setError("No user is currently logged in.");
         return;
       }
 
@@ -21,17 +22,16 @@ const UserProfile = () => {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/api/users/display/${currentUser.email}`
         );
-        console.log(process.env.REACT_APP_API_URL);
-        console.log(response);
+
         if (!response.ok) {
-          console.log(response);
           throw new Error("Failed to fetch user details");
         }
 
         const userData = await response.json();
         console.log("User details fetched successfully:", userData);
+
         if (userData.user && userData.user.length > 0) {
-          setUserDetails(userData.user[0]); // Access the first element of the user array
+          setUserDetails(userData.user[0]);
         } else {
           setError("No user details found.");
         }
@@ -39,14 +39,13 @@ const UserProfile = () => {
         console.error("Error fetching user details:", error.message);
         setError(error.message);
       } finally {
-        setLoading(false); // Set loading to false regardless of success or failure
+        setLoading(false);
       }
     };
 
     fetchUserDetails();
   }, [currentUser]);
 
-  // Conditional rendering based on loading state and error
   return (
     <div className={styles.userProfile}>
       <h2 className={styles.title}>User Profile</h2>
@@ -114,40 +113,40 @@ const UserProfile = () => {
               </div>
             </>
           )}
-          {userDetails.roles === "Organisation" ||
-            (userDetails.roles === "Admin" && (
-              <>
-                <div className={styles.profileField}>
-                  <label className={styles.profileLabel}>
-                    Organisation Name:
-                  </label>
-                  <input
-                    className={styles.profileInput}
-                    type="text"
-                    value={userDetails.org_name}
-                    readOnly
-                  />
-                </div>
-                <div className={styles.profileField}>
-                  <label className={styles.profileLabel}>Email:</label>
-                  <input
-                    className={styles.profileInput}
-                    type="email"
-                    value={userDetails.email}
-                    readOnly
-                  />
-                </div>
-                <div className={styles.profileField}>
-                  <label className={styles.profileLabel}>Garda Vetted:</label>
-                  <input
-                    className={styles.profileInput}
-                    type="text"
-                    value={userDetails.is_garda_vetted}
-                    readOnly
-                  />
-                </div>
-              </>
-            ))}
+          {(userDetails.roles === "Organisation" ||
+            userDetails.roles === "Admin") && (
+            <>
+              <div className={styles.profileField}>
+                <label className={styles.profileLabel}>
+                  Organisation Name:
+                </label>
+                <input
+                  className={styles.profileInput}
+                  type="text"
+                  value={userDetails.org_name}
+                  readOnly
+                />
+              </div>
+              <div className={styles.profileField}>
+                <label className={styles.profileLabel}>Email:</label>
+                <input
+                  className={styles.profileInput}
+                  type="email"
+                  value={userDetails.email}
+                  readOnly
+                />
+              </div>
+              <div className={styles.profileField}>
+                <label className={styles.profileLabel}>Garda Vetted:</label>
+                <input
+                  className={styles.profileInput}
+                  type="text"
+                  value={userDetails.is_garda_vetted}
+                  readOnly
+                />
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <p>No user details found.</p>
