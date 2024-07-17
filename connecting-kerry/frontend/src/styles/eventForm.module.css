@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     font-family: "Josefin Sans", sans-serif;
-    padding: 40px;
+    padding: 20px;
     background: #e6e3c6;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -18,13 +18,13 @@
 .formGroup {
     display: flex;
     flex-direction: column;
-    width: 48%;
+    width: 45%;
 }
 
 .calendarForm label {
     font-weight: bold;
     color: #014421;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .calendarInput {
@@ -33,7 +33,7 @@
     font-family: "Josefin Sans", sans-serif;
     border-radius: 5px;
     transition: border-color 0.3s ease;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .calendarInput:focus {
@@ -48,13 +48,24 @@
     margin-bottom: 10px;
 }
 
+.selectedImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+}
 .formButtons {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .calendarSubmitButton,
 .cancelButton {
+    width: auto;
     padding: 8px 20px;
     font-family: "Josefin Sans", sans-serif;
     font-size: 1.2rem;
