@@ -43,8 +43,6 @@
 
 .social i {
     margin-right: 10px;
-.social i {
-    margin-right: 10px;
     font-size: 24px;
     color: #fff;
 }
@@ -100,4 +98,5 @@
     .social i {
         font-size: 20px;
     }
+}
 }
