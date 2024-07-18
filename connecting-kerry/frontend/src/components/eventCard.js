@@ -1,20 +1,62 @@
 import React from "react";
 import styles from "../styles/eventCard.module.css";
 import useDateFormat from "../hooks/useDates";
+import { useUser } from "../contexts/userContext";
+import { useNavigate } from "react-router-dom";
 
-export default function EventCard({
-  activity_name,
-  activity_description,
-  activity_start_date,
-  activity_end_date,
-  activity_deadline,
-  activity_status,
-  max_participants,
-  min_participants,
-  available_participants,
-  closeModal,
-}) {
-  const { formatDate, formatDateTime } = useDateFormat();
+export default function EventCard({ activity, closeModal, refetchActivities }) {
+  const {
+    activity_id,
+    activity_name,
+    activity_description,
+    activity_start_date,
+    activity_end_date,
+    activity_deadline,
+    activity_status,
+    max_participants,
+    min_participants,
+    available_participants,
+    org_id,
+    activity_approval_status,
+  } = activity;
+
+  const { user } = useUser();
+  const { formatDateTime } = useDateFormat();
+  const navigate = useNavigate();
+
+  const handleApplyClick = async () => {
+    try {
+      const backendData = {
+        volunteer_id: user.volunteer_id,
+        activity_id: activity_id,
+      };
+      console.log("Applying for event:", backendData);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/activities/apply`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(backendData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to apply event");
+      }
+
+      const responseData = await response.json();
+      console.log("Backend response:", responseData);
+      closeModal();
+      refetchActivities(); // Call refetchActivities to reload activities after applying
+      navigate("/volunteer");
+    } catch (error) {
+      console.error("Error registering volunteer:", error.message);
+    }
+  };
+
   return (
     <div className={styles.eventCard}>
       <h1>
@@ -31,9 +73,15 @@ export default function EventCard({
       <p>Minimum Participants: {min_participants}</p>
       <p>Available Participants: {available_participants}</p>
       <div className={styles.eventCardButtons}>
-        <button type="button" className={styles.applyButton}>
-          Apply
-        </button>
+        {user.roles !== "Organisation" && (
+          <button
+            type="button"
+            className={styles.applyButton}
+            onClick={handleApplyClick}
+          >
+            Apply
+          </button>
+        )}
         <button className={styles.closeButton} onClick={closeModal}>
           Close
         </button>

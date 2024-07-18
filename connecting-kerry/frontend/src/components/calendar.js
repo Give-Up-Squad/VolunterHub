@@ -1,5 +1,4 @@
-// src/components/Calendar.js
-
+// Calendar.js
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,26 +6,21 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import Modal from "./modal.js";
+import EventCard from "./eventCard";
+import EventForm from "./eventForm";
 import Styles from "../styles/calendar.module.css";
 import useActivities from "../hooks/useActivities.js";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { EventRegisterSchema } from "../validations/eventRegValidation";
+import useDateFormat from "../hooks/useDates.js";
+import { useUser } from "../contexts/userContext/index.js";
 
 export default function Calendar() {
+  const { user, loading: userLoading, error: userError } = useUser();
   const { activities, loading, error } = useActivities();
   const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(EventRegisterSchema),
-    mode: "onTouched",
-  });
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const { formatDateForDB } = useDateFormat();
 
   useEffect(() => {
     if (!loading && activities.length) {
@@ -35,128 +29,127 @@ export default function Calendar() {
         title: activity.activity_name,
         start: activity.activity_start_date,
         end: activity.activity_end_date,
-        description: activity.description,
+        description: activity.activity_description,
         deadline: activity.activity_deadline,
         status: activity.activity_status,
-        availableParticipants: activity.available_participants,
-        minimumParticipants: activity.minimum_participants,
-        maximumParticipants: activity.maximum_participants,
+        max_participants: activity.max_participants,
+        min_participants: activity.min_participants,
+        available_participants: activity.available_participants,
+        location: activity.location,
+        image: activity.image,
+        activity_approval_status: activity.activity_approval_status,
       }));
       setEvents(formattedActivities);
     }
   }, [loading, activities]);
 
-  const onSubmit = (data) => {
-    const eventToAdd = {
-      title: data.title,
-      start: data.startDate,
-      end: data.endDate,
-      description: data.description,
-      registrationDate: data.registrationDate,
-      minimumParticipants: data.minimumParticipants,
-      maximumParticipants: data.maximumParticipants,
-    };
-    setEvents((prevEvents) => [...prevEvents, eventToAdd]);
-    reset();
+  const handleAddEvent = async (data) => {
+    if (
+      data.title &&
+      data.description &&
+      data.startDate &&
+      data.endDate &&
+      data.registrationDate &&
+      data.minimumParticipants &&
+      data.maximumParticipants &&
+      data.location
+    ) {
+      const eventToAdd = {
+        activity_name: data.title,
+        activity_description: data.description,
+        activity_start_date: formatDateForDB(data.startDate),
+        activity_end_date: formatDateForDB(data.endDate),
+        activity_deadline: formatDateForDB(data.registrationDate),
+        max_participants: data.maximumParticipants,
+        min_participants: data.minimumParticipants,
+        available_participants: data.maximumParticipants,
+        org_id: user.org_id,
+        activity_status: "Upcoming",
+        activity_location: data.location,
+        activity_image: data.image,
+        activity_approval_status: "Pending",
+      };
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/activities/create`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+            },
+            body: JSON.stringify(eventToAdd),
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to add event");
+        }
+
+        const responseData = await response.json();
+        console.log("Event added successfully:", responseData);
+        setEvents((prevEvents) => [...prevEvents, eventToAdd]);
+        setIsFormOpen(false);
+      } catch (error) {
+        console.error("Error adding event:", error.message);
+        alert("Error adding event: " + error.message);
+      }
+    } else {
+      alert("Please fill out all form details before submitting.");
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedEvent(null);
     setIsModalOpen(false);
+  };
+
+  const handleViewClick = (info) => {
+    const { extendedProps } = info.event;
+    console.log("info", info);
+    console.log("extendedProps", extendedProps);
+    setSelectedEvent({
+      activity_id: info.event.id,
+      activity_name: info.event.title,
+      activity_start_date: info.event.start,
+      activity_end_date: info.event.end,
+      activity_description: extendedProps.description,
+      activity_deadline: extendedProps.deadline,
+      activity_status: extendedProps.status,
+      ...extendedProps,
+    });
+    setIsModalOpen(true);
   };
 
   return (
     <div className={Styles.calendarContainer}>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <form onSubmit={handleSubmit(onSubmit)} className={Styles.calendarForm}>
-          <label>Event Title: </label>
-          <input
-            type="text"
-            {...register("title")}
-            placeholder="Event Title"
-            className={Styles.calendarInput}
-          />
-          {errors.title && <p className={Styles.error}>{errors.title.message}</p>}
-
-          <label>Description: </label>
-          <input
-            type="text"
-            {...register("description")}
-            placeholder="Description"
-            className={Styles.calendarInput}
-          />
-          {errors.description && <p className={Styles.error}>{errors.description.message}</p>}
-
-          <label>Start Date: </label>
-          <input
-            type="datetime-local"
-            {...register("startDate")}
-            placeholder="Start Date"
-            className={Styles.calendarInput}
-          />
-          {errors.startDate && <p className={Styles.error}>{errors.startDate.message}</p>}
-
-          <label>End Date: </label>
-          <input
-            type="datetime-local"
-            {...register("endDate")}
-            placeholder="End Date"
-            className={Styles.calendarInput}
-          />
-          {errors.endDate && <p className={Styles.error}>{errors.endDate.message}</p>}
-
-          <label>Registration Deadline: </label>
-          <input
-            type="datetime-local"
-            {...register("registrationDate")}
-            placeholder="Registration Deadline"
-            className={Styles.calendarInput}
-          />
-          {errors.registrationDate && <p className={Styles.error}>{errors.registrationDate.message}</p>}
-
-          <label>Minimum Participants: </label>
-          <input
-            type="number"
-            {...register("minimumParticipants")}
-            placeholder="Minimum Participants"
-            className={Styles.calendarInput}
-          />
-          {errors.minimumParticipants && <p className={Styles.error}>{errors.minimumParticipants.message}</p>}
-
-          <label>Maximum Participants: </label>
-          <input
-            type="number"
-            {...register("maximumParticipants")}
-            placeholder="Maximum Participants"
-            className={Styles.calendarInput}
-          />
-          {errors.maximumParticipants && <p className={Styles.error}>{errors.maximumParticipants.message}</p>}
-
-          <div className={Styles.formButtons}>
-            <button type="submit" className={Styles.calendarSubmitButton}>
-              Add Event
-            </button>
-            <button
-              type="button"
-              className={Styles.cancelButton}
-              onClick={() => setIsModalOpen(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        {selectedEvent ? (
+          <EventCard activity={selectedEvent} closeModal={closeModal} />
+        ) : null}
       </Modal>
-
+      <Modal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)}>
+        <EventForm
+          onSubmit={handleAddEvent}
+          onCancel={() => setIsFormOpen(false)}
+        />
+      </Modal>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"
         headerToolbar={{
           start: "today prev,next",
           center: "title",
-          end: "myCustomButton dayGridMonth,timeGridWeek,timeGridDay listWeek",
+          end:
+            user.roles !== "Volunteer"
+              ? "myCustomButton dayGridMonth,timeGridWeek,timeGridDay listMonth"
+              : "dayGridMonth,timeGridWeek,timeGridDay listMonth",
         }}
         customButtons={{
           myCustomButton: {
             text: "Add Event",
-            click: function () {
-              setIsModalOpen(true);
-            },
+            click: () => setIsFormOpen(true),
           },
         }}
         height={"90vh"}
@@ -169,6 +162,7 @@ export default function Calendar() {
           list: "List",
         }}
         themeSystem="standard"
+        eventClick={handleViewClick}
       />
     </div>
   );

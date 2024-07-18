@@ -24,8 +24,6 @@ function Disclaimer() {
         2. You have read and understood the above statement and that you consent
         to its terms
       </p>
-      <button onClick={() => setHandle18(true)}>Show is18</button>
-      {handle18 && <div>Is 18 now</div>}
       <label for="termsAgreement">I agree</label>
       <input type="checkbox" id="termsAgreement" />
     </div>

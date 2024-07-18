@@ -1,7 +1,8 @@
 .eventCard {
     background: #e6e3c6;
-    width: 500px;
-    margin: 65px auto;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
@@ -11,20 +12,20 @@
 
 .eventCard h1 {
     font-family: "Josefin Sans", sans-serif;
-    padding-bottom: 24px;
+    padding-bottom: 16px;
     text-align: center;
     font-weight: 300;
 }
 
 .eventCard h2 {
     font-family: "Josefin Sans", sans-serif;
-    padding-bottom: 22px;
+    padding-bottom: 10px;
 }
 
 .eventCard p {
     font-size: 20px;
     font-family: "Josefin Sans", sans-serif;
-    margin: 10px 0;
+    margin: 5px 0;
     word-wrap: break-word;
     /* Ensures long text wraps nicely */
 }
@@ -43,8 +44,7 @@
     margin-top: 20px;
 }
 
-.eventCardButtons
-button {
+.eventCardButtons button {
     padding: 8px 20px;
     font-family: "Josefin Sans", sans-serif;
     font-size: 1.3rem;

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "../styles/volEventsDisplay.module.css";
 import EventCard from "./eventCard";
 import useActivities from "../hooks/useActivities";
@@ -10,9 +9,15 @@ import useDateFormat from "../hooks/useDates.js";
 export default function VolEventsDisplay() {
   const { user, loading: userLoading, error: userError } = useUser();
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const { activities, loading, error } = useActivities();
+  const { activities, loading, error, refetchActivities } = useActivities(); // Include refetchActivities function
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { formatDate, formatDateTime } = useDateFormat();
+  const defaultImageUrl = "https://via.placeholder.com/150";
+
+  const handleApplyClick = (activity) => {
+    setSelectedEvent(activity);
+    setIsModalOpen(true);
+  };
 
   const handleViewClick = (activity) => {
     setSelectedEvent(activity);
@@ -43,7 +48,7 @@ export default function VolEventsDisplay() {
             <div className={styles.cardContent}>
               <div className={styles.cardSection}>
                 <img
-                  src="https://via.placeholder.com/150"
+                  src={activity.activity_image || defaultImageUrl}
                   alt="Event"
                   className={styles.eventImage}
                 />
@@ -66,9 +71,15 @@ export default function VolEventsDisplay() {
               </div>
             </div>
             <div className={styles.volButtons}>
-              <button type="button" className={styles.applyButton}>
-                Apply
-              </button>
+              {user.roles !== "Organisation" && (
+                <button
+                  type="button"
+                  className={styles.applyButton}
+                  onClick={() => handleApplyClick(activity)}
+                >
+                  Apply
+                </button>
+              )}
               <button
                 className={styles.viewButton}
                 onClick={() => handleViewClick(activity)}
@@ -81,7 +92,11 @@ export default function VolEventsDisplay() {
         {selectedEvent && (
           <div className={styles.overlay}>
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-              <EventCard {...selectedEvent} closeModal={closeModal} />
+              <EventCard
+                activity={selectedEvent}
+                closeModal={closeModal}
+                refetchActivities={refetchActivities}
+              />
             </Modal>
           </div>
         )}
