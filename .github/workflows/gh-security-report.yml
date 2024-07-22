@@ -23,18 +23,15 @@ jobs:
 
       - name: Convert SARIF to HTML
         run: |
-          npm install -g @microsoft/sarif-multitool
+          npm install -g sarif-to-html
           mkdir -p db/results/html
-          sarif-multitool convert --output db/results/html --format html db/results/*.sarif
-        working-directory: ./ # Ensure this is the correct working directory
+          sarif-to-html -i db/results/report.sarif -o db/results/html/report.html
 
       - name: Convert HTML to PDF
         run: |
           sudo apt-get install -y wkhtmltopdf
           mkdir -p db/results/pdf
-          for file in db/results/html/*.html; do
-            wkhtmltopdf "$file" "db/results/pdf/$(basename "$file" .html).pdf"
-          done
+          wkhtmltopdf db/results/html/report.html db/results/pdf/report.pdf
 
       - name: List files for debugging (HTML and PDF)
         run: |
@@ -53,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pdf-reports
-          path: db/results/pdf/*.pdf
+          path: db/results/pdf/report.pdf
