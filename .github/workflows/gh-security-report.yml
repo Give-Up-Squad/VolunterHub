@@ -25,7 +25,7 @@ jobs:
         run: |
           npm install -g @microsoft/sarif-multitool
           mkdir -p db/results/html
-          sarif-multitool transform db/results/*.sarif --output db/results/html --format html
+          sarif-multitool convert --output db/results/html --format html db/results/*.sarif
         working-directory: ./ # Ensure this is the correct working directory
 
       - name: Convert HTML to PDF
