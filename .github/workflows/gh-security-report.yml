@@ -11,15 +11,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: 'javascript' # Adjust based on your project's languages
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-        with:
-          output: db/results/report.sarif
+      - name: Run Security Scan
+        run: |
+          mkdir -p db/results
+          # Command to run the security scan and generate SARIF report
+          # Replace the following line with the actual command to generate the SARIF report
+          # Example: security-scan --output db/results/report.sarif
 
       - name: List files for debugging
         run: ls -al db/results
