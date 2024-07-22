@@ -1,22 +1,32 @@
-name: Generate Security Report
+name: Security Report
 
 on:
-  workflow_dispatch:
-  ##push:
-    ##branches: [ main ]
-  ##pull_request:
-    ##branches: [ main ]
+  push:
+    branches:
+      - main
 
 jobs:
-
-  generate-report:
+  build:
     runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
 
-    - name: Generate Security Report
-      uses: peter-murray/github-security-report-action@v2
-      with:
-        token: ${{ secrets.SECURITY_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Run Security Scan
+        run: |
+          mkdir -p ../results
+          # Command to run the security scan and generate SARIF report
+          # Example: security-scan --output ../results/report.sarif
+
+      - name: List files for debugging
+        run: ls -al ..db/results
+
+      - name: Upload SARIF report
+        uses: peter-murray/github-security-report-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          sarifReportDir: ..db/results
+          outputDir: /home/runner/work/VolunterHub/VolunterHub
+          repository: Give-Up-Squad/VolunterHub
         
