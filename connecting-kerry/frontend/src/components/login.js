@@ -28,7 +28,7 @@ function Login() {
         data.password
       );
       console.log("User logged in successfully:", userCredential.user);
-      navigate("/volunteer");
+      navigate("/calendar");
     } catch (error) {
       console.error("Error logging in user", error.message);
       setError("Failed to login. Please check your email and password.");

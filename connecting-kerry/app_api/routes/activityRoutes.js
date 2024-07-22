@@ -6,6 +6,8 @@ const {
   displayOrgCreatedActivities,
   applyActivity,
   createVolunteerActivity,
+  volunteerCancel,
+  displayPendingApprovals,
 } = require("../controllers/activityController");
 
 const router = express.Router();
@@ -16,5 +18,7 @@ router.get("/volunteer/:id", displayVolAppliedAvtivities);
 router.get("/organisation/:id", displayOrgCreatedActivities);
 router.post("/apply", applyActivity);
 router.post("/create", createVolunteerActivity);
+router.post("/cancel", volunteerCancel);
+router.get("/pending", displayPendingApprovals);
 
 module.exports = router;

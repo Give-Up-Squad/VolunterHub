@@ -9,18 +9,18 @@ import useDateFormat from "../hooks/useDates.js";
 export default function VolEventsDisplay() {
   const { user, loading: userLoading, error: userError } = useUser();
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const { activities, loading, error, refetchActivities } = useActivities(); // Include refetchActivities function
+  const { activities, loading, error, refetchActivities } = useActivities();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { formatDate, formatDateTime } = useDateFormat();
   const defaultImageUrl = "https://via.placeholder.com/150";
 
   const handleApplyClick = (activity) => {
-    setSelectedEvent(activity);
+    setSelectedEvent({ ...activity, type: "blue" });
     setIsModalOpen(true);
   };
 
   const handleViewClick = (activity) => {
-    setSelectedEvent(activity);
+    setSelectedEvent({ ...activity, type: "blue" });
     setIsModalOpen(true);
   };
 
@@ -64,7 +64,7 @@ export default function VolEventsDisplay() {
               <div className={styles.cardSection}>
                 <label>Deadline:</label>
                 <p>{formatDate(activity.activity_deadline)}</p>
-                <label>Status:</label>
+                <label>Location:</label>
                 <p>{activity.activity_status}</p>
                 <label>Available Participants:</label>
                 <p>{activity.available_participants}</p>
