@@ -20,13 +20,13 @@ jobs:
           # Example: security-scan --output ../results/report.sarif
 
       - name: List files for debugging
-        run: ls -al ..db/results
+        run: ls -al db/results
 
       - name: Upload SARIF report
         uses: peter-murray/github-security-report-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          sarifReportDir: ..db/results
+          sarifReportDir: db/results
           outputDir: /home/runner/work/VolunterHub/VolunterHub
           repository: Give-Up-Squad/VolunterHub
         
