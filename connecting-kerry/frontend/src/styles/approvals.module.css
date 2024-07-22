@@ -1,0 +1,83 @@
+.approvalsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e6e3c6;
+}
+
+.title {
+    font-size: 24px;
+    color: #014421;
+    font-weight: bold;
+}
+
+.approvalsTable {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.approvalsTable th,
+.approvalsTable td {
+    padding: 8px;
+    text-align: left;
+}
+
+.approvalsTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.approvalsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.approvalsTable tr:hover {
+    background-color: #ddd;
+}
+
+.approvalsTable button {
+    width: 33%;
+    margin-left: 2px;
+    padding: 8px 20px;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.viewButton {
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
+}
+
+.viewButton:hover {
+    background-color: #305ac3;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.approveButton {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.approveButton:hover {
+    background-color: #218838;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.rejectButton {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.rejectButton:hover {
+    background-color: #c82333;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}

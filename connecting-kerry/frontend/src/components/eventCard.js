@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/eventCard.module.css";
 import useDateFormat from "../hooks/useDates";
 import { useUser } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
+import useActivities from "../hooks/useActivities";
+import LoadingPage from "./loadingPage";
 
 export default function EventCard({ activity, closeModal, refetchActivities }) {
   const {
@@ -18,11 +20,14 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
     available_participants,
     org_id,
     activity_approval_status,
+    type,
   } = activity;
 
   const { user } = useUser();
   const { formatDateTime } = useDateFormat();
   const navigate = useNavigate();
+  const { cancelActivity } = useActivities();
+  const [loading, setLoading] = useState(false);
 
   const handleApplyClick = async () => {
     try {
@@ -50,11 +55,34 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
       closeModal();
-      refetchActivities(); // Call refetchActivities to reload activities after applying
-      navigate("/volunteer");
+      navigate("/loading", {
+        state: { loadingText: "Applying activity..." },
+      });
+
+      setTimeout(() => {
+        navigate("/applications", { replace: true });
+      }, 1000);
     } catch (error) {
       console.error("Error registering volunteer:", error.message);
     }
+  };
+
+  const handleCancelClick = async () => {
+    console.log(
+      `Cancel activity with ID: ${activity_id} for volunteer ID: ${user.volunteer_id}`
+    );
+
+    try {
+      await cancelActivity(user.volunteer_id, activity_id);
+    } catch (error) {
+      console.error("Error cancelling activity:", error.message);
+    }
+    closeModal();
+    navigate("/loading", { state: { loadingText: "Cancelling activity..." } });
+
+    setTimeout(() => {
+      navigate("/calendar", { replace: true });
+    }, 1000);
   };
 
   return (
@@ -73,13 +101,22 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
       <p>Minimum Participants: {min_participants}</p>
       <p>Available Participants: {available_participants}</p>
       <div className={styles.eventCardButtons}>
-        {user.roles !== "Organisation" && (
+        {user.roles === "Volunteer" && type === "blue" && (
           <button
             type="button"
             className={styles.applyButton}
             onClick={handleApplyClick}
           >
             Apply
+          </button>
+        )}
+        {type === "green" && (
+          <button
+            type="button"
+            className={styles.applyButton}
+            onClick={handleCancelClick}
+          >
+            Cancel
           </button>
         )}
         <button className={styles.closeButton} onClick={closeModal}>

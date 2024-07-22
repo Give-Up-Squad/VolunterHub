@@ -1,5 +1,3 @@
-// src/validations/eventRegValidation.js
-
 import * as yup from "yup";
 
 export const EventRegisterSchema = yup.object().shape({
@@ -11,30 +9,36 @@ export const EventRegisterSchema = yup.object().shape({
     .string()
     .required("Description is required")
     .min(10, "Description must be at least 10 characters long"),
-  startDate: yup
+  date: yup
     .date()
-    .required("Start date is required")
-    .min(new Date(), "Start date cannot be in the past"),
-  endDate: yup
-    .date()
-    .required("End date is required")
-    .min(yup.ref("startDate"), "End date cannot be less than start date"),
+    .required("Date is required")
+    .min(new Date(), "Date cannot be in the past"),
+  startTime: yup.string().required("Start time is required"),
+  endTime: yup
+    .string()
+    .required("End time is required")
+    .test("is-greater", "End time must be after start time", function (value) {
+      const { startTime } = this.parent;
+      return (
+        new Date(`1970-01-01T${value}`) > new Date(`1970-01-01T${startTime}`)
+      );
+    }),
   registrationDate: yup
     .date()
     .required("Registration deadline is required")
-    .max(
-      yup.ref("startDate"),
-      "Registration deadline must be before start date"
-    )
+    .min(new Date(), "Registration deadline cannot be in the past")
+    .max(yup.ref("date"), "Registration deadline must be before the event date")
     .test(
       "registrationDate",
-      "Registration deadline has to be at least 4 days before start date",
+      "Registration deadline has to be at least 2 days before the event date",
       function (value) {
-        const startDate = this.parent.startDate;
+        const eventDate = this.parent.date;
         return (
-          startDate &&
+          eventDate &&
           new Date(value) <=
-            new Date(startDate.setDate(startDate.getDate() - 4))
+            new Date(
+              new Date(eventDate).setDate(new Date(eventDate).getDate() - 2)
+            )
         );
       }
     ),
@@ -53,4 +57,5 @@ export const EventRegisterSchema = yup.object().shape({
       "Maximum participants cannot be less than minimum participants"
     ),
   location: yup.string().required("Location is required"),
+  image: yup.string().required("Image selection is required"),
 });

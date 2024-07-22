@@ -1,4 +1,3 @@
-// Calendar.js
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -12,19 +11,109 @@ import Styles from "../styles/calendar.module.css";
 import useActivities from "../hooks/useActivities.js";
 import useDateFormat from "../hooks/useDates.js";
 import { useUser } from "../contexts/userContext/index.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Calendar() {
   const { user, loading: userLoading, error: userError } = useUser();
-  const { activities, loading, error } = useActivities();
+  const {
+    activities: blueActivities,
+    loading: blueLoading,
+    error: blueError,
+    refetchActivities,
+  } = useActivities();
+  const [greenActivities, setGreenActivities] = useState([]);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { formatDateForDB } = useDateFormat();
+  const [greenLoading, setGreenLoading] = useState(true);
+  const [greenError, setGreenError] = useState(null);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const combineDateAndTime = (date, time) => {
+    if (!date || !time) {
+      console.error("Invalid date or time:", date, time);
+      return null;
+    }
+
+    const dateString = formatDate(date);
+    const timeString = time;
+
+    const combinedDateString = `${dateString}T${timeString}:00`;
+
+    const combinedDate = new Date(combinedDateString);
+
+    if (isNaN(combinedDate.getTime())) {
+      console.error("Invalid date created:", combinedDate);
+      return null;
+    }
+
+    const year = String(combinedDate.getFullYear()).padStart(4, "0");
+    const month = String(combinedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(combinedDate.getDate()).padStart(2, "0");
+    const hours = String(combinedDate.getHours()).padStart(2, "0");
+    const minutes = String(combinedDate.getMinutes()).padStart(2, "0");
+    const seconds = "00";
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  // Define fetchGreenActivities function
+  const fetchGreenActivities = async () => {
+    setGreenLoading(true);
+    try {
+      let apiUrl = "";
+      if (user.roles !== "Volunteer") {
+        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/${user.org_id}`;
+      } else {
+        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}`;
+      }
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          setGreenActivities([]);
+        } else {
+          throw new Error("Failed to fetch green activities");
+        }
+      } else {
+        const data = await response.json();
+        console.log("Green Activities data:", data.activities);
+        setGreenActivities(data.activities);
+      }
+    } catch (err) {
+      console.error(err);
+      setGreenError(err.message);
+    } finally {
+      setGreenLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (!loading && activities.length) {
-      const formattedActivities = activities.map((activity) => ({
+    if (userLoading) return;
+    if (!user) return;
+
+    fetchGreenActivities();
+  }, [user, userLoading]);
+
+  useEffect(() => {
+    if (!blueLoading && !greenLoading) {
+      const formattedBlueActivities = blueActivities.map((activity) => ({
         id: activity.activity_id,
         title: activity.activity_name,
         start: activity.activity_start_date,
@@ -38,27 +127,50 @@ export default function Calendar() {
         location: activity.location,
         image: activity.image,
         activity_approval_status: activity.activity_approval_status,
+        backgroundColor: "#0000FF", // Blue color for not applied/created
+        type: "blue",
       }));
-      setEvents(formattedActivities);
+
+      const formattedGreenActivities = greenActivities.map((activity) => ({
+        id: activity.activity_id,
+        title: activity.activity_name,
+        start: activity.activity_start_date,
+        end: activity.activity_end_date,
+        description: activity.activity_description,
+        deadline: activity.activity_deadline,
+        status: activity.activity_status,
+        max_participants: activity.max_participants,
+        min_participants: activity.min_participants,
+        available_participants: activity.available_participants,
+        location: activity.location,
+        image: activity.image,
+        activity_approval_status: activity.activity_approval_status,
+        backgroundColor: "#32CD32", // Green color for applied/created
+        type: "green",
+      }));
+
+      setEvents([...formattedBlueActivities, ...formattedGreenActivities]);
     }
-  }, [loading, activities]);
+  }, [blueLoading, greenLoading, blueActivities, greenActivities]);
 
   const handleAddEvent = async (data) => {
     if (
       data.title &&
       data.description &&
-      data.startDate &&
-      data.endDate &&
+      data.date &&
+      data.startTime &&
+      data.endTime &&
       data.registrationDate &&
       data.minimumParticipants &&
       data.maximumParticipants &&
       data.location
     ) {
+      const approvalStatus = user.roles === "Admin" ? "Approved" : "Pending";
       const eventToAdd = {
         activity_name: data.title,
         activity_description: data.description,
-        activity_start_date: formatDateForDB(data.startDate),
-        activity_end_date: formatDateForDB(data.endDate),
+        activity_start_date: combineDateAndTime(data.date, data.startTime),
+        activity_end_date: combineDateAndTime(data.date, data.endTime),
         activity_deadline: formatDateForDB(data.registrationDate),
         max_participants: data.maximumParticipants,
         min_participants: data.minimumParticipants,
@@ -67,8 +179,15 @@ export default function Calendar() {
         activity_status: "Upcoming",
         activity_location: data.location,
         activity_image: data.image,
-        activity_approval_status: "Pending",
+        activity_approval_status: approvalStatus,
+        date: data.date,
+        startTime: data.startTime,
+        endTime: data.endTime,
       };
+      console.log("Adding event:", eventToAdd);
+
+      setIsLoading(true);
+
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/api/activities/create`,
@@ -89,11 +208,21 @@ export default function Calendar() {
 
         const responseData = await response.json();
         console.log("Event added successfully:", responseData);
+        fetchGreenActivities();
         setEvents((prevEvents) => [...prevEvents, eventToAdd]);
         setIsFormOpen(false);
+        navigate("/loading", {
+          state: { loadingText: "Adding activity..." },
+        });
+
+        setTimeout(() => {
+          navigate("/applications", { replace: true });
+        }, 1000);
       } catch (error) {
         console.error("Error adding event:", error.message);
         alert("Error adding event: " + error.message);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       alert("Please fill out all form details before submitting.");
@@ -124,6 +253,7 @@ export default function Calendar() {
 
   return (
     <div className={Styles.calendarContainer}>
+      {isLoading && <div className={Styles.loading}>Adding event...</div>}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {selectedEvent ? (
           <EventCard activity={selectedEvent} closeModal={closeModal} />

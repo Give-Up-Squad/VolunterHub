@@ -45,7 +45,39 @@ const useActivities = () => {
     fetchActivities();
   };
 
-  return { activities, loading, error, refetchActivities };
+  const cancelActivity = async (volunteer_id, activity_id) => {
+    try {
+      const backendData = {
+        volunteer_id,
+        activity_id,
+      };
+      console.log("Cancelling activity:", backendData);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/activities/cancel`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify(backendData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to cancel activity");
+      }
+
+      const responseData = await response.json();
+      console.log("Backend response:", responseData);
+      refetchActivities();
+    } catch (error) {
+      console.error("Error cancelling activity:", error.message);
+    }
+  };
+
+  return { activities, loading, error, refetchActivities, cancelActivity };
 };
 
 export default useActivities;
