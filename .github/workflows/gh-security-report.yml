@@ -1,7 +1,7 @@
 name: Security Report
 
 on:
-   workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   build:
@@ -10,12 +10,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Run Security Scan
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'javascript' # Adjust based on your project's languages
+
+      - name: Build project
         run: |
-          mkdir -p ../results
-          # Command to run the security scan and generate SARIF report
-          # Example: security-scan --output ../results/report.sarif
+          # Add commands to build your project here
+          # For example, if using npm:
+          npm install
+          npm run build
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          output: db/results/report.sarif
 
       - name: List files for debugging
         run: ls -al db/results
@@ -27,4 +38,3 @@ jobs:
           sarifReportDir: db/results
           outputDir: /home/runner/work/VolunterHub/VolunterHub
           repository: Give-Up-Squad/VolunterHub
-        
