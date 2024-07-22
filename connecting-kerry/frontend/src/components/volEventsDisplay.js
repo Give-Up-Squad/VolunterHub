@@ -42,6 +42,8 @@ export default function VolEventsDisplay() {
       <div className={styles.volEventsDisplay}>
         <h1>
           <strong>Volunteering Events</strong>
+          <p>Here you can view all the events you can apply for. <br></br>
+          Once you apply for an event it will dissapear from your view and you can view it in My Events.</p>
         </h1>
         {activities.map((activity) => (
           <div key={activity.activity_id} className={styles.activityCard}>

@@ -15,7 +15,13 @@
     padding-bottom: 15px;
     color: #014421;
 }
-
+.volEventsDisplay p {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 300;
+    padding-bottom: 15px;
+    color: #014421;
+}
 .activityCard {
     background: #f9f9f9;
     margin: 20px 0;

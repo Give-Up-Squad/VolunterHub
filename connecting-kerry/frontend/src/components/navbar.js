@@ -50,7 +50,8 @@ function Navbar() {
             onClick={() => handleNavigation("/")}
             style={{ cursor: "pointer", marginRight: "10px" }}
           />
-          <li onClick={() => handleNavigation("/")}>Home</li>
+          <li onClick={() => handleNavigation("/profile")}>My Account</li>
+          <li onClick={() => handleNavigation("/applications")}>My Events</li>
           {userLoggedIn && (
             <>
               {websiteLinks
@@ -66,24 +67,7 @@ function Navbar() {
                     {link.name}
                   </li>
                 ))}
-              <li>
-                <select
-                  className={styles.navSelect}
-                  value={selectValue}
-                  onChange={(e) => {
-                    setSelectValue(e.target.value);
-                    handleNavigation(e.target.value);
-                  }}
-                >
-                  <option value="">Menu</option>
-                  <option value="/profile">My Account</option>
-                  <option value="/applications">
-                    {user && user.roles === "Volunteer"
-                      ? "My Applications"
-                      : "My Events"}
-                  </option>
-                </select>
-              </li>
+              
             </>
           )}
         </ul>
