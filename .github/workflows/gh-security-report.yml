@@ -14,12 +14,32 @@ jobs:
       - name: Run Security Scan
         run: |
           mkdir -p db/results
-          # Command to run the security scan and generate SARIF report
           # Replace the following line with the actual command to generate the SARIF report
           # Example: security-scan --output db/results/report.sarif
+          echo '{"runs": []}' > db/results/report.sarif # This is a placeholder. Replace it with your actual security scan command.
 
       - name: List files for debugging
         run: ls -al db/results
+
+      - name: Convert SARIF to HTML
+        run: |
+          npm install -g @microsoft/sarif-multitool
+          mkdir -p db/results/html
+          sarif-multitool transform db/results/*.sarif --output db/results/html --format html
+        working-directory: ./ # Ensure this is the correct working directory
+
+      - name: Convert HTML to PDF
+        run: |
+          sudo apt-get install -y wkhtmltopdf
+          mkdir -p db/results/pdf
+          for file in db/results/html/*.html; do
+            wkhtmltopdf "$file" "db/results/pdf/$(basename "$file" .html).pdf"
+          done
+
+      - name: List files for debugging (HTML and PDF)
+        run: |
+          ls -al db/results/html
+          ls -al db/results/pdf
 
       - name: Upload SARIF report
         uses: peter-murray/github-security-report-action@v2
@@ -28,3 +48,9 @@ jobs:
           sarifReportDir: db/results
           outputDir: /home/runner/work/VolunterHub/VolunterHub
           repository: Give-Up-Squad/VolunterHub
+
+      - name: Upload PDF report
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdf-reports
+          path: db/results/pdf/*.pdf
