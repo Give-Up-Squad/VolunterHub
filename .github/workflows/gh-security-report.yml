@@ -16,13 +16,6 @@ jobs:
         with:
           languages: 'javascript' # Adjust based on your project's languages
 
-      - name: Build project
-        run: |
-          # Add commands to build your project here
-          # For example, if using npm:
-          npm install
-          npm run build
-
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
