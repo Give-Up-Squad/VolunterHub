@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "../styles/footer.module.css";
 import { useAuth } from "../contexts/authContext";
+import { useUser } from "../contexts/userContext";
 
 function Footer() {
   const { userLoggedIn } = useAuth();
+  const { user } = useUser();
 
   return (
     <footer className={styles.footer}>
@@ -31,11 +33,20 @@ function Footer() {
             </li>
             {userLoggedIn && (
               <>
-                <li>
-                  <a className={styles.footerLink} href="/volunteer">
-                    Volunteer Services
-                  </a>
-                </li>
+                {user && user.roles === "Volunteer" && (
+                  <li>
+                    <a className={styles.footerLink} href="/volunteer">
+                      Volunteer
+                    </a>
+                  </li>
+                )}
+                {user && user.roles === "Admin" && (
+                  <li>
+                    <a className={styles.footerLink} href="/approvals">
+                      Approvals
+                    </a>
+                  </li>
+                )}
                 <li>
                   <a className={styles.footerLink} href="/calendar">
                     My Calendar

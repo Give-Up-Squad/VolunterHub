@@ -23,6 +23,15 @@ import Disclaimer from "./components/disclaimer";
 import RoleChoice from "./components/roleChoice";
 import { useAuth } from "./contexts/authContext";
 import UserProfile from "./components/userProfile";
+import LoadingPage from "./components/loadingPage";
+import Approvals from "./components/approvals";
+
+function LoadingRoute() {
+  const location = useLocation();
+  const { loadingText } = location.state || { loadingText: "Loading..." };
+
+  return <LoadingPage loadingText={loadingText} />;
+}
 
 function Content() {
   const { userLoggedIn } = useAuth();
@@ -39,7 +48,8 @@ function Content() {
         <Route path="/login" element={<Login />} />
         <Route path="/volRegister" element={<VolunteerRegistration />} />
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
-        <Route path='/review' element={<AccountReview />} />
+        <Route path="/loading" element={<LoadingRoute />} />
+        <Route path="/review" element={<AccountReview />} />
         {/* Protected Routes */}
         {userLoggedIn ? (
           <>
@@ -47,6 +57,7 @@ function Content() {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/applications" element={<Applications />} />
+            <Route path="/approvals" element={<Approvals />} />
           </>
         ) : (
           <>

@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import styles from "../styles/navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
+import { useUser } from "../contexts/userContext";
 
 const websiteLinks = [
   { name: "Home", path: "/" },
   { name: "Volunteer", path: "/volunteer" },
   { name: "Calendar", path: "/calendar" },
   { name: "Profile", path: "/profile" },
-  { name: "Applications", path: "/applications" }, // Common path for both roles
+  { name: "Applications", path: "/applications" },
 ];
 
 function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState("");
   const navigate = useNavigate();
-  const { user, userLoggedIn, logout } = useAuth();
+  const { user } = useUser();
+  const { userLoggedIn, logout } = useAuth();
 
   const handleNavigation = (path) => {
     navigate(path);
     setIsDrawerOpen(false);
-    setSelectValue("");
   };
 
   const toggleDrawer = () => {
@@ -50,24 +50,54 @@ function Navbar() {
             onClick={() => handleNavigation("/")}
             style={{ cursor: "pointer", marginRight: "10px" }}
           />
-          <li onClick={() => handleNavigation("/profile")}>My Account</li>
-          <li onClick={() => handleNavigation("/applications")}>My Events</li>
           {userLoggedIn && (
             <>
-              {websiteLinks
-                .filter(
-                  (link) =>
-                    link.name === "Volunteer" || link.name === "Calendar"
-                )
-                .map((link) => (
-                  <li
-                    key={link.name}
-                    onClick={() => handleNavigation(link.path)}
-                  >
-                    {link.name}
-                  </li>
-                ))}
-              
+              {user && user.roles === "Volunteer" && (
+                <li
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("/volunteer");
+                  }}
+                >
+                  Volunteer
+                </li>
+              )}
+              {user && user.roles === "Admin" && (
+                <li
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("/approvals");
+                  }}
+                >
+                  Approvals
+                </li>
+              )}
+              <li
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation("/calendar");
+                }}
+              >
+                Calendar
+              </li>
+              <li
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation("/profile");
+                }}
+              >
+                My Account
+              </li>
+              <li
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation("/applications");
+                }}
+              >
+                {user && user.roles === "Volunteer"
+                  ? "My Applications"
+                  : "My Events"}
+              </li>
             </>
           )}
         </ul>

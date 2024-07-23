@@ -5,12 +5,14 @@ import { EventRegisterSchema } from "../validations/eventRegValidation";
 import styles from "../styles/eventForm.module.css";
 import { ref, listAll, getDownloadURL, getMetadata } from "firebase/storage";
 import { storage } from "../firebase/firebase";
+import useDateFormat from "../hooks/useDates";
 
 export default function EventForm({ onSubmit, onCancel }) {
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const { formatDateForDB } = useDateFormat();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -50,6 +52,38 @@ export default function EventForm({ onSubmit, onCancel }) {
     setSelectedImageUrl(selectedImage);
   };
 
+  const combineDateAndTime = (date, time) => {
+    if (!date || !time) return null;
+
+    const combinedDate = new Date(`${date}T${time}:00`);
+
+    const year = combinedDate.getFullYear();
+    const month = String(combinedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(combinedDate.getDate()).padStart(2, "0");
+    const hours = String(combinedDate.getHours()).padStart(2, "0");
+    const minutes = String(combinedDate.getMinutes()).padStart(2, "0");
+    const seconds = "00";
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  const onSubmitHandler = (data) => {
+    const startDate = combineDateAndTime(data.date, data.startTime);
+    const endDate = combineDateAndTime(data.date, data.endTime);
+
+    if (!startDate || !endDate) {
+      console.error("Invalid date or time value");
+      return;
+    }
+
+    const formattedData = {
+      ...data,
+      startDate: startDate,
+      endDate: endDate,
+    };
+
+    onSubmit(formattedData);
+  };
+
   if (loading) {
     return <p>Loading images...</p>;
   }
@@ -59,7 +93,10 @@ export default function EventForm({ onSubmit, onCancel }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.calendarForm}>
+    <form
+      onSubmit={handleSubmit(onSubmitHandler)}
+      className={styles.calendarForm}
+    >
       <div className={styles.formSection}>
         <div className={styles.formGroup}>
           <label>Event Title* </label>
@@ -88,27 +125,37 @@ export default function EventForm({ onSubmit, onCancel }) {
       </div>
       <div className={styles.formSection}>
         <div className={styles.formGroup}>
-          <label>Start Date* </label>
+          <label>Date* </label>
           <input
-            type="datetime-local"
-            {...register("startDate")}
-            placeholder="Start Date"
+            type="date"
+            {...register("date")}
+            placeholder="Date"
             className={styles.calendarInput}
           />
-          {errors.startDate && (
-            <p className={styles.error}>{errors.startDate.message}</p>
+          {errors.date && <p className={styles.error}>{errors.date.message}</p>}
+        </div>
+        <div className={styles.formGroup}>
+          <label>Start Time* </label>
+          <input
+            type="time"
+            {...register("startTime")}
+            placeholder="Start Time"
+            className={styles.calendarInput}
+          />
+          {errors.startTime && (
+            <p className={styles.error}>{errors.startTime.message}</p>
           )}
         </div>
         <div className={styles.formGroup}>
-          <label>End Date* </label>
+          <label>End Time* </label>
           <input
-            type="datetime-local"
-            {...register("endDate")}
-            placeholder="End Date"
+            type="time"
+            {...register("endTime")}
+            placeholder="End Time"
             className={styles.calendarInput}
           />
-          {errors.endDate && (
-            <p className={styles.error}>{errors.endDate.message}</p>
+          {errors.endTime && (
+            <p className={styles.error}>{errors.endTime.message}</p>
           )}
         </div>
       </div>

@@ -6,6 +6,9 @@ const {
   createVolActivity,
   getActivitiesByOrgID,
   createActivity,
+  cancelActicityForOrg,
+  cancelActivityForVol,
+  getPendingActivites,
 } = require("../models/activityModel");
 
 const displayAllActivitiesByID = async (req, res) => {
@@ -128,6 +131,40 @@ const createVolunteerActivity = async (req, res) => {
   }
 };
 
+const volunteerCancel = async (req, res) => {
+  const { volunteer_id, activity_id } = req.body;
+
+  if (!volunteer_id || !activity_id) {
+    return res
+      .status(400)
+      .json({ error: "volunteer_id and activity_id are required" });
+  }
+
+  try {
+    await cancelActivityForVol(volunteer_id, activity_id);
+
+    res.status(200).json({ message: "Activity cancelled successfully" });
+  } catch (error) {
+    console.error("Error cancelling activity:", error.message);
+    res.status(500).json({ error: "Failed to cancel activity" });
+  }
+};
+
+const displayPendingApprovals = async (req, res) => {
+  try {
+    const activities = await getPendingActivites();
+
+    if (!activities || activities.length === 0) {
+      return res.status(404).json({ error: "No activities" });
+    }
+
+    res.status(200).json({ activities });
+  } catch (error) {
+    console.error("Error displaying activites:", error.message);
+    res.status(500).json({ error: "Failed to fetch activities data" });
+  }
+};
+
 module.exports = {
   displayAllActivities,
   displayAllActivitiesByID,
@@ -135,4 +172,6 @@ module.exports = {
   displayVolAppliedAvtivities,
   applyActivity,
   createVolunteerActivity,
+  volunteerCancel,
+  displayPendingApprovals,
 };

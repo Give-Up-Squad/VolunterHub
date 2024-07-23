@@ -188,6 +188,68 @@ const createActivity = async (activity) => {
   }
 };
 
+const cancelActivityForVol = async (volunteer_id, activity_id) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const queryText = `
+      call volunteer_cancels_activity($1, $2)
+    `;
+    const params = [volunteer_id, activity_id];
+    await client.query(queryText, params);
+
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error cancelling activity for volunteer:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const cancelActicityForOrg = async (activity_id) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const queryText = `
+      call organisation_cancels_activity($1)
+    `;
+    const params = [activity_id];
+    await client.query(queryText, params);
+
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error cancelling activity for organisation:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const getPendingActivites = async () => {
+  const client = await pool.connect();
+
+  try {
+    const queryText = `
+      SELECT * FROM get_all_activity_details_by_pending_approval()
+    `;
+    const { rows } = await client.query(queryText);
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching pending activities:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
 module.exports = {
   getAllActivitiesByID,
   getAllActivities,
@@ -196,4 +258,7 @@ module.exports = {
   createVolActivity,
   updateAvailableParticipants,
   getActivitiesByOrgID,
+  cancelActicityForOrg,
+  cancelActivityForVol,
+  getPendingActivites,
 };
