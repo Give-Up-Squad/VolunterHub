@@ -11,6 +11,7 @@ import Calendar from "./components/calendar";
 import Footer from "./components/footer";
 import Error404 from "./components/error404";
 import Applications from "./components/applications";
+import AccountReview from "./components/accountReview";
 import {
   BrowserRouter as Router,
   Routes,
@@ -38,7 +39,7 @@ function Content() {
         <Route path="/login" element={<Login />} />
         <Route path="/volRegister" element={<VolunteerRegistration />} />
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
-
+        <Route path='/review' element={<AccountReview />} />
         {/* Protected Routes */}
         {userLoggedIn ? (
           <>
