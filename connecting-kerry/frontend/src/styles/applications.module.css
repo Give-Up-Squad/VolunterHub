@@ -71,3 +71,12 @@
     background-color: #999;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
 }
+
+@media (max-width: 768px){
+    .applicationTable button{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-top:5px
+    }
+}

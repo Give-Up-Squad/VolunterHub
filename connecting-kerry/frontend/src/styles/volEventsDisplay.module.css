@@ -12,10 +12,13 @@
     text-align: center;
     font-size: 30px;
     font-weight: 300;
-    padding-bottom: 15px;
     color: #014421;
 }
-
+.description{
+    text-align: center;
+    font-size:17px;
+    color:black;
+}
 .activityCard {
     background: #f9f9f9;
     margin: 20px 0;

@@ -83,7 +83,7 @@
     }
 
     .column {
-        flex: 100%;
+        margin-right: 70px;
         max-width: 100%;
     }
 
@@ -93,5 +93,8 @@
 
     .social i {
         font-size: 20px;
+    }
+    .links{
+        justify-content: center;
     }
 }

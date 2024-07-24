@@ -81,6 +81,7 @@ function Footer() {
             </li>
           </ul>
         </div>
+        
         <div className={styles.column}>
           <h2>Social Media</h2>
           <ul className={styles.links}>
