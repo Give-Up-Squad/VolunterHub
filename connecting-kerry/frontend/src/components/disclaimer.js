@@ -19,7 +19,6 @@ function Disclaimer() {
         1. You have undergone Garda vetting and that you consent to the use of
         this inforation for the purposes of volunteering through our platform.
       </p>
-
       <p>
         2. You have read and understood the above statement and that you consent
         to its terms

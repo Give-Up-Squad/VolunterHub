@@ -107,8 +107,9 @@ const OrganisationRegistration = () => {
           )}
         </div>
         <input type="hidden" {...register("roles")} value="Organisation" />
-
-        <hr />
+          <label for="confirmTerms">Please confirm that you have read <a href="/privacy">Terms and Conditions</a></label>
+            <input type="checkbox"></input>
+            <br></br>
         <a href="/login" className={styles.link}>
           Already have an account? Login here
         </a>
