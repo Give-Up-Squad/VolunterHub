@@ -31,6 +31,7 @@
     line-height: 1.8;
     margin-bottom: 20px;
     font-family: 'Open Sans', sans-serif;
+    padding: 0px 70px 0px 70px;
 }
 
 /* Images Section */
@@ -70,7 +71,9 @@
         flex-direction: column;
         padding: 10px;
     }
-
+    .aboutUsContainer > p {
+        padding: 0px 35px 0px 35px;
+    }
     .aboutUsContainer {
         padding: 20px;
     }
