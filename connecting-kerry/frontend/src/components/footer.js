@@ -66,21 +66,7 @@ function Footer() {
             )}
           </ul>
         </div>
-        <div className={styles.column}>
-          <h2>Contact Us</h2>
-          <ul className={styles.links}>
-            <li>
-              <a href="#faq" className={styles.footerLink}>
-                Contact
-              </a>
-            </li>
-            <li>
-              <a href="#cookies-policy" className={styles.footerLink}>
-                Garda Vetting
-              </a>
-            </li>
-          </ul>
-        </div>
+        
         <div className={styles.column}>
           <h2>Social Media</h2>
           <ul className={styles.links}>
@@ -128,6 +114,9 @@ function Footer() {
             </a>
           </ul>
         </div>
+      </div>
+      <div className={styles.termsAndConText}>
+        <p>© 2024 Connecting Kerry. All Rights Reserved. <a href="/privacy">Terms and Conditions.</a></p>
       </div>
     </footer>
   );

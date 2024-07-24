@@ -81,7 +81,7 @@
     .LogIn,
     .SignUp,
     .AboutUs {
-        width: 80%;
+        width: 100%;
         font-size: 1.1rem;
         padding: 12px 20px;
     }

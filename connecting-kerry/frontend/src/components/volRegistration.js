@@ -142,7 +142,6 @@ const VolunteerRegistration = () => {
           )}
         </div>
         <input type="hidden" {...register("roles")} value="Volunteers" />
-        <hr />
         <a href="/login" className={styles.link}>
           Already have an account? Login here
         </a>

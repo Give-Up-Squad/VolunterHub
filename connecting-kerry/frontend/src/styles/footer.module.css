@@ -72,6 +72,17 @@
 .footerMenu a:hover {
     text-decoration: underline;
 }
+.termsAndConText{
+    text-align: center;
+}
+.termsAndConText a{
+    color:white;
+    text-decoration: underline;
+}
+.termsAndConText a:hover{
+    transition-duration: 0.4s;
+    box-shadow: 0 2px 3.5px #305ac3;
+}
 
 @media only screen and (max-width: 768px) {
     .footer {
@@ -83,7 +94,7 @@
     }
 
     .column {
-        flex: 100%;
+        margin-right: 70px;
         max-width: 100%;
     }
 
@@ -93,5 +104,8 @@
 
     .social i {
         font-size: 20px;
+    }
+    .links{
+        justify-content: center;
     }
 }

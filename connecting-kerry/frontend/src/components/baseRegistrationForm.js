@@ -39,7 +39,6 @@ const BaseRegistrationForm = ({
         required
       />
       {additionalFields}
-      <hr />
       <a href="/login" className={styles.link}>
         Already have an account? Login here
       </a>

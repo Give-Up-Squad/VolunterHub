@@ -42,7 +42,9 @@ export default function VolEventsDisplay() {
       <div className={styles.volEventsDisplay}>
         <h1>
           <strong>Volunteering Events</strong>
+          <p className={styles.description}>Here you can find all the events that are currently looking for volunteers.</p>
         </h1>
+        
         {activities.map((activity) => (
           <div key={activity.activity_id} className={styles.activityCard}>
             <div className={styles.cardContent}>
