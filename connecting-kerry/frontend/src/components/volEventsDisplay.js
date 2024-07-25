@@ -71,8 +71,7 @@ export default function VolEventsDisplay() {
                 <label>Available Participants:</label>
                 <p>{activity.available_participants}</p>
               </div>
-            </div>
-            <div className={styles.volButtons}>
+              <div className={styles.volButtons}>
               {user.roles !== "Organisation" && (
                 <button
                   type="button"
@@ -89,6 +88,8 @@ export default function VolEventsDisplay() {
                 View
               </button>
             </div>
+            </div>
+            
           </div>
         ))}
         {selectedEvent && (

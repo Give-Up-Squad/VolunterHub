@@ -1,6 +1,6 @@
 .container {
     background: #e6e3c6;
-    padding: 0 20%;
+    padding: 0 10%;
 }
 
 .volEventsDisplay {
@@ -44,14 +44,14 @@
 .cardContent label {
     font-family: "Josefin Sans", sans-serif;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
 .cardContent p {
     font-family: "Josefin Sans", sans-serif;
     margin: 0 0 10px 0;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .cardSection {
@@ -71,10 +71,9 @@
 }
 
 .volButtons {
-    display: flex;
-    flex-direction: column;
     gap: 20px;
     justify-content: space-between;
+    
 }
 
 .volButtons button {
@@ -90,6 +89,7 @@
 }
 
 .applyButton {
+    margin-right: 25px;
     background-color: rgba(56, 127, 151, 0.75);
     color: #fff;
 }
@@ -150,5 +150,25 @@
     pointer-events: none;
     background-color: #ccc;
     color: #666;
-    border-color: #ccc;
+    border-color: hsl(0, 0%, 80%);
+}
+
+@media (max-width: 859px){
+    .cardContent {
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .activityCard{
+        width: 300px;
+    }
+}
+
+@media (min-width: 860px) and (max-width: 1280px){
+    .container{
+        padding:auto;
+    }
+    .activityCard{
+        width:700px;
+    }
 }
