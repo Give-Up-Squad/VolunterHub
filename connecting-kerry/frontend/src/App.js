@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 import "./App.css";
 import Navbar from "./components/navbar";
 import Landing from "./components/landing";
@@ -12,6 +12,7 @@ import Footer from "./components/footer";
 import Error404 from "./components/error404";
 import Applications from "./components/applications";
 import Privacy from "./components/privacy";
+import AccountReview from "./components/accountReview";
 import {
   BrowserRouter as Router,
   Routes,
@@ -45,33 +46,52 @@ function Content() {
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<RoleChoice />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            userLoggedIn ? <Navigate to="/calendar" replace /> : <Login />
+          }
+        />
         <Route path="/volRegister" element={<VolunteerRegistration />} />
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
         <Route path="/loading" element={<LoadingRoute />} />
+        <Route path="/review" element={<AccountReview />} />
         <Route path="/privacy" element={<Privacy />} />
         {/* Protected Routes */}
-        {userLoggedIn ? (
-          <>
-            <Route path="/volunteer" element={<VolEventsDisplay />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/applications" element={<Applications />} />
-            <Route path="/approvals" element={<Approvals />} />
-          </>
-        ) : (
-          <>
-            <Route
-              path="/volunteer"
-              element={<Navigate to="/login" replace />}
-            />
-            <Route
-              path="/calendar"
-              element={<Navigate to="/login" replace />}
-            />
-          </>
-        )}
-
+        <Route
+          path="/volunteer"
+          element={
+            userLoggedIn ? (
+              <VolEventsDisplay />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            userLoggedIn ? <Calendar /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            userLoggedIn ? <UserProfile /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/applications"
+          element={
+            userLoggedIn ? <Applications /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/approvals"
+          element={
+            userLoggedIn ? <Approvals /> : <Navigate to="/login" replace />
+          }
+        />
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="*" element={<Error404 />} />
       </Routes>

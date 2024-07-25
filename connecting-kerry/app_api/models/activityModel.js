@@ -1,11 +1,31 @@
 const { pool } = require("../config/database");
+const { get } = require("../routes/activityRoutes");
 
-const getAllActivitiesByID = async (id) => {
+const getNonAppliedActivityByID = async (id) => {
   const client = await pool.connect();
 
   try {
     const queryText = `
-      SELECT * FROM get_all_activities_data_by_id($1) WHERE activity_deadline > NOW()
+      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW()
+    `;
+    const params = [id];
+    const { rows } = await client.query(queryText, params);
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching user by email:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const getNonCreatedActivityByID = async (id) => {
+  const client = await pool.connect();
+
+  try {
+    const queryText = `
+      SELECT * FROM get_non_created_activities_data_by_id($1) WHERE activity_deadline > NOW()
     `;
     const params = [id];
     const { rows } = await client.query(queryText, params);
@@ -56,13 +76,13 @@ const getActivitiesByOrgID = async (org_id) => {
   }
 };
 
-const getActivitiesByVolID = async (volunteer_id) => {
+const getActivitiesByVolID = async (volunteer_id, activity_status) => {
   const client = await pool.connect();
   try {
     const queryText = `
-      SELECT * FROM  get_activities_by_volunteer_id($1) WHERE activity_start_date > NOW() ORDER BY activity_start_date
+      SELECT * FROM get_activities_for_volunteer($1, $2)
     `;
-    const params = [volunteer_id];
+    const params = [volunteer_id, activity_status];
     const { rows } = await client.query(queryText, params);
 
     return rows;
@@ -74,65 +94,112 @@ const getActivitiesByVolID = async (volunteer_id) => {
   }
 };
 
-const updateAvailableParticipants = async (activity_id) => {
+const applyActivityForVol = async (email, activity_id) => {
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
-    const fetchQueryText = `
+    // Validate if the activity exists and has available participants
+    const checkActivityQuery = `
       SELECT available_participants
       FROM activities
-      WHERE activity_id = $1 FOR UPDATE
+      WHERE activity_id = $1
     `;
-    const fetchResult = await client.query(fetchQueryText, [activity_id]);
-    const availableParticipants = fetchResult.rows[0]?.available_participants;
+    const checkActivityResult = await client.query(checkActivityQuery, [
+      activity_id,
+    ]);
+    const availableParticipants =
+      checkActivityResult.rows[0]?.available_participants;
 
-    if (availableParticipants > 0) {
-      const updateQueryText = `
-        UPDATE activities
-        SET available_participants = available_participants - 1
-        WHERE activity_id = $1
-      `;
-      await client.query(updateQueryText, [activity_id]);
-      await client.query("COMMIT");
-    } else {
+    if (availableParticipants === undefined) {
+      throw new Error(`Activity with ID ${activity_id} does not exist.`);
+    }
+
+    if (availableParticipants <= 0) {
       throw new Error("No available participants left.");
     }
+
+    // Call the procedure to handle the application
+    const applyQueryText = `
+      CALL apply_volunteer_activity($1, $2)
+    `;
+    const params = [email, activity_id];
+    await client.query(applyQueryText, params);
+
+    await client.query("COMMIT");
   } catch (error) {
     await client.query("ROLLBACK");
-    console.error("Error updating available participants:", error.message);
+    console.error("Error applying for activity:", error.message);
     throw error;
   } finally {
     client.release();
   }
 };
 
-const createVolActivity = async (volunteer_id, activity_id) => {
+const cancelActivityForVol = async (volunteer_id, activity_id) => {
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
-    const checkVolunteerQuery = `
-      SELECT volunteer_id FROM volunteers WHERE volunteer_id = $1
+    const validateQuery = `
+      SELECT
+          CASE
+              WHEN activity_start_date - INTERVAL '2 day' <= CURRENT_TIMESTAMP THEN FALSE
+              ELSE TRUE
+          END AS can_cancel
+      FROM activities
+      WHERE activity_id = $1
     `;
-    const checkResult = await client.query(checkVolunteerQuery, [volunteer_id]);
-    if (checkResult.rows.length === 0) {
-      throw new Error(`Volunteer with id ${volunteer_id} does not exist.`);
+    const { rows: checkRows } = await client.query(validateQuery, [
+      activity_id,
+    ]);
+
+    if (checkRows.length === 0) {
+      throw new Error(`Activity with ID ${activity_id} does not exist.`);
     }
 
-    const queryText = `
-      INSERT INTO volunteer_activity (volunteer_id, activity_id, activity_application_date)
-      VALUES ($1, $2, NOW())
+    const canCancel = checkRows[0].can_cancel;
+
+    if (!canCancel) {
+      throw new Error(
+        "Cannot cancel activity within 48 hours of the start time."
+      );
+    }
+
+    const cancelQueryText = `
+      CALL public.volunteer_cancels_activity($1, $2)
     `;
     const params = [volunteer_id, activity_id];
+    await client.query(cancelQueryText, params);
+
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error cancelling activity for volunteer:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const cancelActivityForOrg = async (activity_id) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const queryText = `
+      call organisation_cancels_activity($1)
+    `;
+    const params = [activity_id];
     await client.query(queryText, params);
 
     await client.query("COMMIT");
   } catch (error) {
     await client.query("ROLLBACK");
-    console.error("Error creating volunteer activity:", error.message);
+    console.error("Error cancelling activity for organisation:", error.message);
     throw error;
   } finally {
     client.release();
@@ -188,50 +255,6 @@ const createActivity = async (activity) => {
   }
 };
 
-const cancelActivityForVol = async (volunteer_id, activity_id) => {
-  const client = await pool.connect();
-
-  try {
-    await client.query("BEGIN");
-
-    const queryText = `
-      call volunteer_cancels_activity($1, $2)
-    `;
-    const params = [volunteer_id, activity_id];
-    await client.query(queryText, params);
-
-    await client.query("COMMIT");
-  } catch (error) {
-    await client.query("ROLLBACK");
-    console.error("Error cancelling activity for volunteer:", error.message);
-    throw error;
-  } finally {
-    client.release();
-  }
-};
-
-const cancelActicityForOrg = async (activity_id) => {
-  const client = await pool.connect();
-
-  try {
-    await client.query("BEGIN");
-
-    const queryText = `
-      call organisation_cancels_activity($1)
-    `;
-    const params = [activity_id];
-    await client.query(queryText, params);
-
-    await client.query("COMMIT");
-  } catch (error) {
-    await client.query("ROLLBACK");
-    console.error("Error cancelling activity for organisation:", error.message);
-    throw error;
-  } finally {
-    client.release();
-  }
-};
-
 const getPendingActivites = async () => {
   const client = await pool.connect();
 
@@ -250,15 +273,78 @@ const getPendingActivites = async () => {
   }
 };
 
+const updateActivityApprovalStatus = async (activity_id, approval_status) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const queryText = `
+      call update_approval_status($1, $2)
+    `;
+    const params = [activity_id, approval_status];
+    await client.query(queryText, params);
+
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error updating activity approval status:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const getActivityByID = async (activity_id) => {
+  const client = await pool.connect();
+
+  try {
+    const queryText = `
+      SELECT * FROM activities WHERE activity_id = $1
+    `;
+    const params = [activity_id];
+    const { rows } = await client.query(queryText, params);
+
+    return rows[0]?.activity_name;
+  } catch (error) {
+    console.error("Error fetching activity name by ID:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const getOrganisationEmailByID = async (org_id) => {
+  const client = await pool.connect();
+
+  try {
+    const queryText = `
+      SELECT u.email FROM users u JOIN organisations o ON u.user_id = o.user_id WHERE o.org_id = $1
+    `;
+    const params = [org_id];
+    const { rows } = await client.query(queryText, params);
+
+    return rows[0]?.org_email;
+  } catch (error) {
+    console.error("Error fetching organisation email by ID:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
 module.exports = {
-  getAllActivitiesByID,
+  getNonAppliedActivityByID,
+  getNonCreatedActivityByID,
   getAllActivities,
   getActivitiesByVolID,
   createActivity,
-  createVolActivity,
-  updateAvailableParticipants,
+  applyActivityForVol,
   getActivitiesByOrgID,
-  cancelActicityForOrg,
+  cancelActivityForOrg,
   cancelActivityForVol,
   getPendingActivites,
+  updateActivityApprovalStatus,
+  getOrganisationEmailByID,
+  getActivityByID,
 };

@@ -14,11 +14,13 @@
     font-weight: 300;
     color: #014421;
 }
-.description{
+
+.description {
     text-align: center;
-    font-size:17px;
-    color:black;
+    font-size: 17px;
+    color: black;
 }
+
 .activityCard {
     background: #f9f9f9;
     margin: 20px 0;
@@ -38,7 +40,8 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-content: center;;
+    align-content: center;
+    ;
 }
 
 .cardContent label {
@@ -73,7 +76,7 @@
 .volButtons {
     gap: 20px;
     justify-content: space-between;
-    
+
 }
 
 .volButtons button {
@@ -153,22 +156,24 @@
     border-color: hsl(0, 0%, 80%);
 }
 
-@media (max-width: 859px){
+@media (max-width: 859px) {
     .cardContent {
         display: flex;
         flex-direction: column;
-        
+        justify-content: center;
     }
-    .activityCard{
+
+    .activityCard {
         width: 300px;
     }
 }
 
-@media (min-width: 860px) and (max-width: 1280px){
-    .container{
-        padding:auto;
+@media (min-width: 860px) and (max-width: 1280px) {
+    .container {
+        padding: auto;
     }
-    .activityCard{
-        width:700px;
+
+    .activityCard {
+        width: 700px;
     }
 }
