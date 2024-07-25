@@ -16,11 +16,10 @@
   width: 100%;
   max-width: 500px;
   max-height: 90%;
-  /* Ensure modal doesn't exceed 90% of viewport height */
   overflow: hidden;
-  /* Hide overflow to control scrolling inside */
-  /* Ensure background is not transparent */
   position: relative;
+  max-height: 100%;
+        overflow-y: auto;
 }
 
 .modalContent {
