@@ -12,6 +12,7 @@ import Footer from "./components/footer";
 import Error404 from "./components/error404";
 import Applications from "./components/applications";
 import Privacy from "./components/privacy";
+import AccountReview from "./components/accountReview";
 import {
   BrowserRouter as Router,
   Routes,
@@ -54,6 +55,7 @@ function Content() {
         <Route path="/volRegister" element={<VolunteerRegistration />} />
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
         <Route path="/loading" element={<LoadingRoute />} />
+        <Route path="/review" element={<AccountReview />} />
         <Route path="/privacy" element={<Privacy />} />
         {/* Protected Routes */}
         <Route

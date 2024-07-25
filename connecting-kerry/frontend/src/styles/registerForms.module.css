@@ -113,10 +113,29 @@
 .registerForm .action button:nth-child(2):hover {
     background: #3c4d6d;
 }
+.loginLink{
+    text-decoration: none;
+    color: #000;
+}
 
+.loginLink:hover {
+    text-decoration: underline;
+    color: #305ac3;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+.termsandConSection{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 .error {
     color: red;
     font-size: 0.875em;
     margin-top: 0.5em;
     font-family: "Josefin Sans", sans-serif;
+}
+
+@media (max-width:768px){
+    .registerForm{
+        width:425px;
+    }
 }
