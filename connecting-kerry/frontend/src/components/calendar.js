@@ -138,8 +138,8 @@ export default function Calendar() {
         max_participants: activity.max_participants,
         min_participants: activity.min_participants,
         available_participants: activity.available_participants,
-        location: activity.location,
-        image: activity.image,
+        location: activity.activity_location,
+        image: activity.activity_image,
         activity_approval_status: activity.activity_approval_status,
         backgroundColor: "#0000FF", // Blue color for not applied/created
         type: "blue",
@@ -156,8 +156,8 @@ export default function Calendar() {
         max_participants: activity.max_participants,
         min_participants: activity.min_participants,
         available_participants: activity.available_participants,
-        location: activity.location,
-        image: activity.image,
+        location: activity.activity_location,
+        image: activity.activity_image,
         activity_approval_status: activity.activity_approval_status,
         backgroundColor: "#32CD32", // Green color for applied/created
         type: "green",
@@ -260,6 +260,8 @@ export default function Calendar() {
       activity_description: extendedProps.description,
       activity_deadline: extendedProps.deadline,
       activity_status: extendedProps.status,
+      activity_location: extendedProps.location,
+      activity_image: extendedProps.image,
       ...extendedProps,
     });
     setIsModalOpen(true);
