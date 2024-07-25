@@ -20,17 +20,25 @@
 .legend {
   display: flex;
   margin-bottom: 1rem;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .legendItem {
   display: flex;
   align-items: center;
   margin-right: 2rem;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.legendSpan {
+  margin-left: 0.5rem;
+  font-family: "Josefin Sans", sans-serif;
+
 }
 
 .colorBox {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   margin-right: 8px;
-  border-radius: 4px;
+  border-radius: 100%;
 }

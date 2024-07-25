@@ -83,7 +83,7 @@ const getActivitiesByOrgID = async (org_id) => {
       FROM
         activities AS a
       WHERE
-        a.org_id = $1
+        a.org_id = $1 
       ORDER BY
         -- Sort first by whether the activity is upcoming or past
         CASE
@@ -220,17 +220,43 @@ const cancelActivityForVol = async (volunteer_id, activity_id) => {
   }
 };
 
-const cancelActivityForOrg = async (activity_id) => {
+const cancelActivityForOrg = async (org_id, activity_id) => {
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
-    const queryText = `
-      call organisation_cancels_activity($1)
+    const validateQuery = `
+      SELECT activity_approval_status, activity_status
+      FROM activities
+      WHERE activity_id = $1 AND org_id = $2
     `;
-    const params = [activity_id];
-    await client.query(queryText, params);
+    const { rows: checkRows } = await client.query(validateQuery, [
+      activity_id,
+      org_id,
+    ]);
+
+    if (checkRows.length === 0) {
+      throw new Error(`Activity with ID ${activity_id} does not exist.`);
+    }
+
+    const { activity_approval_status, activity_status } = checkRows[0];
+
+    if (activity_approval_status === "Pending") {
+      // If the activity is pending, mark it as cancelled
+      const cancelQueryText = `
+        UPDATE activities
+        SET activity_status = 'Cancelled'
+        WHERE activity_id = $1 AND org_id = $2
+      `;
+      await client.query(cancelQueryText, [activity_id, org_id]);
+    } else {
+      // If the activity is not pending, perform the cancellation logic
+      const cancelQueryText = `
+        CALL cancel_activity($1, $2)
+      `;
+      await client.query(cancelQueryText, [org_id, activity_id]);
+    }
 
     await client.query("COMMIT");
   } catch (error) {

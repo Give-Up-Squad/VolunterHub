@@ -48,7 +48,7 @@ const useActivities = () => {
     fetchActivities();
   };
 
-  const cancelActivity = async (volunteer_id, activity_id) => {
+  const cancelActivityVol = async (volunteer_id, activity_id) => {
     try {
       const backendData = {
         volunteer_id,
@@ -83,7 +83,7 @@ const useActivities = () => {
     }
   };
 
-  return { activities, loading, error, refetchActivities, cancelActivity };
+  return { activities, loading, error, refetchActivities, cancelActivityVol };
 };
 
 export default useActivities;

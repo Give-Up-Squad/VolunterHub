@@ -29,6 +29,7 @@
     max-width: 600px;
     margin-right:100px;
     margin-left: 100px;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .profileField {
@@ -54,6 +55,7 @@
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .profileInput[readonly] {
