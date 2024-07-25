@@ -18,6 +18,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
     max_participants,
     min_participants,
     available_participants,
+    activity_location,
     org_id,
     activity_approval_status,
     type,
@@ -94,7 +95,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
       <p>Start Date: {formatDateTime(activity_start_date)}</p>
       <p>End Date: {formatDateTime(activity_end_date)}</p>
       <p>Deadline: {formatDateTime(activity_deadline)}</p>
-      <p>Status: {activity_status}</p>
+      <p>Location: {activity_location}</p>
       <hr />
       <h2>Participant Details</h2>
       <p>Maximum Participants: {max_participants}</p>
