@@ -70,7 +70,9 @@ const useActivities = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to cancel activity");
+        throw new Error(
+          errorData.error || "Failed to cancel vol applied activity"
+        );
       }
 
       const responseData = await response.json();
@@ -83,7 +85,51 @@ const useActivities = () => {
     }
   };
 
-  return { activities, loading, error, refetchActivities, cancelActivityVol };
+  const cancelActivityOrg = async (org_id, activity_id) => {
+    try {
+      const backendData = {
+        org_id,
+        activity_id,
+      };
+      console.log("Cancelling activity:", backendData);
+
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/activities/organisation/cancel`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify(backendData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.error || "Failed to cancel org created activity"
+        );
+      }
+
+      const responseData = await response.json();
+      console.log("Backend response:", responseData);
+      refetchActivities();
+    } catch (error) {
+      console.error("Error cancelling activity:", error.message);
+      // Rethrow the error to let the calling function handle it
+      throw error;
+    }
+  };
+
+  return {
+    activities,
+    loading,
+    error,
+    refetchActivities,
+    cancelActivityVol,
+    cancelActivityOrg,
+  };
 };
 
 export default useActivities;

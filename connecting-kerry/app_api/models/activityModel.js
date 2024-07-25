@@ -226,8 +226,13 @@ const cancelActivityForOrg = async (org_id, activity_id) => {
   try {
     await client.query("BEGIN");
 
+    // Check if the activity exists and if it can be cancelled
     const validateQuery = `
-      SELECT activity_approval_status, activity_status
+      SELECT activity_approval_status, activity_status, activity_start_date,
+             CASE
+               WHEN activity_start_date - INTERVAL '2 days' <= CURRENT_TIMESTAMP THEN FALSE
+               ELSE TRUE
+             END AS can_cancel
       FROM activities
       WHERE activity_id = $1 AND org_id = $2
     `;
@@ -240,7 +245,14 @@ const cancelActivityForOrg = async (org_id, activity_id) => {
       throw new Error(`Activity with ID ${activity_id} does not exist.`);
     }
 
-    const { activity_approval_status, activity_status } = checkRows[0];
+    const { activity_approval_status, activity_status, can_cancel } =
+      checkRows[0];
+
+    if (!can_cancel) {
+      throw new Error(
+        "Cannot cancel activity within 48 hours of the start time."
+      );
+    }
 
     if (activity_approval_status === "Pending") {
       // If the activity is pending, mark it as cancelled

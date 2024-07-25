@@ -16,7 +16,7 @@ export default function Applications() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState("Upcoming");
-  const { cancelActivityVol } = useActivities();
+  const { cancelActivityVol, cancelActivityOrg } = useActivities();
   const navigate = useNavigate();
 
   const fetchActivities = async (status) => {
@@ -58,7 +58,7 @@ export default function Applications() {
           ) {
             return 1;
           }
-          return 0; // Maintain order for activities with the same status
+          return 0;
         });
 
         setActivities(sortedActivities);
@@ -109,6 +109,37 @@ export default function Applications() {
 
         if (backendError.includes("48 hours")) {
           alert("Cannot cancel activity within 48 hours of the start time.");
+        } else {
+          alert("Failed to cancel activity.");
+        }
+      } else {
+        // If the error is not from the backend response
+        console.log("Caught error:", error.message);
+        alert("Failed to cancel activity.");
+      }
+    }
+  };
+
+  const handleCancelClickOrg = async (org_id, activity_id) => {
+    console.log(`Cancel activity with ID: ${activity_id}`);
+
+    try {
+      await cancelActivityOrg(org_id, activity_id);
+      navigate("/loading", {
+        state: { loadingText: "Cancelling activity..." },
+      });
+
+      setTimeout(() => {
+        navigate("/applications", { replace: true });
+      }, 1000);
+    } catch (error) {
+      console.error("Error cancelling activity:", error.message);
+      if (error.response && error.response.data && error.response.data.error) {
+        const backendError = error.response.data.error;
+        console.log("Caught backend error:", backendError);
+
+        if (backendError.includes("48 hours")) {
+          alert("Cannot cancel activity within 48 hours");
         } else {
           alert("Failed to cancel activity.");
         }
@@ -213,16 +244,16 @@ export default function Applications() {
                       Cancel
                     </button>
                   )}
-                  {user.roles === "Organisation" &&
-                    activity.activity_status !== "Cancelled" && (
+                  {user.roles !== "Volunteer" &&
+                    activity.activity_status === "Upcoming" && (
                       <button
                         className={styles.cancelButton}
-                        // onClick={() =>
-                        //   handleCancelClickVol(
-                        //     user.volunteer_id,
-                        //     activity.activity_id
-                        //   )
-                        // }
+                        onClick={() =>
+                          handleCancelClickOrg(
+                            activity.org_id,
+                            activity.activity_id
+                          )
+                        }
                       >
                         Cancel
                       </button>

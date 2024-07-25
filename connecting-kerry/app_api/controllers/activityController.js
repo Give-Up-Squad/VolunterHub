@@ -131,6 +131,35 @@ const volunteerCancel = async (req, res) => {
   }
 };
 
+const orgCancel = async (req, res) => {
+  const { activity_id, org_id } = req.body;
+
+  // Validate input
+  if (!activity_id) {
+    return res.status(400).json({ error: "activity_id is required" });
+  }
+  if (!org_id) {
+    return res.status(400).json({ error: "org_id is required" });
+  }
+
+  try {
+    await cancelActivityForOrg(org_id, activity_id);
+    res.status(200).json({ message: "Activity cancelled successfully" });
+  } catch (error) {
+    console.error("Error cancelling activity:", error.message);
+
+    // Distinguish between different error types if needed
+    if (error.message.includes("Cannot cancel activity within 48 hours")) {
+      return res.status(400).json({ error: error.message }); // Bad Request for specific validation error
+    }
+    if (error.message.includes("does not exist")) {
+      return res.status(404).json({ error: error.message }); // Not Found for specific not found error
+    }
+    // Generic server error for unexpected issues
+    res.status(500).json({ error: "Failed to cancel activity" });
+  }
+};
+
 const displayOrgCreatedActivities = async (req, res) => {
   const id = req.params.id;
   try {
@@ -271,6 +300,7 @@ module.exports = {
   applyActivity,
   createVolunteeringActivity,
   volunteerCancel,
+  orgCancel,
   displayPendingApprovals,
   approveActivity,
   rejectActivity,
