@@ -1,24 +1,33 @@
 const express = require("express");
 const {
   displayAllActivities,
-  displayAllActivitiesByID,
-  displayVolAppliedAvtivities,
+  displayNonAppliedActivitiesByID,
+  displayNonCreatedActivitiesByID,
+  displayVolAppliedActivities,
   displayOrgCreatedActivities,
   applyActivity,
-  createVolunteerActivity,
+  createVolunteeringActivity,
   volunteerCancel,
   displayPendingApprovals,
+  approveActivity,
+  rejectActivity,
 } = require("../controllers/activityController");
 
 const router = express.Router();
 
 router.get("/display", displayAllActivities);
-router.get("/display/:id", displayAllActivitiesByID);
-router.get("/volunteer/:id", displayVolAppliedAvtivities);
-router.get("/organisation/:id", displayOrgCreatedActivities);
+
+router.get("/volunteer/:id", displayVolAppliedActivities);
 router.post("/apply", applyActivity);
-router.post("/create", createVolunteerActivity);
-router.post("/cancel", volunteerCancel);
+router.post("/volunteer/cancel", volunteerCancel);
+router.get("/volunteer/display/:id", displayNonAppliedActivitiesByID);
+
+router.get("/organisation/:id", displayOrgCreatedActivities);
+router.post("/create", createVolunteeringActivity);
+router.get("/organisation/display/:id", displayNonCreatedActivitiesByID);
+
 router.get("/pending", displayPendingApprovals);
+router.get("/approve/:activity_id", approveActivity);
+router.get("/reject/:activity_id", rejectActivity);
 
 module.exports = router;

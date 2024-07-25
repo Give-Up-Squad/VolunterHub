@@ -63,7 +63,7 @@ const OrganisationRegistration = () => {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
 
-      navigate("/volunteer");
+      navigate("/calendar");
     } catch (error) {
       console.error("Error registering organisation:", error.message);
     }
@@ -107,9 +107,12 @@ const OrganisationRegistration = () => {
           )}
         </div>
         <input type="hidden" {...register("roles")} value="Organisation" />
-          <label for="confirmTerms">Please confirm that you have read <a href="/privacy">Terms and Conditions</a></label>
-            <input type="checkbox"></input>
-            <br></br>
+        <label for="confirmTerms">
+          Please confirm that you have read{" "}
+          <a href="/privacy">Terms and Conditions</a>
+        </label>
+        <input type="checkbox"></input>
+        <br></br>
         <a href="/login" className={styles.link}>
           Already have an account? Login here
         </a>

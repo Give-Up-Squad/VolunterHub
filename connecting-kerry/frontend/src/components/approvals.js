@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/userContext";
 import styles from "../styles/approvals.module.css";
-import useDateFormat from "../hooks/useDates";
 import Modal from "./modal";
 import EventCard from "./eventCard";
-import { useNavigate } from "react-router-dom";
 
 export default function Approvals() {
   const { user, loading: userLoading, error: userError } = useUser();
@@ -29,12 +27,16 @@ export default function Approvals() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch pending activities");
+        if (response.status === 404) {
+          setApprovals([]);
+        } else {
+          throw new Error("Failed to fetch pending activities");
+        }
+      } else {
+        const data = await response.json();
+        console.log("Pending activities data:", data.activities);
+        setApprovals(data.activities);
       }
-
-      const data = await response.json();
-      console.log("Pending activities data:", data.activities);
-      setApprovals(data.activities);
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -53,51 +55,51 @@ export default function Approvals() {
   const handleApproveClick = async (activity_id) => {
     console.log(`Approve activity with ID: ${activity_id}`);
 
-    // try {
-    //   const response = await fetch(
-    //     `${process.env.REACT_APP_API_URL}/api/activities/approve/${activity_id}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
-    //       },
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/activities/approve/${activity_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+          },
+        }
+      );
 
-    //   if (!response.ok) {
-    //     throw new Error("Failed to approve activity");
-    //   }
+      if (!response.ok) {
+        throw new Error("Failed to approve activity");
+      }
 
-    //   fetchPendingActivities();
-    // } catch (error) {
-    //   console.error("Error approving activity:", error.message);
-    // }
+      fetchPendingActivities();
+    } catch (error) {
+      console.error("Error approving activity:", error.message);
+    }
   };
 
   const handleRejectClick = async (activity_id) => {
     console.log(`Reject activity with ID: ${activity_id}`);
 
-    // try {
-    //   const response = await fetch(
-    //     `${process.env.REACT_APP_API_URL}/api/activities/reject/${activity_id}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
-    //       },
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/activities/reject/${activity_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+          },
+        }
+      );
 
-    //   if (!response.ok) {
-    //     throw new Error("Failed to reject activity");
-    //   }
+      if (!response.ok) {
+        throw new Error("Failed to reject activity");
+      }
 
-    //   fetchPendingActivities();
-    // } catch (error) {
-    //   console.error("Error rejecting activity:", error.message);
-    // }
+      fetchPendingActivities();
+    } catch (error) {
+      console.error("Error rejecting activity:", error.message);
+    }
   };
 
   const handleViewClick = (activity) => {
@@ -115,7 +117,7 @@ export default function Approvals() {
     return <div>Loading...</div>;
   }
 
-  if (userError || (error && approvals.length === 0)) {
+  if (userError || error) {
     return <div>Error: {userError || error}</div>;
   }
 
@@ -123,7 +125,7 @@ export default function Approvals() {
     <div className={styles.approvalsContainer}>
       <h1 className={styles.title}>Pending Approvals</h1>
       {approvals.length === 0 ? (
-        <p>No pending activities.</p>
+        <p>There's no pending activities.</p>
       ) : (
         <table className={styles.approvalsTable}>
           <thead>
