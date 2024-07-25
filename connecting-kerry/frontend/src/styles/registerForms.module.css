@@ -1,5 +1,5 @@
 .registerForm {
-    background: #e6e3c6;
+    background: #fff;
     width: 500px;
     margin: 65px auto;
     display: flex;
@@ -12,17 +12,16 @@
     padding: 35px 35px 0 35px;
     text-align: center;
     font-weight: 300;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .registerForm .content {
     padding: 35px;
     text-align: center;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     row-gap: 5%;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .registerForm .inputField {
@@ -33,13 +32,13 @@
 .registerForm .inputField select {
     font-size: 16px;
     display: block;
-    font-family: "Josefin Sans", sans-serif;
     width: 100%;
     padding: 10px 1px;
     border: 0;
     border-bottom: 1px solid #747474;
     outline: none;
     transition: all .2s;
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .registerForm .inputField:hover {
@@ -78,49 +77,65 @@
 
 .registerForm .action {
     display: flex;
-    justify-content: center;
     flex-direction: row;
+    justify-content: center;
+    gap: 5%;
 }
 
 .registerForm .action button {
-    width: auto;
-    padding: 12px 30px;
+    padding: 15px 30px;
+    margin-bottom: 20px;
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 20px;
-    font-family: "Josefin Sans", sans-serif;
-    cursor: pointer;
-    text-transform: uppercase;
     background-color: rgba(56, 127, 151, 0.75);
     color: #fff;
     border: none;
     border-radius: 50px;
+    cursor: pointer;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    outline: 0;
     transition: all 0.3s ease;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    outline: 0;
     letter-spacing: 0.2px;
 }
 
 .registerForm .action button:hover {
     background-color: #305ac3;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
-    font-size: 1.2rem;
 }
 
 .registerForm .action button:nth-child(2) {
-    background: #777777;
+    background-color: rgba(16, 38, 46, 0.75);
     color: #fff;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 4px;
 }
 
 .registerForm .action button:nth-child(2):hover {
     background: #3c4d6d;
 }
+.loginLink{
+    text-decoration: none;
+    color: #000;
+}
 
+.loginLink:hover {
+    text-decoration: underline;
+    color: #305ac3;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+.termsandConSection{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 .error {
     color: red;
     font-size: 0.875em;
     margin-top: 0.5em;
     font-family: "Josefin Sans", sans-serif;
+}
+
+@media (max-width:768px){
+    .registerForm{
+        width:425px;
+    }
 }

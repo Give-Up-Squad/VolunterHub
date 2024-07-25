@@ -102,6 +102,7 @@ export default function Applications() {
       <h1 className={styles.title}>
         {user.roles === "Volunteer" ? "Applications" : "Events"}
       </h1>
+      <p>List of all the events you have applied for. </p>
       {activities.length === 0 ? (
         <p>
           {user.roles !== "Volunteer"

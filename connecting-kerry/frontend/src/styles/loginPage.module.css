@@ -101,7 +101,11 @@
 .loginForm .action button:nth-child(2):hover {
     background: #3c4d6d;
 }
-
+@media (max-width:768px){
+    .loginForm{
+        width:425px;
+    }
+}
 .error {
     color: red;
     font-size: 0.875em;

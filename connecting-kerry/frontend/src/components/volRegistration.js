@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { VolRegisterSchema } from "../validations/volRegValidation";
 import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
+
 const VolunteerRegistration = () => {
   const navigate = useNavigate();
 
@@ -142,8 +143,20 @@ const VolunteerRegistration = () => {
           )}
         </div>
         <input type="hidden" {...register("roles")} value="Volunteers" />
-        <hr />
-        <a href="/login" className={styles.link}>
+        <div className={styles.termsandConSection}>
+          <label htmlFor="confirmTerms">
+            Please confirm that you have read <a href="/privacy">Terms and Conditions</a>
+          </label>
+          <input
+            type="checkbox"
+            id="confirmTerms"
+            {...register("confirmTerms", { required: "You must accept the terms and conditions" })}
+          />
+          {errors.confirmTerms && (
+            <p className={styles.error}>{errors.confirmTerms.message}</p>
+          )}
+        </div>
+        <a href="/login" className={styles.loginLink}>
           Already have an account? Login here
         </a>
       </div>

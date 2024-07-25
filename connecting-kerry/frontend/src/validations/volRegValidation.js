@@ -34,6 +34,8 @@ export const VolRegisterSchema = yup.object().shape({
     }),
   forename: yup.string().required("Forename is required"),
   surname: yup.string().required("Surname is required"),
+  confirmTerms: yup.bool() 
+  .oneOf([true], "You must accept the terms and conditions")
   // file: yup
   //   .mixed()
   //   .required("File is required")
