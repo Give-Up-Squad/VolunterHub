@@ -67,7 +67,7 @@ export default function Applications() {
     setIsModalOpen(true);
   };
 
-  const handleCancelClick = async (volunteer_id, activity_id) => {
+  const handleCancelClickVol = async (volunteer_id, activity_id) => {
     console.log(
       `Cancel activity with ID: ${activity_id} for volunteer ID: ${volunteer_id}`
     );
@@ -76,12 +76,27 @@ export default function Applications() {
       await cancelActivity(volunteer_id, activity_id);
     } catch (error) {
       console.error("Error cancelling activity:", error.message);
-    }
-    navigate("/loading", { state: { loadingText: "Cancelling activity..." } });
 
-    setTimeout(() => {
-      navigate("/applications", { replace: true });
-    }, 1000);
+      // Log the error message to ensure it's being caught
+      console.log("Caught error:", error.message);
+
+      // Conditional alerts based on the error message
+      if (error.message.includes("Cannot cancel activity within 48 hours")) {
+        alert("Cannot cancel activity within 48 hours of the start time.");
+      } else {
+        alert("Failed to cancel activity.");
+      }
+    } finally {
+      // Navigate to loading page
+      navigate("/loading", {
+        state: { loadingText: "Cancelling activity..." },
+      });
+
+      // Delay navigation to applications page
+      setTimeout(() => {
+        navigate("/applications", { replace: true });
+      }, 1000);
+    }
   };
 
   const closeModal = () => {
@@ -139,7 +154,10 @@ export default function Applications() {
                   <button
                     className={styles.cancelButton}
                     onClick={() =>
-                      handleCancelClick(user.volunteer_id, activity.activity_id)
+                      handleCancelClickVol(
+                        user.volunteer_id,
+                        activity.activity_id
+                      )
                     }
                   >
                     Cancel

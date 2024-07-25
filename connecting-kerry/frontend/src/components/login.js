@@ -28,7 +28,13 @@ function Login() {
         data.password
       );
       console.log("User logged in successfully:", userCredential.user);
-      navigate("/calendar");
+      navigate("/loading", {
+        state: { loadingText: "Loading user data..." },
+      });
+
+      setTimeout(() => {
+        navigate("/calendar", { replace: true });
+      }, 1000);
     } catch (error) {
       console.error("Error logging in user", error.message);
       setError("Failed to login. Please check your email and password.");
