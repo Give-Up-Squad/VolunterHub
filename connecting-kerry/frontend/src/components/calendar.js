@@ -275,6 +275,22 @@ export default function Calendar() {
           onCancel={() => setIsFormOpen(false)}
         />
       </Modal>
+      <div className={Styles.legend}>
+        <div className={Styles.legendItem}>
+          <div
+            className={Styles.colorBox}
+            style={{ backgroundColor: "#32CD32" }}
+          ></div>
+          <span>Your Activities</span>
+        </div>
+        <div className={Styles.legendItem}>
+          <div
+            className={Styles.colorBox}
+            style={{ backgroundColor: "#0000FF" }}
+          ></div>
+          <span>Other Activities</span>
+        </div>
+      </div>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"

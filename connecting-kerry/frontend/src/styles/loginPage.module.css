@@ -1,11 +1,16 @@
+.container {
+    height: 50vh;
+}
+
 .loginForm {
     background: #fff;
     width: 500px;
-    margin: 65px auto;
+    margin: 6% auto;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    font-family: 'Josefin Sans', sans-serif;
 }
 
 .loginForm h1 {

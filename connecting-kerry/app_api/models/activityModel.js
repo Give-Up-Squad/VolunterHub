@@ -61,8 +61,45 @@ const getActivitiesByOrgID = async (org_id) => {
   const client = await pool.connect();
 
   try {
+    // const queryText = `
+    //   SELECT * FROM get_activities_by_org_id($1) WHERE activity_status = 'Upcoming' ORDER BY activity_start_date
+    // `;
     const queryText = `
-      SELECT * FROM get_activities_by_org_id($1) WHERE activity_status = 'Upcoming' ORDER BY activity_start_date
+      SELECT
+        a.activity_id,
+        a.activity_name,
+        a.activity_description,
+        a.activity_start_date,
+        a.activity_end_date,
+        a.activity_deadline,
+        a.max_participants,
+        a.min_participants,
+        a.available_participants,
+        a.org_id,
+        a.activity_status,
+        a.activity_location,
+        a.activity_image,
+        a.activity_approval_status
+      FROM
+        activities AS a
+      WHERE
+        a.org_id = $1
+      ORDER BY
+        -- Sort first by whether the activity is upcoming or past
+        CASE
+          WHEN a.activity_start_date >= CURRENT_DATE THEN 1
+          ELSE 2
+        END,
+        -- For upcoming activities, sort by start date in ascending order
+        CASE
+          WHEN a.activity_start_date >= CURRENT_DATE THEN a.activity_start_date
+          ELSE NULL
+        END ASC,
+        -- For past activities, sort by end date in ascending order
+        CASE
+          WHEN a.activity_start_date < CURRENT_DATE THEN a.activity_end_date
+          ELSE NULL
+        END ASC;
     `;
     const params = [org_id];
     const { rows } = await client.query(queryText, params);
@@ -146,7 +183,7 @@ const cancelActivityForVol = async (volunteer_id, activity_id) => {
     const validateQuery = `
       SELECT
           CASE
-              WHEN activity_start_date - INTERVAL '2 day' <= CURRENT_TIMESTAMP THEN FALSE
+              WHEN activity_start_date - INTERVAL '2 days' <= CURRENT_TIMESTAMP THEN FALSE
               ELSE TRUE
           END AS can_cancel
       FROM activities
@@ -171,8 +208,7 @@ const cancelActivityForVol = async (volunteer_id, activity_id) => {
     const cancelQueryText = `
       CALL public.volunteer_cancels_activity($1, $2)
     `;
-    const params = [volunteer_id, activity_id];
-    await client.query(cancelQueryText, params);
+    await client.query(cancelQueryText, [volunteer_id, activity_id]);
 
     await client.query("COMMIT");
   } catch (error) {

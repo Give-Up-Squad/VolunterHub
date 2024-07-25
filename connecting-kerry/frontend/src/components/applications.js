@@ -66,7 +66,6 @@ export default function Applications() {
     setSelectedEvent(activity);
     setIsModalOpen(true);
   };
-
   const handleCancelClickVol = async (volunteer_id, activity_id) => {
     console.log(
       `Cancel activity with ID: ${activity_id} for volunteer ID: ${volunteer_id}`
@@ -74,20 +73,6 @@ export default function Applications() {
 
     try {
       await cancelActivity(volunteer_id, activity_id);
-    } catch (error) {
-      console.error("Error cancelling activity:", error.message);
-
-      // Log the error message to ensure it's being caught
-      console.log("Caught error:", error.message);
-
-      // Conditional alerts based on the error message
-      if (error.message.includes("Cannot cancel activity within 48 hours")) {
-        alert("Cannot cancel activity within 48 hours of the start time.");
-      } else {
-        alert("Failed to cancel activity.");
-      }
-    } finally {
-      // Navigate to loading page
       navigate("/loading", {
         state: { loadingText: "Cancelling activity..." },
       });
@@ -96,6 +81,24 @@ export default function Applications() {
       setTimeout(() => {
         navigate("/applications", { replace: true });
       }, 1000);
+    } catch (error) {
+      console.error("Error cancelling activity:", error.message);
+
+      // Check if the error is a response from the backend
+      if (error.response && error.response.data && error.response.data.error) {
+        const backendError = error.response.data.error;
+        console.log("Caught backend error:", backendError);
+
+        if (backendError.includes("48 hours")) {
+          alert("Cannot cancel activity within 48 hours of the start time.");
+        } else {
+          alert("Failed to cancel activity.");
+        }
+      } else {
+        // If the error is not from the backend response
+        console.log("Caught error:", error.message);
+        alert("Failed to cancel activity.");
+      }
     }
   };
 

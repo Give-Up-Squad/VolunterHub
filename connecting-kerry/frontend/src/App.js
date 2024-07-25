@@ -37,7 +37,7 @@ function LoadingRoute() {
 function Content() {
   const { userLoggedIn } = useAuth();
   const location = useLocation();
-  const showNavbarAndFooter = location.pathname !== "/register";
+  const showNavbarAndFooter = location.pathname !== "/registerr";
 
   return (
     <div className="App">
