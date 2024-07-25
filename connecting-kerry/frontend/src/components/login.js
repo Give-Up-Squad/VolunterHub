@@ -54,39 +54,41 @@ function Login() {
   }
 
   return (
-    <div className={styles.loginForm}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Connecting Kerry</h1>
-        <div className={styles.content}>
-          <div className={styles.inputField}>
-            <input
-              type="email"
-              {...register("email")}
-              placeholder="Email"
-              autoComplete="off"
-            />
-            {errors.email && (
-              <div className={styles.error}>{errors.email.message}</div>
-            )}
+    <div className={styles.container}>
+      <div className={styles.loginForm}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>Connecting Kerry</h1>
+          <div className={styles.content}>
+            <div className={styles.inputField}>
+              <input
+                type="email"
+                {...register("email")}
+                placeholder="Email"
+                autoComplete="off"
+              />
+              {errors.email && (
+                <div className={styles.error}>{errors.email.message}</div>
+              )}
+            </div>
+            <div className={styles.inputField}>
+              <input
+                type="password"
+                placeholder="Password"
+                autoComplete="new-password"
+                {...register("password")}
+              />
+              {error && <div className={styles.error}>{error}</div>}{" "}
+            </div>
+            <a href="#" className={styles.link}>
+              Forgot Your Password?
+            </a>
           </div>
-          <div className={styles.inputField}>
-            <input
-              type="password"
-              placeholder="Password"
-              autoComplete="new-password"
-              {...register("password")}
-            />
-            {error && <div className={styles.error}>{error}</div>}{" "}
+          <div className={styles.action}>
+            <button type="submit">Sign in</button>
+            <button onClick={registerClick}>Register</button>
           </div>
-          <a href="#" className={styles.link}>
-            Forgot Your Password?
-          </a>
-        </div>
-        <div className={styles.action}>
-          <button type="submit">Sign in</button>
-          <button onClick={registerClick}>Register</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

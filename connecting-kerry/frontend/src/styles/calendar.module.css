@@ -16,3 +16,21 @@
   z-index: 1000;
   /* Ensure it’s on top of other content */
 }
+
+.legend {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.colorBox {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 4px;
+}

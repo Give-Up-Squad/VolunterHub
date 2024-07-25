@@ -6,6 +6,7 @@
     background-color: #f9fafb;
     padding: 20px;
     box-sizing: border-box;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 /* About Us Section */
@@ -16,6 +17,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     margin-bottom: 20px;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .aboutUsContainer > h1 {
@@ -23,6 +25,9 @@
     color: #005b47;
     margin-bottom: 20px;
     font-family: 'Roboto', sans-serif;
+    font-family: "Josefin Sans", sans-serif;
+    text-align: start;
+    padding: 0 60px;
 }
 
 .aboutUsContainer > p {
@@ -32,6 +37,7 @@
     margin-bottom: 20px;
     font-family: 'Open Sans', sans-serif;
     padding: 0px 70px 0px 70px;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 /* Images Section */
