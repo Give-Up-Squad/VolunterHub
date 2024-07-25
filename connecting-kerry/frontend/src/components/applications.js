@@ -25,7 +25,7 @@ export default function Applications() {
       if (user.roles !== "Volunteer") {
         apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/${user.org_id}`;
       } else {
-        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}`;
+        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}?status=Upcoming`;
       }
       const response = await fetch(apiUrl, {
         method: "GET",

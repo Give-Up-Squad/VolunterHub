@@ -10,9 +10,12 @@ const useActivities = () => {
   const fetchActivities = async () => {
     setLoading(true);
     try {
-      let apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/display/${user.org_id}`;
-      if (user && user.roles === "Volunteer") {
-        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/display/${user.volunteer_id}`;
+      let apiUrl = "";
+      if (user) {
+        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/display/${user.org_id}`;
+        if (user.roles === "Volunteer") {
+          apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/display/${user.volunteer_id}`;
+        }
       }
 
       const response = await fetch(apiUrl, {
@@ -53,7 +56,7 @@ const useActivities = () => {
       };
       console.log("Cancelling activity:", backendData);
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/activities/cancel`,
+        `${process.env.REACT_APP_API_URL}/api/activities/volunteer/cancel`,
         {
           method: "POST",
           headers: {

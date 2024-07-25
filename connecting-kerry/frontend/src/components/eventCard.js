@@ -32,7 +32,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
   const handleApplyClick = async () => {
     try {
       const backendData = {
-        volunteer_id: user.volunteer_id,
+        email: user.email,
         activity_id: activity_id,
       };
       console.log("Applying for event:", backendData);

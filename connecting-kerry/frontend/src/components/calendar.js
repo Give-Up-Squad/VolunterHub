@@ -67,16 +67,18 @@ export default function Calendar() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
-  // Define fetchGreenActivities function
   const fetchGreenActivities = async () => {
     setGreenLoading(true);
     try {
       let apiUrl = "";
-      if (user.roles !== "Volunteer") {
-        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/${user.org_id}`;
-      } else {
-        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}`;
+      if (user) {
+        if (user.roles !== "Volunteer") {
+          apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/${user.org_id}`;
+        } else {
+          apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}?status=Upcoming`;
+        }
       }
+
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
