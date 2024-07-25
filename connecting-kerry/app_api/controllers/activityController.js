@@ -120,6 +120,13 @@ const volunteerCancel = async (req, res) => {
     res.status(200).json({ message: "Activity cancelled successfully" });
   } catch (error) {
     console.error("Error cancelling activity:", error.message);
+
+    if (error.message.includes("Cannot cancel activity within 48 hours")) {
+      return res.status(400).json({
+        error: "Cannot cancel activity within 48 hours of the start time.",
+      });
+    }
+
     res.status(500).json({ error: "Failed to cancel activity" });
   }
 };
@@ -212,6 +219,7 @@ const approveActivity = async (req, res) => {
 
     // await sendEmail(
     //   orgEmail,
+
     //   "Activity Approved",
     //   `Your activity "${activity.activity_name}" has been approved.`
     // );

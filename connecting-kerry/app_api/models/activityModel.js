@@ -143,6 +143,31 @@ const cancelActivityForVol = async (volunteer_id, activity_id) => {
   try {
     await client.query("BEGIN");
 
+    const validateQuery = `
+      SELECT
+          CASE
+              WHEN activity_start_date - INTERVAL '2 day' <= CURRENT_TIMESTAMP THEN FALSE
+              ELSE TRUE
+          END AS can_cancel
+      FROM activities
+      WHERE activity_id = $1
+    `;
+    const { rows: checkRows } = await client.query(validateQuery, [
+      activity_id,
+    ]);
+
+    if (checkRows.length === 0) {
+      throw new Error(`Activity with ID ${activity_id} does not exist.`);
+    }
+
+    const canCancel = checkRows[0].can_cancel;
+
+    if (!canCancel) {
+      throw new Error(
+        "Cannot cancel activity within 48 hours of the start time."
+      );
+    }
+
     const cancelQueryText = `
       CALL public.volunteer_cancels_activity($1, $2)
     `;
