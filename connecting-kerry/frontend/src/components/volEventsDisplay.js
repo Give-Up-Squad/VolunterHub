@@ -71,7 +71,7 @@ export default function VolEventsDisplay() {
                 <label>Deadline:</label>
                 <p>{formatDate(activity.activity_deadline)}</p>
                 <label>Location:</label>
-                <p>{activity.activity_status}</p>
+                <p>{activity.activity_location}</p>
                 <label>Available Participants:</label>
                 <p>{activity.available_participants}</p>
               </div>

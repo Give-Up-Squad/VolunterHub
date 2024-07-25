@@ -70,7 +70,7 @@ export default function Approvals() {
       if (!response.ok) {
         throw new Error("Failed to approve activity");
       }
-
+      alert("Activity approved successfully.");
       fetchPendingActivities();
     } catch (error) {
       console.error("Error approving activity:", error.message);
@@ -95,7 +95,7 @@ export default function Approvals() {
       if (!response.ok) {
         throw new Error("Failed to reject activity");
       }
-
+      alert("Activity rejected successfully.");
       fetchPendingActivities();
     } catch (error) {
       console.error("Error rejecting activity:", error.message);

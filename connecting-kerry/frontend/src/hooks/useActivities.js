@@ -55,6 +55,7 @@ const useActivities = () => {
         activity_id,
       };
       console.log("Cancelling activity:", backendData);
+
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/activities/volunteer/cancel`,
         {
@@ -77,6 +78,8 @@ const useActivities = () => {
       refetchActivities();
     } catch (error) {
       console.error("Error cancelling activity:", error.message);
+      // Rethrow the error to let the calling function handle it
+      throw error;
     }
   };
 
