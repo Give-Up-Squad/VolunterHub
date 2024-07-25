@@ -67,16 +67,18 @@ export default function Calendar() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
-  // Define fetchGreenActivities function
   const fetchGreenActivities = async () => {
+    if (!user) return; // No need to fetch if user is not defined
+
     setGreenLoading(true);
     try {
       let apiUrl = "";
       if (user.roles !== "Volunteer") {
         apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/${user.org_id}`;
       } else {
-        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}`;
+        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}?status=Upcoming`;
       }
+
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -105,8 +107,8 @@ export default function Calendar() {
   };
 
   useEffect(() => {
-    if (userLoading) return;
-    if (!user) return;
+    if (userLoading) return; // Wait until user data is loaded
+    if (!user) return; // Ensure user is available
 
     fetchGreenActivities();
   }, [user, userLoading]);
@@ -250,6 +252,14 @@ export default function Calendar() {
     });
     setIsModalOpen(true);
   };
+
+  if (userLoading) {
+    return <div className={Styles.loading}>Loading user data...</div>;
+  }
+
+  if (!user) {
+    return <div className={Styles.error}>User is not logged in.</div>;
+  }
 
   return (
     <div className={Styles.calendarContainer}>
