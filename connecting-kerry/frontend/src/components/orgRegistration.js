@@ -1,8 +1,10 @@
 import { React, useEffect } from "react";
 import styles from "../styles/registerForms.module.css";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { OrgRegistrationSchema } from "../validations/orgRegValidation";
 
 const OrganisationRegistration = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ const OrganisationRegistration = () => {
     formState: { errors },
     setValue,
   } = useForm({
+    resolver: yupResolver(OrgRegistrationSchema),
     mode: "onTouched",
   });
 
@@ -107,10 +110,19 @@ const OrganisationRegistration = () => {
           )}
         </div>
         <input type="hidden" {...register("roles")} value="Organisation" />
-          <label for="confirmTerms">Please confirm that you have read <a href="/privacy">Terms and Conditions</a></label>
-            <input type="checkbox"></input>
-            <br></br>
-        <a href="/login" className={styles.link}>
+
+          <div className={styles.termsandConSection}>
+              <label htmlFor="confirmTerms">Please confirm that you have read <a href="/privacy">Terms and Conditions</a></label>
+              <input
+                type="checkbox"
+                id="confirmTerms"
+                {...register("confirmTerms", { required: "You must accept the terms and conditions" })}
+              />
+          </div>
+          {errors.confirmTerms && (
+            <p className={styles.error}>{errors.confirmTerms.message}</p>
+          )}
+        <a href="/login" className={styles.loginLink}>
           Already have an account? Login here
         </a>
       </div>
