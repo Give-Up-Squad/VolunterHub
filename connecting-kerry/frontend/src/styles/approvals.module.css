@@ -50,11 +50,14 @@
     cursor: pointer;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    
 }
 
 .viewButton {
     background-color: rgba(56, 127, 151, 0.75);
     color: #fff;
+    margin-bottom:2px;
+    justify-content: center;
 }
 
 .viewButton:hover {
@@ -65,6 +68,8 @@
 .approveButton {
     background-color: #28a745;
     color: #fff;
+    justify-content: center;
+    margin-bottom:2px;
 }
 
 .approveButton:hover {
@@ -75,9 +80,18 @@
 .rejectButton {
     background-color: #dc3545;
     color: #fff;
+    justify-content: center;
 }
 
 .rejectButton:hover {
     background-color: #c82333;
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 1480px){
+    .approvalsTable button{
+        display: flex;
+        flex-direction: row;
+        
+    width: 100%;
+    }
 }
