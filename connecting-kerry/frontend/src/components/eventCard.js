@@ -27,7 +27,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
   const { user } = useUser();
   const { formatDateTime } = useDateFormat();
   const navigate = useNavigate();
-  const { cancelActivity } = useActivities();
+  const { cancelActivityVol } = useActivities();
   const [loading, setLoading] = useState(false);
 
   const handleApplyClick = async () => {
@@ -74,7 +74,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
     );
 
     try {
-      await cancelActivity(user.volunteer_id, activity_id);
+      await cancelActivityVol(user.volunteer_id, activity_id);
     } catch (error) {
       console.error("Error cancelling activity:", error.message);
     }

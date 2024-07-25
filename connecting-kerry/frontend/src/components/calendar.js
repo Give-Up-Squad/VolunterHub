@@ -96,7 +96,19 @@ export default function Calendar() {
       } else {
         const data = await response.json();
         console.log("Green Activities data:", data.activities);
-        setGreenActivities(data.activities);
+
+        let filteredActivities = data.activities;
+
+        // Apply filtering for non-volunteer users
+        if (user.roles !== "Volunteer") {
+          filteredActivities = filteredActivities.filter(
+            (activity) =>
+              activity.activity_status !== "Cancelled" &&
+              activity.activity_approval_status === "Approved"
+          );
+        }
+        console.log("Filtered activities:", filteredActivities);
+        setGreenActivities(filteredActivities);
       }
     } catch (err) {
       console.error(err);
@@ -281,14 +293,14 @@ export default function Calendar() {
             className={Styles.colorBox}
             style={{ backgroundColor: "#32CD32" }}
           ></div>
-          <span>Your Activities</span>
+          <span className={Styles.legendSpan}>Your Activities</span>
         </div>
         <div className={Styles.legendItem}>
           <div
             className={Styles.colorBox}
             style={{ backgroundColor: "#0000FF" }}
           ></div>
-          <span>Other Activities</span>
+          <span className={Styles.legendSpan}>Other Activities</span>
         </div>
       </div>
       <FullCalendar

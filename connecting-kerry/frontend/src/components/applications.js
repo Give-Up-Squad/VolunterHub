@@ -15,17 +15,18 @@ export default function Applications() {
   const { formatDateTime } = useDateFormat();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { cancelActivity } = useActivities();
+  const [filter, setFilter] = useState("Upcoming");
+  const { cancelActivityVol } = useActivities();
   const navigate = useNavigate();
 
-  const fetchActivities = async () => {
+  const fetchActivities = async (status) => {
     setLoading(true);
     try {
       let apiUrl = "";
       if (user.roles !== "Volunteer") {
         apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/organisation/${user.org_id}`;
       } else {
-        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}?status=Upcoming`;
+        apiUrl = `${process.env.REACT_APP_API_URL}/api/activities/volunteer/${user.volunteer_id}?status=${status}`;
       }
       const response = await fetch(apiUrl, {
         method: "GET",
@@ -44,7 +45,23 @@ export default function Applications() {
       } else {
         const data = await response.json();
         console.log("Applications data:", data.activities);
-        setActivities(data.activities);
+
+        const sortedActivities = data.activities.sort((a, b) => {
+          if (
+            a.activity_status === "Cancelled" &&
+            b.activity_status !== "Cancelled"
+          ) {
+            return -1;
+          } else if (
+            a.activity_status !== "Cancelled" &&
+            b.activity_status === "Cancelled"
+          ) {
+            return 1;
+          }
+          return 0; // Maintain order for activities with the same status
+        });
+
+        setActivities(sortedActivities);
       }
     } catch (err) {
       console.error(err);
@@ -58,21 +75,22 @@ export default function Applications() {
     if (userLoading) return;
     if (!user) return;
 
-    fetchActivities();
-  }, [user, userLoading]);
+    fetchActivities(filter);
+  }, [user, userLoading, filter]);
 
   const handleViewClick = (activity) => {
     console.log("View activity:", activity);
     setSelectedEvent(activity);
     setIsModalOpen(true);
   };
+
   const handleCancelClickVol = async (volunteer_id, activity_id) => {
     console.log(
       `Cancel activity with ID: ${activity_id} for volunteer ID: ${volunteer_id}`
     );
 
     try {
-      await cancelActivity(volunteer_id, activity_id);
+      await cancelActivityVol(volunteer_id, activity_id);
       navigate("/loading", {
         state: { loadingText: "Cancelling activity..." },
       });
@@ -107,6 +125,10 @@ export default function Applications() {
     setSelectedEvent(null);
   };
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
   if (userLoading || loading) {
     return <div>Loading...</div>;
   }
@@ -121,6 +143,22 @@ export default function Applications() {
         {user.roles === "Volunteer" ? "Applications" : "Events"}
       </h1>
       <p>List of all the events you have applied for. </p>
+
+      {user.roles === "Volunteer" && (
+        <div className={styles.filterContainer}>
+          <label htmlFor="statusFilter">Filter by status:</label>
+          <select
+            id="statusFilter"
+            value={filter}
+            onChange={handleFilterChange}
+            className={styles.filterSelect}
+          >
+            <option value="Upcoming">Upcoming</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+      )}
+
       {activities.length === 0 ? (
         <p>
           {user.roles !== "Volunteer"
@@ -134,7 +172,12 @@ export default function Applications() {
               <th>Name</th>
               <th>Start Date</th>
               <th>End Date</th>
-              {user.roles === "Organisation" && <th>Approval Status</th>}
+              {user.roles === "Organisation" && (
+                <>
+                  <th>Approval Status</th>
+                  <th>Activity Status</th>
+                </>
+              )}
               <th></th>
             </tr>
           </thead>
@@ -145,7 +188,10 @@ export default function Applications() {
                 <td>{formatDateTime(activity.activity_start_date)}</td>
                 <td>{formatDateTime(activity.activity_end_date)}</td>
                 {user.roles === "Organisation" && (
-                  <td>{activity.activity_approval_status}</td>
+                  <>
+                    <td>{activity.activity_approval_status}</td>
+                    <td>{activity.activity_status}</td>
+                  </>
                 )}
                 <td>
                   <button
@@ -154,17 +200,33 @@ export default function Applications() {
                   >
                     View
                   </button>
-                  <button
-                    className={styles.cancelButton}
-                    onClick={() =>
-                      handleCancelClickVol(
-                        user.volunteer_id,
-                        activity.activity_id
-                      )
-                    }
-                  >
-                    Cancel
-                  </button>
+                  {user.roles === "Volunteer" && filter !== "Cancelled" && (
+                    <button
+                      className={styles.cancelButton}
+                      onClick={() =>
+                        handleCancelClickVol(
+                          user.volunteer_id,
+                          activity.activity_id
+                        )
+                      }
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  {user.roles === "Organisation" &&
+                    activity.activity_status !== "Cancelled" && (
+                      <button
+                        className={styles.cancelButton}
+                        // onClick={() =>
+                        //   handleCancelClickVol(
+                        //     user.volunteer_id,
+                        //     activity.activity_id
+                        //   )
+                        // }
+                      >
+                        Cancel
+                      </button>
+                    )}
                 </td>
               </tr>
             ))}
