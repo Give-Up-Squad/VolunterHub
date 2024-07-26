@@ -22,7 +22,7 @@ jobs:
         working-directory: connecting-kerry/app_api
 
       - name: Run update script
-        run: node jobs/updateStatus.js
+        run: node jobs/updateActivityStatus.js
         working-directory: connecting-kerry/app_api
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
