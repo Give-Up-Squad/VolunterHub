@@ -73,7 +73,10 @@ const VolunteerRegistration = () => {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
 
-      navigate("/volunteer");
+      navigate("/loading", { state: { loadingText: "Creating account..." } });
+      setTimeout(() => {
+        navigate("/review", { replace: true });
+      }, 1000);
     } catch (error) {
       console.error("Error registering volunteer:", error.message);
     }
@@ -145,12 +148,15 @@ const VolunteerRegistration = () => {
         <input type="hidden" {...register("roles")} value="Volunteers" />
         <div className={styles.termsandConSection}>
           <label htmlFor="confirmTerms">
-            Please confirm that you have read <a href="/privacy">Terms and Conditions</a>
+            Please confirm that you have read{" "}
+            <a href="/privacy">Terms and Conditions</a>
           </label>
           <input
             type="checkbox"
             id="confirmTerms"
-            {...register("confirmTerms", { required: "You must accept the terms and conditions" })}
+            {...register("confirmTerms", {
+              required: "You must accept the terms and conditions",
+            })}
           />
           {errors.confirmTerms && (
             <p className={styles.error}>{errors.confirmTerms.message}</p>
