@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import styles from "../styles/registerForms.module.css";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -36,9 +36,10 @@ const OrganisationRegistration = () => {
       const authToken = await user.getIdToken();
       sessionStorage.setItem("authToken", authToken);
 
+      const email = data.email.toLowerCase();
       const backendData = {
         username: null,
-        email: data.email,
+        email: email,
         is_garda_vetted: "Pending",
         roles: data.roles,
         dob: null,
@@ -66,7 +67,10 @@ const OrganisationRegistration = () => {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
 
-      navigate("/calendar");
+      navigate("/loading", { state: { loadingText: "Creating account..." } });
+      setTimeout(() => {
+        navigate("/review", { replace: true });
+      }, 1000);
     } catch (error) {
       console.error("Error registering organisation:", error.message);
     }

@@ -33,13 +33,15 @@ function Footer() {
             </li>
             {userLoggedIn && (
               <>
-                {user && user.roles === "Volunteer" && (
-                  <li>
-                    <a className={styles.footerLink} href="/volunteer">
-                      Volunteer
-                    </a>
-                  </li>
-                )}
+                {user &&
+                  user.roles === "Volunteer" &&
+                  user.is_garda_vetted === "Approved" && (
+                    <li>
+                      <a className={styles.footerLink} href="/volunteer">
+                        Volunteer
+                      </a>
+                    </li>
+                  )}
                 {user && user.roles === "Admin" && (
                   <li>
                     <a className={styles.footerLink} href="/approvals">
@@ -47,26 +49,31 @@ function Footer() {
                     </a>
                   </li>
                 )}
-                <li>
-                  <a className={styles.footerLink} href="/calendar">
-                    My Calendar
-                  </a>
-                </li>
+                {user && user.is_garda_vetted === "Approved" && (
+                  <>
+                    <li>
+                      <a className={styles.footerLink} href="/calendar">
+                        My Calendar
+                      </a>
+                    </li>
+                    <li>
+                      <a className={styles.footerLink} href="/applications">
+                        My Events
+                      </a>
+                    </li>
+                  </>
+                )}
+
                 <li>
                   <a className={styles.footerLink} href="/profile">
                     My Profile
-                  </a>
-                </li>
-                <li>
-                  <a className={styles.footerLink} href="/applications">
-                    My Events
                   </a>
                 </li>
               </>
             )}
           </ul>
         </div>
-        
+
         <div className={styles.column}>
           <h2>Social Media</h2>
           <ul className={styles.links}>
@@ -116,7 +123,10 @@ function Footer() {
         </div>
       </div>
       <div className={styles.termsAndConText}>
-        <p>© 2024 Connecting Kerry. All Rights Reserved. <a href="/privacy">Terms and Conditions.</a></p>
+        <p>
+          © 2024 Connecting Kerry. All Rights Reserved.{" "}
+          <a href="/privacy">Terms and Conditions.</a>
+        </p>
       </div>
     </footer>
   );

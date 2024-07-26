@@ -1,7 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e6e3c6;
+}
+
+.reviewHeading {
+    font-size: 40px;
+    color: #014421;
+    font-weight: bold;
+    margin-top: 50px;
+    margin-bottom: 5%;
+}
 .reviewText{
     font-size: 22px;
     text-align: center;
-    margin-top: 200px;
-    margin-bottom: 200px;
+    color: #014421;
+    margin-top: 5%;
+    margin-bottom: 12%;
     font-family: "Josefin Sans", sans-serif;
 }

@@ -127,23 +127,29 @@ export default function Calendar() {
 
   useEffect(() => {
     if (!blueLoading && !greenLoading) {
-      const formattedBlueActivities = blueActivities.map((activity) => ({
-        id: activity.activity_id,
-        title: activity.activity_name,
-        start: activity.activity_start_date,
-        end: activity.activity_end_date,
-        description: activity.activity_description,
-        deadline: activity.activity_deadline,
-        status: activity.activity_status,
-        max_participants: activity.max_participants,
-        min_participants: activity.min_participants,
-        available_participants: activity.available_participants,
-        location: activity.activity_location,
-        image: activity.activity_image,
-        activity_approval_status: activity.activity_approval_status,
-        backgroundColor: "#0000FF", // Blue color for not applied/created
-        type: "blue",
-      }));
+      const filteredBlueActivities = blueActivities.filter(
+        (activity) => activity.activity_status !== "Cancelled"
+      );
+
+      const formattedBlueActivities = filteredBlueActivities.map(
+        (activity) => ({
+          id: activity.activity_id,
+          title: activity.activity_name,
+          start: activity.activity_start_date,
+          end: activity.activity_end_date,
+          description: activity.activity_description,
+          deadline: activity.activity_deadline,
+          status: activity.activity_status,
+          max_participants: activity.max_participants,
+          min_participants: activity.min_participants,
+          available_participants: activity.available_participants,
+          location: activity.activity_location,
+          image: activity.activity_image,
+          activity_approval_status: activity.activity_approval_status,
+          backgroundColor: "#0000FF", // Blue color for not applied/created
+          type: "blue",
+        })
+      );
 
       const formattedGreenActivities = greenActivities.map((activity) => ({
         id: activity.activity_id,
