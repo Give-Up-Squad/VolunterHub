@@ -40,26 +40,28 @@ function Login() {
       };
 
       checkUserLoaded((user) => {
-        if (user.is_garda_vetted === "Pending") {
-          console.log("User is Garda vetted pending");
+        if (user) {
+          if (user.is_garda_vetted === "Pending") {
+            console.log("User is Garda vetted pending");
 
-          navigate("/loading", {
-            state: { loadingText: "Checking Garda Vetting Status..." },
-          });
+            navigate("/loading", {
+              state: { loadingText: "Checking Garda Vetting Status..." },
+            });
 
-          setTimeout(() => {
-            navigate("/review", { replace: true });
-          }, 900);
-        } else {
-          console.log("User is Garda vetted");
+            setTimeout(() => {
+              navigate("/review", { replace: true });
+            }, 900);
+          } else {
+            console.log("User is Garda vetted");
 
-          navigate("/loading", {
-            state: { loadingText: "Loading user data..." },
-          });
+            navigate("/loading", {
+              state: { loadingText: "Loading user data..." },
+            });
 
-          setTimeout(() => {
-            navigate("/calendar", { replace: true });
-          }, 1000);
+            setTimeout(() => {
+              navigate("/calendar", { replace: true });
+            }, 1000);
+          }
         }
       });
     } catch (error) {
