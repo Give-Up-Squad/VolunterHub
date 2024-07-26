@@ -110,7 +110,7 @@ function Content() {
         <Route
           path="/review"
           element={
-            user.is_garda_vetted === "Pending" ? (
+            user && user.is_garda_vetted === "Pending" ? (
               <AccountReview />
             ) : (
               <Navigate to="/calendar" replace />
