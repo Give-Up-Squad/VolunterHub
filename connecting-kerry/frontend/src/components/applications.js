@@ -36,11 +36,13 @@ export default function Applications() {
         },
       });
 
+      console.log("Response:", response);
       if (!response.ok) {
         if (response.status === 404) {
+          console.log("No activities found");
           setActivities([]);
         } else {
-          throw new Error("Failed to fetch applications");
+          throw new Error(response.error || "Failed to fetch applications");
         }
       } else {
         const data = await response.json();
