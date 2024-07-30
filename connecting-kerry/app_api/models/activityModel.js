@@ -265,7 +265,7 @@ const cancelActivityForOrg = async (org_id, activity_id) => {
     } else {
       // If the activity is not pending, perform the cancellation logic
       const cancelQueryText = `
-        CALL cancel_activity($1)
+        CALL cancel_org_activity($1)
       `;
       await client.query(cancelQueryText, [activity_id]);
     }
