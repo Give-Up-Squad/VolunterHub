@@ -6,10 +6,12 @@ import { VolRegisterSchema } from "../validations/volRegValidation";
 import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "./loadingPage";
+import { useUser } from "../contexts/userContext";
 
 const VolunteerRegistration = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { user, loading: userLoading } = useUser();
 
   const {
     register,
@@ -77,7 +79,6 @@ const VolunteerRegistration = () => {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
 
-      navigate("/loading", { state: { loadingText: "Creating account..." } });
       setTimeout(() => {
         setLoading(false);
         navigate("/review", { replace: true });

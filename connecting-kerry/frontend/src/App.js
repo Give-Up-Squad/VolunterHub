@@ -53,6 +53,10 @@ function Content() {
     // Ensure allowedRoles is always an array
     const roles = Array.isArray(allowedRoles) ? allowedRoles : [];
 
+    if (!user || user.roles === null) {
+      return <LoadingPage />;
+    }
+
     // Check if user is an admin or has one of the allowed roles
     if (
       !user.roles.includes("Admin") &&
