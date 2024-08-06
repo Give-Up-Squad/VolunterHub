@@ -83,6 +83,7 @@ function Footer() {
               className={styles.footerLink}
               target="_blank"
               href="https://www.facebook.com/profile.php?id=61560397315033&mibextid=LQQJ4d&rdid=qdT0q2nURnbmhtB0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2FcNf9SyMPnHm6SRoc%2F%3Fmibextid%3DLQQJ4d"
+              rel="noreferrer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -99,6 +100,7 @@ function Footer() {
               className={styles.footerLink}
               target="_blank"
               href="https://x.com/CKerry2024"
+              rel="noreferrer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +117,7 @@ function Footer() {
               className={styles.footerLink}
               target="_blank"
               href="https://www.instagram.com/connectingkerry/?igsh=MWZ6eDcxdGdoemdhMw%3D%3D&utm_source=qr"
+              rel="noreferrer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
