@@ -19,13 +19,13 @@ import Error404 from "./components/error404";
 import Applications from "./components/applications";
 import Privacy from "./components/privacy";
 import AccountReview from "./components/accountReview";
-import Disclaimer from "./components/disclaimer";
 import RoleChoice from "./components/roleChoice";
 import UserProfile from "./components/userProfile";
 import LoadingPage from "./components/loadingPage";
 import Approvals from "./components/approvals";
 import { useAuth } from "./contexts/authContext";
 import { useUser } from "./contexts/userContext";
+import RegistrationSuccess from "./components/registrationSuccess";
 
 function LoadingRoute() {
   const location = useLocation();
@@ -91,6 +91,7 @@ function Content() {
         <Route path="/orgRegister" element={<OrganisationRegistration />} />
         <Route path="/loading" element={<LoadingRoute />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/registration-success" element={<RegistrationSuccess />} />
         {/* Protected Routes */}
         <Route
           path="/volunteer"

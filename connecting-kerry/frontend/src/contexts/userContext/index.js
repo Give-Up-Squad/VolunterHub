@@ -60,13 +60,22 @@ export const UserProvider = ({ children }) => {
   }, [currentUser, userLoggedIn]);
 
   useEffect(() => {
-    console.log("User data:", user); // This will log whenever user state changes
+    console.log("User data:", user);
   }, [user]);
+
+  const waitForUserData = async () => {
+    if (!userLoggedIn) return null;
+    while (loading) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    return user;
+  };
 
   const value = {
     user,
     loading,
     error,
+    waitForUserData,
   };
 
   return (

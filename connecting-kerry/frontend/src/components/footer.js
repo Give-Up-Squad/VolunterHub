@@ -58,7 +58,9 @@ function Footer() {
                     </li>
                     <li>
                       <a className={styles.footerLink} href="/applications">
-                        My Events
+                        {user.roles === "Volunteer"
+                          ? "My Applications"
+                          : "My Events"}
                       </a>
                     </li>
                   </>
