@@ -1,17 +1,15 @@
 import { React, useEffect, useState } from "react";
 import styles from "../styles/registerForms.module.css";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { VolRegisterSchema } from "../validations/volRegValidation";
 import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "./loadingPage";
-import { useUser } from "../contexts/userContext";
 
 const VolunteerRegistration = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { user, loading: userLoading } = useUser();
 
   const {
     register,
@@ -79,10 +77,7 @@ const VolunteerRegistration = () => {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
 
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/review", { replace: true });
-      }, 1000);
+      navigate("/registration-success");
     } catch (error) {
       setLoading(false);
       console.error("Error registering volunteer:", error.message);

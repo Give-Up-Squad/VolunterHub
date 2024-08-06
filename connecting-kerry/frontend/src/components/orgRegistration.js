@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/registerForms.module.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -26,9 +26,9 @@ const OrganisationRegistration = () => {
   }, [setValue]);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log("Form data:", data);
     setLoading(true);
-    navigate("/loading", { state: { loadingText: "Creating account..." } });
+
     try {
       const userCredentials = await doCreateUserWithEmailAndPassword(
         data.email,
@@ -56,9 +56,7 @@ const OrganisationRegistration = () => {
         `${process.env.REACT_APP_API_URL}/api/users/register`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(backendData),
         }
       );
@@ -71,7 +69,7 @@ const OrganisationRegistration = () => {
       const responseData = await response.json();
       console.log("Backend response:", responseData);
 
-      navigate("/review", { replace: true });
+      navigate("/registration-success");
     } catch (error) {
       setLoading(false);
       console.error("Error registering organisation:", error.message);

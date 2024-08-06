@@ -5,7 +5,10 @@ import { LoginSchema } from "../validations/loginValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/authContext"; // Import useAuth hook
-import { doSignInWithEmailAndPassword } from "../firebase/auth";
+import {
+  doSignInWithEmailAndPassword,
+  doSendPasswordResetEmail,
+} from "../firebase/auth";
 import { useUser } from "../contexts/userContext";
 
 function Login() {
@@ -75,6 +78,19 @@ function Login() {
     navigate("/register");
   };
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    const email = prompt("Please enter your email for password reset:");
+    if (email) {
+      try {
+        await doSendPasswordResetEmail(email);
+        alert("Password reset email sent!");
+      } catch (error) {
+        console.error("Error sending password reset email", error.message);
+        setError("Failed to send password reset email. Please try again.");
+      }
+    }
+  };
   // Redirect if user is already logged in
   if (userLoggedIn) {
     console.log("User already logged in:", currentUser);
@@ -108,7 +124,7 @@ function Login() {
               />
               {error && <div className={styles.error}>{error}</div>}{" "}
             </div>
-            <a href="#" className={styles.link}>
+            <a href="#" className={styles.link} onClick={handleForgotPassword}>
               Forgot Your Password?
             </a>
           </div>

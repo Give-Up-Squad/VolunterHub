@@ -104,6 +104,10 @@
 .loginForm .action button:nth-child(2):hover {
     background: #3c4d6d;
 }
+
+.link {
+   font-family: 'Josefin Sans', sans-serif;
+}
 @media (max-width:768px){
     .loginForm{
         width:425px;
