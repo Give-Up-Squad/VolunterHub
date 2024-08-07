@@ -6,7 +6,7 @@ const getNonAppliedActivityByID = async (id) => {
 
   try {
     const queryText = `
-      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW()
+      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW() AND activity_status <> 'Cancelled'
     `;
     const params = [id];
     const { rows } = await client.query(queryText, params);
