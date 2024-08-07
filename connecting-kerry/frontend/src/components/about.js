@@ -105,13 +105,6 @@ function About() {
             </p>
             <p>Connecting Kerry - Bringing Community Together.</p>
           </div>
-          <aside className={styles.picturesContainer}>
-            <img src="/images/beachCleaning.jpg" alt="Beach Cleaning" />
-            <img src="/images/personPhone.jpg" alt="Person on Phone" />
-            <img src="/images/handing.jpg" alt="Handing out boxes with food" />
-            <img src="/images/teamwork.jpg" alt="Teamwork" />
-            <img src="/images/helping.jpeg" alt="Helping" />
-          </aside>
         </div>
       </main>
     </div>

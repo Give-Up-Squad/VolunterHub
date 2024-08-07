@@ -54,7 +54,7 @@ function Footer() {
                 </li>
                 <li>
                   <a className={styles.footerLink} href="/profile">
-                    My Profile
+                    My Account
                   </a>
                 </li>
                 <li>
