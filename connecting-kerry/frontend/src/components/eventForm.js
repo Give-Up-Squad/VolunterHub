@@ -163,7 +163,7 @@ export default function EventForm({ onSubmit, onCancel }) {
         <div className={styles.formGroup}>
           <label>Registration Deadline* </label>
           <input
-            type="datetime-local"
+            type="date"
             {...register("registrationDate")}
             placeholder="Registration Deadline"
             className={styles.calendarInput}
@@ -190,6 +190,8 @@ export default function EventForm({ onSubmit, onCancel }) {
           <label>Minimum Participants* </label>
           <input
             type="number"
+            maxlength="3"  
+            max="100"
             {...register("minimumParticipants")}
             placeholder="Minimum Participants"
             className={styles.calendarInput}
