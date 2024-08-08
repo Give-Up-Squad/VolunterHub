@@ -1,10 +1,10 @@
+/* Existing design styles */
 .calendarContainer {
-  padding:40px;
+  padding: 40px;
   background-color: #e6e3c6;
   font-family: "Josefin Sans", sans-serif;
 }
 
-/* Example CSS for loading indicator */
 .loading {
   position: fixed;
   top: 50%;
@@ -15,7 +15,6 @@
   padding: 20px;
   border-radius: 5px;
   z-index: 1000;
-  /* Ensure it’s on top of other content */
 }
 
 .legend {
@@ -34,7 +33,6 @@
 .legendSpan {
   margin-left: 0.5rem;
   font-family: "Josefin Sans", sans-serif;
-
 }
 
 .colorBox {
@@ -42,4 +40,53 @@
   height: 18px;
   margin-right: 8px;
   border-radius: 100%;
+}
+
+:global(.fc table) {
+  border: 1px solid #014421;
+}
+
+:global(.fc table){
+  border: 1px solid #014421;
+}
+
+:global(.fc-event-title){
+  font-family: "Josefin Sans", sans-serif;
+  text-wrap: wrap;
+}
+/* Mobile view customizations */
+@media (max-width: 768px) {
+  .calendarContainer {
+    padding: 10px;
+    width: auto;
+  }
+
+  .legend {
+    flex-wrap: wrap;
+  }
+  .colorBox {
+    width: 12px;
+    height: 12px;
+  }
+
+  .legendSpan {
+    font-size: 0.8rem;
+  }
+
+
+  :global(.fc .fc-toolbar.fc-header-toolbar) {
+    display: flex !important;
+    flex-direction: column-reverse;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  :global(.fc){
+    font-size: 0.8rem;
+    font-family: "Josefin Sans", sans-serif;
+  }
+
+  :global(.fc-event-title) {
+    text-wrap: nowrap;
+  }
 }

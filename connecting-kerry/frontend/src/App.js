@@ -26,6 +26,7 @@ import Approvals from "./components/approvals";
 import { useAuth } from "./contexts/authContext";
 import { useUser } from "./contexts/userContext";
 import RegistrationSuccess from "./components/registrationSuccess";
+import UsersDisplay from "./components/usersDisplay";
 
 function LoadingRoute() {
   const location = useLocation();
@@ -111,6 +112,10 @@ function Content() {
         <Route
           path="/approvals"
           element={checkAccess(["Admin"]) || <Approvals />}
+        />
+        <Route
+          path="/users"
+          element={checkAccess(["Admin"]) || <UsersDisplay />}
         />
         <Route
           path="/review"

@@ -18,11 +18,7 @@ export default function Landing() {
   return (
     <React.Fragment>
       <div className={styles.LandingPage}>
-        <img
-          src="/images/LandingPageBackground.avif"
-          className={styles.bg}
-          alt="Overlay"
-        />
+        <img src="/images/landingBG.jpeg" className={styles.bg} alt="Overlay" />
         <div className={styles.overlay}></div>
         <h1 className={styles.title}>
           Welcome to Connecting Kerry! Let's Get Started!

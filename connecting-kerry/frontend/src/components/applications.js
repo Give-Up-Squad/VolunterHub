@@ -217,9 +217,13 @@ export default function Applications() {
           <tbody>
             {activities.map((activity) => (
               <tr key={activity.activity_id}>
-                <td>{activity.activity_name}</td>
-                <td>{formatDateTime(activity.activity_start_date)}</td>
-                <td>{formatDateTime(activity.activity_end_date)}</td>
+                <td data-label="Activity Name">{activity.activity_name}</td>
+                <td data-label="Start Date">
+                  {formatDateTime(activity.activity_start_date)}
+                </td>
+                <td data-label="End Date">
+                  {formatDateTime(activity.activity_end_date)}
+                </td>
                 {user.roles === "Organisation" && (
                   <>
                     <td>{activity.activity_approval_status}</td>

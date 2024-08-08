@@ -157,15 +157,28 @@
     border-color: hsl(0, 0%, 80%);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 768px) {
+    .activityCard {
+        width: auto;
+    }
     .cardContent {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-content: center;
+        width:auto;
     }
 
-    .activityCard {
-        width: 300px;
+    .cardSection {
+        margin-right: 0;
+        font-size: 1rem;
+    }
+
+
+    .eventImage {
+        width: 100%;
+        height: auto;
+        margin-bottom: 0.5rem;
     }
 }
 

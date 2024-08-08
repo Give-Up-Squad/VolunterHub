@@ -1,3 +1,4 @@
+/* Container for the entire user display section */
 .applicationContainer {
     display: flex;
     flex-direction: column;
@@ -7,6 +8,7 @@
     padding: 20px;
 }
 
+/* Title styling */
 .title {
     font-size: 24px;
     font-family: "Josefin Sans", sans-serif;
@@ -14,69 +16,35 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    /* Centering the title */
 }
 
-/* Table styling for displaying applications */
-.applicationTable {
+/* Table styling for displaying users */
+.usersTable {
     width: 80%;
     border-collapse: collapse;
     margin-bottom: 40px;
 }
 
-.applicationTable th,
-.applicationTable td {
+.usersTable th,
+.usersTable td {
     padding: 18px;
     font-family: "Josefin Sans", sans-serif;
     text-align: left;
 }
 
-.applicationTable th {
+.usersTable th {
     background-color: #f2f2f2;
     font-weight: bold;
     font-size: 18px;
 }
 
-.applicationTable tr:nth-child(even) {
+.usersTable tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.applicationTable tr:hover {
+.usersTable tr:hover {
     background-color: #ddd;
-}
-
-/* Buttons within the table */
-.applicationTable button {
-    margin-left: 2px;
-    padding: 8px 20px;
-    font-family: "Josefin Sans", sans-serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    justify-content: center;
-}
-
-.viewButton {
-    background-color: rgba(56, 127, 151, 0.75);
-    color: #fff;
-}
-
-.viewButton:hover {
-    background-color: #305ac3;
-    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
-}
-
-.cancelButton {
-    background-color: #ccc;
-    color: black;
-}
-
-.cancelButton:hover {
-    background-color: #999;
-    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Filter container styling */
@@ -112,43 +80,46 @@
 
 /* Responsive styling for mobile devices */
 @media (max-width: 768px) {
+
     .applicationContainer {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-content: center;
-        padding: 15px;
     }
-
-    .applicationTable {
+    /* Adjust table container for mobile */
+    .usersTable {
         width: 100%;
+
         white-space: nowrap;
-        
-        overflow-x: auto;
     }
 
-    .applicationTable thead {
+    /* Stack the table cells vertically */
+    .usersTable thead {
         display: none;
     }
 
-    .applicationTable tr {
+    .usersTable tr {
         display: block;
         margin-bottom: 15px;
         border-bottom: 2px solid #014421;
     }
 
-    .applicationTable td {
+    .usersTable td {
         display: block;
         text-align: left;
-        padding: 10px;
+        /* Aligning text to left for better readability */
+        padding-left: 10px;
+        padding-right: 10px;
         position: relative;
         font-size: 14px;
         word-wrap: break-word;
+        /* Break long words to prevent overflow */
         white-space: normal;
         margin-bottom: 5px;
     }
 
-    .applicationTable td::before {
+    .usersTable td::before {
         content: attr(data-label);
         display: block;
         font-weight: bold;
@@ -157,15 +128,9 @@
         text-align: left;
     }
 
-    .applicationTable button {
-        display: block;
-        width: 100%;
-        margin-top: 10px;
-    }
-
+    /* Adjusting the filter container for mobile */
     .filterContainer {
         flex-direction: column;
-        align-items: flex-start;
     }
 
     .filterContainer label {

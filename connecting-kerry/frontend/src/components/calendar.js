@@ -31,6 +31,18 @@ export default function Calendar() {
   const [greenError, setGreenError] = useState(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -315,12 +327,15 @@ export default function Calendar() {
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"
         headerToolbar={{
-          start: "today prev,next",
+          start: isMobileView
+            ? "dayGridMonth,listMonth myCustomButton today prev,next"
+            : user.roles !== "Volunteer"
+            ? "myCustomButton today prev,next"
+            : "today prev,next",
           center: "title",
-          end:
-            user.roles !== "Volunteer"
-              ? "myCustomButton dayGridMonth,timeGridWeek,timeGridDay listMonth"
-              : "dayGridMonth,timeGridWeek,timeGridDay listMonth",
+          end: isMobileView
+            ? ""
+            : "dayGridMonth,timeGridWeek,timeGridDay listMonth",
         }}
         customButtons={{
           myCustomButton: {
