@@ -78,7 +78,23 @@
 
 @media (max-width: 768px){
     .eventCard{
-        width: 350px;
-        
+        width: auto;
+        margin: 1rem;
+        padding:1.2rem; 
     }
+
+    .eventCard h1{
+        margin:0;
+        font-size: 1.5rem;
+    }
+
+    .eventCard h2{
+        font-size: 1.2rem;
+        margin:0;
+    }
+
+    .eventCard p{
+        font-size: 1rem;
+    }
+
 }
