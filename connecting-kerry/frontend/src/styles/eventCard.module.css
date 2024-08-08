@@ -1,7 +1,8 @@
 .eventCard {
-    background: #fff;
-    width: 500px;
-    margin: 65px auto;
+    background: #e6e3c6;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
@@ -10,15 +11,21 @@
 }
 
 .eventCard h1 {
-    padding-bottom: 20px;
+    font-family: "Josefin Sans", sans-serif;
+    padding-bottom: 16px;
     text-align: center;
     font-weight: 300;
 }
 
+.eventCard h2 {
+    font-family: "Josefin Sans", sans-serif;
+    padding-bottom: 10px;
+}
+
 .eventCard p {
-    font-size: 16px;
-    font-family: 'Rubik', sans-serif;
-    margin: 10px 0;
+    font-size: 20px;
+    font-family: "Josefin Sans", sans-serif;
+    margin: 5px 0;
     word-wrap: break-word;
     /* Ensures long text wraps nicely */
 }
@@ -29,4 +36,65 @@
 
 .eventCard p:last-of-type {
     margin-bottom: 20px;
+}
+
+.eventCardButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.eventCardButtons button {
+    padding: 8px 20px;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.applyButton {
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
+}
+
+.applyButton:hover {
+    background-color: #305ac3;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton {
+    background-color: #ccc;
+    color: black;
+}
+
+.closeButton:hover {
+    background-color: #999;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px){
+    .eventCard{
+        width: auto;
+        margin: 1rem;
+        padding:1.2rem; 
+    }
+
+    .eventCard h1{
+        margin:0;
+        font-size: 1.5rem;
+    }
+
+    .eventCard h2{
+        font-size: 1.2rem;
+        margin:0;
+    }
+
+    .eventCard p{
+        font-size: 1rem;
+    }
+
 }

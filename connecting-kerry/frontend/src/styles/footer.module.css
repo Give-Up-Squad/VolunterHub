@@ -1,46 +1,33 @@
-.box {
-    padding: 1.5% 1.5%;
+.footer {
+    padding: 20px;
     background: #014421;
-    ;
-    bottom: 0;
-    height: 24.5em;
-
-}
-
-
-
-
-.footerContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 1000px;
-    margin: 0 auto;
-    /* background: red; */
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-left: 60px;
+    color: #fff;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-    grid-gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
 }
 
-@media (max-width: 1000px) {
-    .row {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
+.imageLogoFooter {
+    padding: 20px;
+}
+
+.primary {
+    background: #014421;
+}
+
+.column {
+    flex: 1;
+}
+
+.about {
+    max-width: 300px;
 }
 
 .footerLink {
     color: #ffffff;
-    margin-bottom: 20px;
     font-size: 18px;
     text-decoration: none;
 }
@@ -50,13 +37,93 @@
     cursor: pointer;
 }
 
-.footerLink>svg {
-    height: 25px;
+.social i {
+    margin-right: 10px;
+    font-size: 24px;
+    color: #fff;
 }
 
-.heading {
-    font-size: 24px;
-    color: #ffffff;
-    margin-bottom: 40px;
-    font-weight: bold;
+.links {
+    list-style: none;
+    padding: 0;
+}
+
+.links li {
+    margin-bottom: 10px;
+}
+
+.links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.footerMenu {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.footerMenu a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footerMenu a:hover {
+    text-decoration: underline;
+}
+.termsAndConText{
+    text-align: center;
+}
+.termsAndConText a{
+    color:white;
+    text-decoration: underline;
+}
+.termsAndConText a:hover{
+    transition-duration: 0.4s;
+    box-shadow: 0 2px 3.5px #305ac3;
+}
+
+@media only screen and (max-width: 768px) {
+    .footer {
+        text-align: center;
+        margin: 0;
+        
+    }
+
+    .footer h2 {
+        font-size: 1.2rem;
+    }
+
+    .imageLogoFooter {
+        display: none;
+    }
+
+    .column:first-child {
+        display: none;
+        /* Hide the entire column containing the image */
+    }
+
+    .column {
+        margin-right: 0;
+        flex-direction: row;
+        /* Remove the margin-right on other columns */
+        max-width: 100%;
+        /* Ensure other columns take full width */
+        /* Ensure columns stack vertically */
+    }
+
+    .footerLink {
+        font-size: 1rem;
+    }
+
+    .social i {
+        font-size: 10px;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    .links {
+        justify-content: center;
+    }
 }

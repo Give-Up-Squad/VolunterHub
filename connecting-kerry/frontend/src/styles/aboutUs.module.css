@@ -3,9 +3,10 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    background-color: #f9fafb;
+    background-color: #e6e3c6;
     padding: 20px;
     box-sizing: border-box;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 /* About Us Section */
@@ -16,21 +17,27 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     margin-bottom: 20px;
+    font-family: "Josefin Sans", sans-serif;
 }
 
-.aboutUsContainer>h1 {
+.aboutUsContainer > h1 {
     font-size: 2.5em;
     color: #005b47;
     margin-bottom: 20px;
     font-family: 'Roboto', sans-serif;
+    font-family: "Josefin Sans", sans-serif;
+    text-align: start;
+    padding: 0 60px;
 }
 
-.aboutUsContainer>p {
+.aboutUsContainer > p {
     font-size: 1.1em;
     color: #000000;
     line-height: 1.8;
     margin-bottom: 20px;
     font-family: 'Open Sans', sans-serif;
+    padding: 0px 70px 0px 70px;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 /* Images Section */
@@ -65,18 +72,32 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
     .container {
         flex-direction: column;
         padding: 10px;
     }
-
+    .aboutUsContainer > p {
+        padding: 0px 35px 0px 35px;
+    }
     .aboutUsContainer {
         padding: 20px;
     }
 
     .picturesContainer {
-        margin-top: 20px;
-        padding: 15px;
+        display:none;
+    }
+}
+
+@media (max-width: 768px) {
+    .aboutUsContainer > h1 {
+        font-size: 1.4em;
+        padding: 0;
+        margin: 0;
+    }
+
+    .aboutUsContainer > p {
+        font-size: 1rem;
+        padding: 0;
     }
 }

@@ -4,11 +4,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px;
     background-color: #e6e3c6;
     text-align: center;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding-bottom: 120px;
 }
 
 .title {
@@ -16,25 +16,51 @@
     font-size: 24px;
     font-weight: bold;
     color: #014421;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
+.description {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 18px;
+    color: #000000;
+    margin: 1rem 5rem 1.5rem 5rem;
+    text-align: center;
+    padding: 0 1rem;
+}
 .profileDetails {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    width: 100%;
-    max-width: 600px;
+    width: 50%;
+    max-width: 70%;
+   
+  
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .profileField {
+    gap: 20px;
+    width: 70%;
+}
+
+.profileField .profileInput{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    margin-bottom: 0.4rem;
+}
+
+.profileField .profileLabel {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
+    margin-bottom: 0.3rem;
 }
 
 .profileLabel {
@@ -46,12 +72,16 @@
 .profileInput {
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #014421;
-    border-radius: 8px;
-    width: 100%;
+    border-bottom: 2px solid #014421;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 3px;
+    width:70%;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .profileInput[readonly] {
@@ -63,4 +93,19 @@
     outline: none;
     border-color: #305ac3;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(48, 90, 195, 0.3);
+}
+
+@media (max-width: 768px){
+    .description{
+        margin: 0 1rem 1.3rem 1rem;
+    }
+    .profileDetails {
+        width: 90%;
+    }
+    .profileField {
+        width: 90%;
+    }
+    .profileInput {
+        width: 100%;
+    }
 }
