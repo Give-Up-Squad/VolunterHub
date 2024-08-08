@@ -49,7 +49,10 @@ const UserProfile = () => {
   return (
     <div className={styles.userProfile}>
       <h2 className={styles.title}>User Profile</h2>
-      <p>Here you can see your profile details, if something is incorrect please contact administrator.</p>
+      <p className={styles.description}>
+        Here you can see your profile details, if something is incorrect please
+        contact administrator.
+      </p>
       {isLoading ? (
         <p>Loading user details...</p>
       ) : error ? (

@@ -85,7 +85,7 @@ const VolunteerRegistration = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       {loading ? (
         <LoadingPage loadingText="Creating account..." />
       ) : (
@@ -179,7 +179,7 @@ const VolunteerRegistration = () => {
           </div>
         </form>
       )}
-    </>
+    </div>
   );
 };
 

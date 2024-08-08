@@ -6,10 +6,11 @@ import { useUser } from "../contexts/userContext";
 
 const websiteLinks = [
   { name: "Home", path: "/" },
-  { name: "Volunteer", path: "/volunteer" },
-  { name: "Calendar", path: "/calendar" },
-  { name: "Profile", path: "/profile" },
-  { name: "Applications", path: "/applications" },
+  { name: "Approvals", path: "/approvals", role: "Admin" },
+  { name: "Volunteer", path: "/volunteer", role: "Volunteer" },
+  { name: "Calendar", path: "/calendar", role: "Approved" },
+  { name: "Profile", path: "/profile", role: "Any" },
+  { name: "Applications", path: "/applications", role: "Approved" },
 ];
 
 function Navbar() {
@@ -36,6 +37,29 @@ function Navbar() {
     }
   };
 
+  const filteredLinks = () => {
+    if (!userLoggedIn)
+      return websiteLinks.filter((link) => link.name === "Home");
+
+    return websiteLinks.filter((link) => {
+      if (link.role === "Volunteer") {
+        return (
+          user.roles === "Volunteer" && user.is_garda_vetted === "Approved"
+        );
+      }
+      if (link.role === "Admin") {
+        return user.roles === "Admin";
+      }
+      if (link.role === "Approved") {
+        return user.is_garda_vetted === "Approved";
+      }
+      if (link.role === "Any") {
+        return true;
+      }
+      return false;
+    });
+  };
+
   return (
     <header>
       <div className={styles.navbarContainer}>
@@ -50,61 +74,15 @@ function Navbar() {
             onClick={() => handleNavigation("/")}
             style={{ cursor: "pointer", marginRight: "10px" }}
           />
-          {userLoggedIn && (
-            <>
-              {user &&
-                user.roles === "Volunteer" &&
-                user.is_garda_vetted === "Approved" && (
-                  <li
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavigation("/volunteer");
-                    }}
-                  >
-                    Volunteer
-                  </li>
-                )}
-              {user && user.roles === "Admin" && (
-                <li
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation("/approvals");
-                  }}
-                >
-                  Approvals
-                </li>
-              )}
-              {user && user.is_garda_vetted === "Approved" && (
-                <li
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation("/calendar");
-                  }}
-                >
-                  Calendar
-                </li>
-              )}
-
-              <li
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation("/profile");
-                }}
-              >
-                My Account
-              </li>
-              {user && user.is_garda_vetted === "Approved" && (
-                <li
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation("/applications");
-                  }}
-                >
-                  {user.roles === "Volunteer" ? "My Applications" : "My Events"}
-                </li>
-              )}
-            </>
-          )}
+          {filteredLinks().map((link) => (
+            <li key={link.name} onClick={() => handleNavigation(link.path)}>
+              {link.name === "Applications"
+                ? user && user.roles === "Volunteer"
+                  ? "My Applications"
+                  : "My Events"
+                : link.name}
+            </li>
+          ))}
         </ul>
         <div style={{ margin: "20px" }}>
           {!userLoggedIn ? (
@@ -123,17 +101,15 @@ function Navbar() {
       </div>
       <div className={`${styles.drawer} ${isDrawerOpen ? styles.open : ""}`}>
         <ul className={styles.drawerButtons}>
-          <li onClick={() => handleNavigation("/")}>Home</li>
-          {userLoggedIn &&
-            websiteLinks.slice(1).map((link) => (
-              <li key={link.name} onClick={() => handleNavigation(link.path)}>
-                {link.name === "Applications"
-                  ? user && user.roles === "Volunteer"
-                    ? "My Applications"
-                    : "My Events"
-                  : link.name}
-              </li>
-            ))}
+          {filteredLinks().map((link) => (
+            <li key={link.name} onClick={() => handleNavigation(link.path)}>
+              {link.name === "Applications"
+                ? user && user.roles === "Volunteer"
+                  ? "My Applications"
+                  : "My Events"
+                : link.name}
+            </li>
+          ))}
           {!userLoggedIn ? (
             <li onClick={() => handleNavigation("/login")}>Login</li>
           ) : (
