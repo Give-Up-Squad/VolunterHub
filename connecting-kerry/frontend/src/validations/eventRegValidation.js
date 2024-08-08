@@ -11,6 +11,7 @@ export const EventRegisterSchema = yup.object().shape({
     .min(10, "Description must be at least 10 characters long"),
   date: yup
     .date()
+    .typeError("Invalid date")
     .required("Date is required")
     .min(new Date(), "Date cannot be in the past"),
   startTime: yup.string().required("Start time is required"),

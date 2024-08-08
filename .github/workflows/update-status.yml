@@ -1,7 +1,7 @@
 name: Update Activity Status
 
 on:
-   workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   update-status:
@@ -24,8 +24,8 @@ jobs:
         working-directory: connecting-kerry/app_api
 
       - name: Run update script
-        run: node jobs/updateActivityStatus.js
         working-directory: connecting-kerry/app_api
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_CERT: ${{ secrets.DB_CERT }}
+        run: node jobs/updateActivityStatus.js ${{ secrets.DB_CERT }} ${{ secrets.DB_PASSWORD }}
