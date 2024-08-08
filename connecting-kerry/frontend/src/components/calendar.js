@@ -14,13 +14,8 @@ import { useUser } from "../contexts/userContext/index.js";
 import { useNavigate } from "react-router-dom";
 
 export default function Calendar() {
-  const { user, loading: userLoading, error: userError } = useUser();
-  const {
-    activities: blueActivities,
-    loading: blueLoading,
-    error: blueError,
-    refetchActivities,
-  } = useActivities();
+  const { user, loading: userLoading } = useUser();
+  const { activities: blueActivities, loading: blueLoading } = useActivities();
   const [greenActivities, setGreenActivities] = useState([]);
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);

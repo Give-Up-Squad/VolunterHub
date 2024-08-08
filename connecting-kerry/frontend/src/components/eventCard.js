@@ -111,7 +111,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
             Apply
           </button>
         )}
-        {type === "green" && (
+        {/* {type === "green" && (
           <button
             type="button"
             className={styles.applyButton}
@@ -119,7 +119,7 @@ export default function EventCard({ activity, closeModal, refetchActivities }) {
           >
             Cancel
           </button>
-        )}
+        )} */}
         <button className={styles.closeButton} onClick={closeModal}>
           Close
         </button>

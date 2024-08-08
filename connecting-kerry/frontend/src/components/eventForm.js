@@ -5,14 +5,12 @@ import { EventRegisterSchema } from "../validations/eventRegValidation";
 import styles from "../styles/eventForm.module.css";
 import { ref, listAll, getDownloadURL, getMetadata } from "firebase/storage";
 import { storage } from "../firebase/firebase";
-import useDateFormat from "../hooks/useDates";
 
 export default function EventForm({ onSubmit, onCancel }) {
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
-  const { formatDateForDB } = useDateFormat();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -190,7 +188,7 @@ export default function EventForm({ onSubmit, onCancel }) {
           <label>Minimum Participants* </label>
           <input
             type="number"
-            maxlength="3"  
+            maxlength="3"
             max="100"
             {...register("minimumParticipants")}
             placeholder="Minimum Participants"
