@@ -72,7 +72,7 @@ export default function VolEventsDisplay() {
                 <p>{formatDate(activity.activity_deadline)}</p>
                 <label>Location:</label>
                 <p>{activity.activity_location}</p>
-                <label>Available Participants:</label>
+                <label>Remaining Spaces:</label>
                 <p>{activity.available_participants}</p>
               </div>
               <div className={styles.volButtons}>
