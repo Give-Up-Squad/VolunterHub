@@ -6,6 +6,7 @@ const firebase = require("firebase-admin");
 const userRoutes = require("./routes/userRoutes");
 const activityRoutes = require("./routes/activityRoutes");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
@@ -36,6 +37,8 @@ app.use(
 firebase.initializeApp({
   credential: firebase.credential.applicationDefault(),
 });
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 // Use the user routes

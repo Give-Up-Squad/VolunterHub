@@ -96,7 +96,19 @@ export default function Calendar() {
       } else {
         const data = await response.json();
         console.log("Green Activities data:", data.activities);
-        setGreenActivities(data.activities);
+
+        let filteredActivities = data.activities;
+
+        // Apply filtering for non-volunteer users
+        if (user.roles !== "Volunteer") {
+          filteredActivities = filteredActivities.filter(
+            (activity) =>
+              activity.activity_status !== "Cancelled" &&
+              activity.activity_approval_status === "Approved"
+          );
+        }
+        console.log("Filtered activities:", filteredActivities);
+        setGreenActivities(filteredActivities);
       }
     } catch (err) {
       console.error(err);
@@ -115,23 +127,29 @@ export default function Calendar() {
 
   useEffect(() => {
     if (!blueLoading && !greenLoading) {
-      const formattedBlueActivities = blueActivities.map((activity) => ({
-        id: activity.activity_id,
-        title: activity.activity_name,
-        start: activity.activity_start_date,
-        end: activity.activity_end_date,
-        description: activity.activity_description,
-        deadline: activity.activity_deadline,
-        status: activity.activity_status,
-        max_participants: activity.max_participants,
-        min_participants: activity.min_participants,
-        available_participants: activity.available_participants,
-        location: activity.location,
-        image: activity.image,
-        activity_approval_status: activity.activity_approval_status,
-        backgroundColor: "#0000FF", // Blue color for not applied/created
-        type: "blue",
-      }));
+      const filteredBlueActivities = blueActivities.filter(
+        (activity) => activity.activity_status !== "Cancelled"
+      );
+
+      const formattedBlueActivities = filteredBlueActivities.map(
+        (activity) => ({
+          id: activity.activity_id,
+          title: activity.activity_name,
+          start: activity.activity_start_date,
+          end: activity.activity_end_date,
+          description: activity.activity_description,
+          deadline: activity.activity_deadline,
+          status: activity.activity_status,
+          max_participants: activity.max_participants,
+          min_participants: activity.min_participants,
+          available_participants: activity.available_participants,
+          location: activity.activity_location,
+          image: activity.activity_image,
+          activity_approval_status: activity.activity_approval_status,
+          backgroundColor: "#0000FF", // Blue color for not applied/created
+          type: "blue",
+        })
+      );
 
       const formattedGreenActivities = greenActivities.map((activity) => ({
         id: activity.activity_id,
@@ -144,8 +162,8 @@ export default function Calendar() {
         max_participants: activity.max_participants,
         min_participants: activity.min_participants,
         available_participants: activity.available_participants,
-        location: activity.location,
-        image: activity.image,
+        location: activity.activity_location,
+        image: activity.activity_image,
         activity_approval_status: activity.activity_approval_status,
         backgroundColor: "#32CD32", // Green color for applied/created
         type: "green",
@@ -248,6 +266,8 @@ export default function Calendar() {
       activity_description: extendedProps.description,
       activity_deadline: extendedProps.deadline,
       activity_status: extendedProps.status,
+      activity_location: extendedProps.location,
+      activity_image: extendedProps.image,
       ...extendedProps,
     });
     setIsModalOpen(true);
@@ -281,14 +301,14 @@ export default function Calendar() {
             className={Styles.colorBox}
             style={{ backgroundColor: "#32CD32" }}
           ></div>
-          <span>Your Activities</span>
+          <span className={Styles.legendSpan}>Your Activities</span>
         </div>
         <div className={Styles.legendItem}>
           <div
             className={Styles.colorBox}
             style={{ backgroundColor: "#0000FF" }}
           ></div>
-          <span>Other Activities</span>
+          <span className={Styles.legendSpan}>Other Activities</span>
         </div>
       </div>
       <FullCalendar

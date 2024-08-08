@@ -95,8 +95,8 @@ function About() {
               <strong>Contact Us</strong>
               <br />
               Email:{" "}
-              <a href="mailto:info@connectingkerry.ie">
-                info@connectingkerry.ie
+              <a href="mailto:connecting.kerry123@gmail.com">
+                connecting.kerry123@gmail.com
               </a>
               <br />
               Phone: +353 123 4567

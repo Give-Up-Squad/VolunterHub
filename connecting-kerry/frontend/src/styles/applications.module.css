@@ -39,7 +39,6 @@
 }
 
 .applicationTable button {
-    width: 48%;
     margin-left: 2px;
     padding: 8px 20px;
     font-family: "Josefin Sans", sans-serif;
@@ -73,11 +72,54 @@
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 768px){
-    .applicationTable button{
+.filterContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterContainer label {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #014421;
+    font-weight: bold;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterSelect {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: #305ac3;
+}
+
+@media (max-width: 768px) {
+    .applicationTable button {
         display: flex;
         flex-direction: row;
         width: 100%;
-        margin-top:5px
+        margin-top: 5px;
+    }
+
+    .filterContainer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filterContainer label {
+        margin-bottom: 5px;
+    }
+
+    .filterSelect {
+        width: 100%;
     }
 }

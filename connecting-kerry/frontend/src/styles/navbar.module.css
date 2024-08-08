@@ -23,6 +23,7 @@
     font-size: 22px;
     display: flex;
     align-items: center;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .navbarButtons>li {
@@ -56,6 +57,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .loginButton {
@@ -68,6 +70,7 @@
     border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    font-family: "Josefin Sans", sans-serif;
 }
 
 .loginButton:hover {

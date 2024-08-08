@@ -52,16 +52,18 @@ function Navbar() {
           />
           {userLoggedIn && (
             <>
-              {user && user.roles === "Volunteer" && (
-                <li
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation("/volunteer");
-                  }}
-                >
-                  Volunteer
-                </li>
-              )}
+              {user &&
+                user.roles === "Volunteer" &&
+                user.is_garda_vetted === "Approved" && (
+                  <li
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigation("/volunteer");
+                    }}
+                  >
+                    Volunteer
+                  </li>
+                )}
               {user && user.roles === "Admin" && (
                 <li
                   onClick={(e) => {
@@ -72,14 +74,17 @@ function Navbar() {
                   Approvals
                 </li>
               )}
-              <li
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation("/calendar");
-                }}
-              >
-                Calendar
-              </li>
+              {user && user.is_garda_vetted === "Approved" && (
+                <li
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("/calendar");
+                  }}
+                >
+                  Calendar
+                </li>
+              )}
+
               <li
                 onClick={(e) => {
                   e.preventDefault();
@@ -88,16 +93,16 @@ function Navbar() {
               >
                 My Account
               </li>
-              <li
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation("/applications");
-                }}
-              >
-                {user && user.roles === "Volunteer"
-                  ? "My Applications"
-                  : "My Events"}
-              </li>
+              {user && user.is_garda_vetted === "Approved" && (
+                <li
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("/applications");
+                  }}
+                >
+                  {user.roles === "Volunteer" ? "My Applications" : "My Events"}
+                </li>
+              )}
             </>
           )}
         </ul>

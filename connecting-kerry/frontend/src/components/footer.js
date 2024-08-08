@@ -33,13 +33,15 @@ function Footer() {
             </li>
             {userLoggedIn && (
               <>
-                {user && user.roles === "Volunteer" && (
-                  <li>
-                    <a className={styles.footerLink} href="/volunteer">
-                      Volunteer
-                    </a>
-                  </li>
-                )}
+                {user &&
+                  user.roles === "Volunteer" &&
+                  user.is_garda_vetted === "Approved" && (
+                    <li>
+                      <a className={styles.footerLink} href="/volunteer">
+                        Volunteer
+                      </a>
+                    </li>
+                  )}
                 {user && user.roles === "Admin" && (
                   <li>
                     <a className={styles.footerLink} href="/approvals">
@@ -47,32 +49,41 @@ function Footer() {
                     </a>
                   </li>
                 )}
-                <li>
-                  <a className={styles.footerLink} href="/calendar">
-                    My Calendar
-                  </a>
-                </li>
+                {user && user.is_garda_vetted === "Approved" && (
+                  <>
+                    <li>
+                      <a className={styles.footerLink} href="/calendar">
+                        My Calendar
+                      </a>
+                    </li>
+                    <li>
+                      <a className={styles.footerLink} href="/applications">
+                        {user.roles === "Volunteer"
+                          ? "My Applications"
+                          : "My Events"}
+                      </a>
+                    </li>
+                  </>
+                )}
+
                 <li>
                   <a className={styles.footerLink} href="/profile">
                     My Account
-                  </a>
-                </li>
-                <li>
-                  <a className={styles.footerLink} href="/applications">
-                    My Events
                   </a>
                 </li>
               </>
             )}
           </ul>
         </div>
-        
+
         <div className={styles.column}>
           <h2>Social Media</h2>
           <ul className={styles.links}>
             <a
               className={styles.footerLink}
+              target="_blank"
               href="https://www.facebook.com/profile.php?id=61560397315033&mibextid=LQQJ4d&rdid=qdT0q2nURnbmhtB0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2FcNf9SyMPnHm6SRoc%2F%3Fmibextid%3DLQQJ4d"
+              rel="noreferrer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +96,12 @@ function Footer() {
               </svg>
             </a>
             <br></br>
-            <a className={styles.footerLink} href="https://x.com/CKerry2024">
+            <a
+              className={styles.footerLink}
+              target="_blank"
+              href="https://x.com/CKerry2024"
+              rel="noreferrer"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -99,7 +115,9 @@ function Footer() {
             <br></br>
             <a
               className={styles.footerLink}
+              target="_blank"
               href="https://www.instagram.com/connectingkerry/?igsh=MWZ6eDcxdGdoemdhMw%3D%3D&utm_source=qr"
+              rel="noreferrer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +134,10 @@ function Footer() {
         </div>
       </div>
       <div className={styles.termsAndConText}>
-        <p>© 2024 Connecting Kerry. All Rights Reserved. <a href="/privacy">Terms and Conditions.</a></p>
+        <p>
+          © 2024 Connecting Kerry. All Rights Reserved.{" "}
+          <a href="/privacy">Terms and Conditions.</a>
+        </p>
       </div>
     </footer>
   );

@@ -6,7 +6,7 @@ const getNonAppliedActivityByID = async (id) => {
 
   try {
     const queryText = `
-      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW()
+      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW() AND activity_status <> 'Cancelled'
     `;
     const params = [id];
     const { rows } = await client.query(queryText, params);
@@ -83,7 +83,7 @@ const getActivitiesByOrgID = async (org_id) => {
       FROM
         activities AS a
       WHERE
-        a.org_id = $1
+        a.org_id = $1 
       ORDER BY
         -- Sort first by whether the activity is upcoming or past
         CASE
@@ -220,17 +220,55 @@ const cancelActivityForVol = async (volunteer_id, activity_id) => {
   }
 };
 
-const cancelActivityForOrg = async (activity_id) => {
+const cancelActivityForOrg = async (org_id, activity_id) => {
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
-    const queryText = `
-      call organisation_cancels_activity($1)
+    // Check if the activity exists and if it can be cancelled
+    const validateQuery = `
+      SELECT activity_approval_status, activity_status, activity_start_date,
+             CASE
+               WHEN activity_start_date - INTERVAL '2 days' <= CURRENT_TIMESTAMP THEN FALSE
+               ELSE TRUE
+             END AS can_cancel
+      FROM activities
+      WHERE activity_id = $1 AND org_id = $2
     `;
-    const params = [activity_id];
-    await client.query(queryText, params);
+    const { rows: checkRows } = await client.query(validateQuery, [
+      activity_id,
+      org_id,
+    ]);
+
+    if (checkRows.length === 0) {
+      throw new Error(`Activity with ID ${activity_id} does not exist.`);
+    }
+
+    const { activity_approval_status, activity_status, can_cancel } =
+      checkRows[0];
+
+    if (!can_cancel) {
+      throw new Error(
+        "Cannot cancel activity within 48 hours of the start time."
+      );
+    }
+
+    if (activity_approval_status === "Pending") {
+      // If the activity is pending, mark it as cancelled
+      const cancelQueryText = `
+        UPDATE activities
+        SET activity_status = 'Cancelled'
+        WHERE activity_id = $1 AND org_id = $2
+      `;
+      await client.query(cancelQueryText, [activity_id, org_id]);
+    } else {
+      // If the activity is not pending, perform the cancellation logic
+      const cancelQueryText = `
+        CALL cancel_org_activity($1)
+      `;
+      await client.query(cancelQueryText, [activity_id]);
+    }
 
     await client.query("COMMIT");
   } catch (error) {

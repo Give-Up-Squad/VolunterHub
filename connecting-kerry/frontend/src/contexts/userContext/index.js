@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useAuth } from "../authContext";
+import LoadingPage from "../../components/loadingPage";
 
 const UserContext = React.createContext();
 
@@ -29,15 +30,22 @@ export const UserProvider = ({ children }) => {
           }
         );
 
+        console.log("Response:", response);
         if (!response.ok) {
-          throw new Error("Failed to fetch user");
+          if (response.status === 404) {
+            console.log("User not found");
+            setUser(null);
+          } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Failed to fetch user");
+          }
+        } else {
+          const data = await response.json();
+          console.log("Fetched user data:", data);
+          setUser(data.user[0]);
         }
-
-        const data = await response.json();
-        console.log("data:", data);
-        setUser(data.user[0]);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching user:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -49,21 +57,30 @@ export const UserProvider = ({ children }) => {
     } else {
       setLoading(false);
     }
-  }, [userLoggedIn]);
+  }, [currentUser, userLoggedIn]);
 
   useEffect(() => {
-    console.log("User data:", user); // This will log whenever user state changes
+    console.log("User data:", user);
   }, [user]);
+
+  const waitForUserData = async () => {
+    if (!userLoggedIn) return null;
+    while (loading) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    return user;
+  };
 
   const value = {
     user,
     loading,
     error,
+    waitForUserData,
   };
 
   return (
     <UserContext.Provider value={value}>
-      {!loading && children}
+      {loading ? <LoadingPage loadingText="Loading user data..." /> : children}
     </UserContext.Provider>
   );
 };

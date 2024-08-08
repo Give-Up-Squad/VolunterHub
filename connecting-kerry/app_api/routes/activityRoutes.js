@@ -8,6 +8,7 @@ const {
   applyActivity,
   createVolunteeringActivity,
   volunteerCancel,
+  orgCancel,
   displayPendingApprovals,
   approveActivity,
   rejectActivity,
@@ -24,6 +25,7 @@ router.get("/volunteer/display/:id", displayNonAppliedActivitiesByID);
 
 router.get("/organisation/:id", displayOrgCreatedActivities);
 router.post("/create", createVolunteeringActivity);
+router.post("/organisation/cancel", orgCancel);
 router.get("/organisation/display/:id", displayNonCreatedActivitiesByID);
 
 router.get("/pending", displayPendingApprovals);
