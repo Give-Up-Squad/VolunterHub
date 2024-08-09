@@ -1,8 +1,8 @@
-name: Update Activity Status
+name: Update Status
 
 on:
   schedule:
-    - cron: "0 */2 * * *" 
+    - cron: "0 */2 * * *"
   workflow_dispatch:
 
 jobs:
@@ -25,9 +25,16 @@ jobs:
         run: npm install
         working-directory: connecting-kerry/app_api
 
-      - name: Run update script
+      - name: Run update activity status script
         working-directory: connecting-kerry/app_api
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_CERT: ${{ secrets.DB_CERT }}
         run: node jobs/updateActivityStatus.js ${{ secrets.DB_CERT }} ${{ secrets.DB_PASSWORD }}
+
+      - name: Run update garda vetting status script
+        working-directory: connecting-kerry/app_api
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_CERT: ${{ secrets.DB_CERT }}
+        run: node jobs/updateGardaVettingStatus.js ${{ secrets.DB_CERT }} ${{ secrets.DB_PASSWORD }}
