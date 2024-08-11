@@ -19,3 +19,7 @@ code {
 body.no-scroll {
   overflow: hidden;
 }
+
+.fc .fc-toolbar .fc-header-toolbar {
+  flex-direction: column;
+}

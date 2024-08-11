@@ -125,3 +125,34 @@
 .loginLink a:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+    
+    .selectionContainer {
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    .text {
+        font-size: 0.9rem;
+    }
+
+    .selectionBox {
+        width: auto;
+    }
+
+    .createAccountBtn {
+        width: 90%;
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+
+    .loginLink {
+        margin-top: 20px;
+        font-size: 0.9rem;
+    }
+}

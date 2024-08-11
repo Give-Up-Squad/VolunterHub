@@ -3,7 +3,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    background-color: #f9fafb;
+    background-color: #e6e3c6;
     padding: 20px;
     box-sizing: border-box;
     font-family: "Josefin Sans", sans-serif;
@@ -86,5 +86,18 @@
 
     .picturesContainer {
         display:none;
+    }
+}
+
+@media (max-width: 768px) {
+    .aboutUsContainer > h1 {
+        font-size: 1.4em;
+        padding: 0;
+        margin: 0;
+    }
+
+    .aboutUsContainer > p {
+        font-size: 1rem;
+        padding: 0;
     }
 }

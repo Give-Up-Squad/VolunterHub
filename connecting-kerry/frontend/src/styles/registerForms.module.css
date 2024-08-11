@@ -165,7 +165,34 @@
 }
 
 @media (max-width:768px){
+    .container {
+        width: auto;
+        margin: 20px;
+    }
+
     .registerForm{
-        width:425px;
+        width: auto;
+    }
+    
+    .registerForm h2 {
+        padding: 35px 35px 0 35px;
+        text-align: center;
+        font-weight: 300;
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 1.4rem;
+    }
+
+    .registerForm .content {
+        padding: 35px;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 5%;
+        font-family: 'Josefin Sans', sans-serif;
+    }
+
+    .registerForm .inputField input{
+        font-size: 14px;
+        padding: 12px 5px;
     }
 }

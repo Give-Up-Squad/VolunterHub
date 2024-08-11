@@ -108,14 +108,44 @@
 .link {
    font-family: 'Josefin Sans', sans-serif;
 }
-@media (max-width:768px){
-    .loginForm{
-        width:425px;
-    }
-}
+
 .error {
     color: red;
     font-size: 0.875em;
     margin-top: 0.5em;
     font-family: 'Josefin Sans', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .loginForm {
+        width: 90%;
+    }
+
+    .loginForm h1 {
+        font-size: 1.4rem;
+        padding: 20px 20px 0 20px;
+    }
+
+    .loginForm .content {
+        padding: 20px;
+    }
+
+    .link {
+        font-size: 0.875em;
+    }
+    .loginForm .inputField input {
+        font-size: 14px;
+    }
+
+    .loginForm .action button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .loginForm .action button:nth-child(2) {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+
 }

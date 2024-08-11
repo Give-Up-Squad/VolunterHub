@@ -23,6 +23,7 @@ export const VolRegisterSchema = yup.object().shape({
     .matches(/[\W_]/, "Password must have at least one special character"),
   dob: yup
     .date()
+    .typeError("Invalid date") // Custom error message for invalid date
     .required("Date of Birth is required")
     .test("age", "You must be at least 18 years old", (value) => {
       const today = new Date();

@@ -87,25 +87,43 @@
 @media only screen and (max-width: 768px) {
     .footer {
         text-align: center;
+        margin: 0;
+        
+    }
+
+    .footer h2 {
+        font-size: 1.2rem;
     }
 
     .imageLogoFooter {
         display: none;
     }
 
+    .column:first-child {
+        display: none;
+        /* Hide the entire column containing the image */
+    }
+
     .column {
-        margin-right: 70px;
+        margin-right: 0;
+        flex-direction: row;
+        /* Remove the margin-right on other columns */
         max-width: 100%;
+        /* Ensure other columns take full width */
+        /* Ensure columns stack vertically */
     }
 
     .footerLink {
-        font-size: 18px;
+        font-size: 1rem;
     }
 
     .social i {
-        font-size: 20px;
+        font-size: 10px;
+        height: 1rem;
+        width: 1rem;
     }
-    .links{
+
+    .links {
         justify-content: center;
     }
 }

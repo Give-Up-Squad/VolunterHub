@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/loginPage.module.css";
@@ -92,12 +91,12 @@ function Login() {
       }
     }
   };
-  // Redirect if user is already logged in
-  if (userLoggedIn) {
-    console.log("User already logged in:", currentUser);
-    navigate("/volunteer");
-    return null; // Or loading indicator if needed
-  }
+  // // Redirect if user is already logged in
+  // if (userLoggedIn) {
+  //   console.log("User already logged in:", currentUser);
+  //   navigate("/volunteer");
+  //   return null; // Or loading indicator if needed
+  // }
 
   return (
     <div className={styles.container}>

@@ -34,3 +34,14 @@
     font-size: 1.5rem;
     color: #333;
 }
+
+@media (max-width: 768px) {
+    .spinner {
+        width: 80px;
+        height: 80px;
+    }
+
+    .loadingText {
+        font-size: 1rem;
+    }
+}

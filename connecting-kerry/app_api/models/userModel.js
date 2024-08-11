@@ -73,4 +73,20 @@ const getUserByEmail = async (email) => {
   }
 };
 
-module.exports = { createUser, getUserByEmail };
+const getAllUsers = async () => {
+  const client = await pool.connect();
+
+  try {
+    const queryText = `SELECT u.*, v.volunteer_id, v.dob, v.forename, v.surname, o.org_id, o.org_name from users u LEFT JOIN volunteers v ON u.user_id = v.user_id LEFT JOIN organisations o ON o.user_id = u.user_id`;
+    const { rows } = await client.query(queryText);
+
+    return rows;
+  } catch (error) {
+    console.error("Error fetching all users:", error.message);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { createUser, getUserByEmail, getAllUsers };

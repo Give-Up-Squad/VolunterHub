@@ -77,7 +77,7 @@ const OrganisationRegistration = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       {loading ? (
         <LoadingPage loadingText="Creating account..." />
       ) : (
@@ -144,7 +144,7 @@ const OrganisationRegistration = () => {
           </div>
         </form>
       )}
-    </>
+    </div>
   );
 };
 

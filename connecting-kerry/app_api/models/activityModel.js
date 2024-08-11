@@ -1,12 +1,11 @@
 const { pool } = require("../config/database");
-const { get } = require("../routes/activityRoutes");
 
 const getNonAppliedActivityByID = async (id) => {
   const client = await pool.connect();
 
   try {
     const queryText = `
-      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW() AND activity_status <> 'Cancelled'
+      SELECT * FROM get_non_applied_activities_data_by_id($1) WHERE activity_deadline > NOW() AND activity_status <> 'Cancelled' AND activity_approval_status = 'Approved'
     `;
     const params = [id];
     const { rows } = await client.query(queryText, params);
