@@ -43,11 +43,18 @@ function Footer() {
                     </li>
                   )}
                 {user && user.roles === "Admin" && (
-                  <li>
-                    <a className={styles.footerLink} href="/approvals">
-                      Approvals
-                    </a>
-                  </li>
+                  <>
+                    <li>
+                      <a className={styles.footerLink} href="/approvals">
+                        Approvals
+                      </a>
+                    </li>
+                    <li>
+                      <a className={styles.footerLink} href="/users">
+                        All Users
+                      </a>
+                    </li>
+                  </>
                 )}
                 {user && user.is_garda_vetted === "Approved" && (
                   <>

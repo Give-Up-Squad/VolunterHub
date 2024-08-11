@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/navbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import { useUser } from "../contexts/userContext";
+import LoadingPage from "./loadingPage";
 
 const websiteLinks = [
   { name: "Home", path: "/" },
@@ -11,6 +12,7 @@ const websiteLinks = [
   { name: "Calendar", path: "/calendar", role: "Approved" },
   { name: "Profile", path: "/profile", role: "Any" },
   { name: "Applications", path: "/applications", role: "Approved" },
+  { name: "Users", path: "/users", role: "Admin" },
 ];
 
 function Navbar() {
@@ -18,6 +20,13 @@ function Navbar() {
   const navigate = useNavigate();
   const { user } = useUser();
   const { userLoggedIn, logout } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user !== null) {
+      setIsLoading(false);
+    }
+  }, [user]);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -59,6 +68,10 @@ function Navbar() {
       return false;
     });
   };
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <header>
