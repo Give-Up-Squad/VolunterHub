@@ -19,6 +19,10 @@ export default function Applications() {
   const { cancelActivityVol, cancelActivityOrg } = useActivities();
   const navigate = useNavigate();
 
+  // State for confirmation modal
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [activityToCancel, setActivityToCancel] = useState(null);
+
   const fetchActivities = async (status) => {
     setLoading(true);
     try {
@@ -86,71 +90,60 @@ export default function Applications() {
     setIsModalOpen(true);
   };
 
-  const handleCancelClickVol = async (volunteer_id, activity_id) => {
-    console.log(
-      `Cancel activity with ID: ${activity_id} for volunteer ID: ${volunteer_id}`
-    );
+  const handleCancelClickVol = (volunteer_id, activity_id) => {
+    // Set the activity to be canceled and open the confirmation modal
+    setActivityToCancel({ type: "volunteer", volunteer_id, activity_id });
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleCancelClickOrg = (org_id, activity_id) => {
+    // Set the activity to be canceled and open the confirmation modal
+    setActivityToCancel({ type: "organisation", org_id, activity_id });
+    setIsConfirmModalOpen(true);
+  };
+
+  const confirmCancelActivity = async () => {
+    const { type, volunteer_id, activity_id, org_id } = activityToCancel;
 
     try {
-      await cancelActivityVol(volunteer_id, activity_id);
+      if (type === "volunteer") {
+        await cancelActivityVol(volunteer_id, activity_id);
+      } else {
+        await cancelActivityOrg(org_id, activity_id);
+      }
+
       navigate("/loading", {
         state: { loadingText: "Cancelling activity..." },
       });
 
-      // Delay navigation to applications page
       setTimeout(() => {
         navigate("/applications", { replace: true });
       }, 1000);
     } catch (error) {
       console.error("Error cancelling activity:", error.message);
 
-      // Check if the error is a response from the backend
       if (error.response && error.response.data && error.response.data.error) {
         const backendError = error.response.data.error;
         console.log("Caught backend error:", backendError);
 
         if (backendError.includes("48 hours")) {
-          alert("Cannot cancel activity within 48 hours of the start time.");
+          alert("Cannot cancel activity within 48 hours.");
         } else {
           alert("Failed to cancel activity.");
         }
       } else {
-        // If the error is not from the backend response
         console.log("Caught error:", error.message);
         alert("Failed to cancel activity.");
       }
+    } finally {
+      setIsConfirmModalOpen(false); // Close the confirmation modal after the process
+      setActivityToCancel(null); // Reset the activity to cancel
     }
   };
 
-  const handleCancelClickOrg = async (org_id, activity_id) => {
-    console.log(`Cancel activity with ID: ${activity_id}`);
-
-    try {
-      await cancelActivityOrg(org_id, activity_id);
-      navigate("/loading", {
-        state: { loadingText: "Cancelling activity..." },
-      });
-
-      setTimeout(() => {
-        navigate("/applications", { replace: true });
-      }, 1000);
-    } catch (error) {
-      console.error("Error cancelling activity:", error.message);
-      if (error.response && error.response.data && error.response.data.error) {
-        const backendError = error.response.data.error;
-        console.log("Caught backend error:", backendError);
-
-        if (backendError.includes("48 hours")) {
-          alert("Cannot cancel activity within 48 hours");
-        } else {
-          alert("Failed to cancel activity.");
-        }
-      } else {
-        // If the error is not from the backend response
-        console.log("Caught error:", error.message);
-        alert("Failed to cancel activity.");
-      }
-    }
+  const closeConfirmModal = () => {
+    setIsConfirmModalOpen(false);
+    setActivityToCancel(null);
   };
 
   const closeModal = () => {
@@ -270,6 +263,30 @@ export default function Applications() {
           </tbody>
         </table>
       )}
+
+      {/* Confirmation Modal */}
+      {isConfirmModalOpen && (
+        <Modal isOpen={isConfirmModalOpen} onClose={closeConfirmModal}>
+          <div className={styles.confirmationModalContent}>
+            <h2>Are you sure you want to cancel this activity?</h2>
+            <div className={styles.modalButtons}>
+              <button
+                onClick={confirmCancelActivity}
+                className={styles.confirmButton}
+              >
+                Yes, Cancel
+              </button>
+              <button
+                onClick={closeConfirmModal}
+                className={styles.cancelButton}
+              >
+                No, Go Back
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
       {selectedEvent && (
         <div className={styles.overlay}>
           <Modal isOpen={isModalOpen} onClose={closeModal}>
