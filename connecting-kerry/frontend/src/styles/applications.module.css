@@ -176,3 +176,85 @@
         width: 100%;
     }
 }
+
+/* Confirmation Modal Styles */
+.confirmationModalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e6e3c6;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+}
+
+.confirmationModalContent h2 {
+    font-size: 20px;
+    color: #014421;
+    font-family: "Josefin Sans", sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.confirmButton {
+    background-color: #305ac3;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    text-align: center;
+}
+
+.confirmButton:hover {
+    background-color: #014421;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cancelButton {
+    background-color: #ccc;
+    color: black;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    text-align: center;
+}
+
+.cancelButton:hover {
+    background-color: #999;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Overlay Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
