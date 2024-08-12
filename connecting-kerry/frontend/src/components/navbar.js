@@ -23,7 +23,7 @@ function Navbar() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (user !== null) {
+    if (user !== undefined) {
       setIsLoading(false);
     }
   }, [user]);
@@ -39,10 +39,13 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
+      setIsLoading(true); // Set loading to true when logging out
       await logout();
+      setIsLoading(false); // Reset loading after logout
       navigate("/");
     } catch (error) {
       console.error("Error logging out:", error.message);
+      setIsLoading(false); // Ensure loading state is reset even on error
     }
   };
 
@@ -51,6 +54,8 @@ function Navbar() {
       return websiteLinks.filter((link) => link.name === "Home");
 
     return websiteLinks.filter((link) => {
+      if (!user) return false;
+
       if (link.role === "Volunteer") {
         return (
           user.roles === "Volunteer" && user.is_garda_vetted === "Approved"
