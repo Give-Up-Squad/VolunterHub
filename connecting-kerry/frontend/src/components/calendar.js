@@ -46,32 +46,49 @@ export default function Calendar() {
     return `${year}-${month}-${day}`;
   };
 
+  // const combineDateAndTime = (date, time) => {
+  //   if (!date || !time) {
+  //     console.error("Invalid date or time:", date, time);
+  //     return null;
+  //   }
+
+  //   const dateString = formatDate(date);
+  //   const timeString = time;
+
+  //   const combinedDateString = `${dateString}T${timeString}:00`;
+
+  //   const combinedDate = new Date(combinedDateString);
+
+  //   if (isNaN(combinedDate.getTime())) {
+  //     console.error("Invalid date created:", combinedDate);
+  //     return null;
+  //   }
+
+  //   const year = String(combinedDate.getFullYear()).padStart(4, "0");
+  //   const month = String(combinedDate.getMonth() + 1).padStart(2, "0");
+  //   const day = String(combinedDate.getDate()).padStart(2, "0");
+  //   const hours = String(combinedDate.getHours()).padStart(2, "0");
+  //   const minutes = String(combinedDate.getMinutes()).padStart(2, "0");
+  //   const seconds = "00";
+
+  //   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  // };
+
   const combineDateAndTime = (date, time) => {
     if (!date || !time) {
       console.error("Invalid date or time:", date, time);
       return null;
     }
 
-    const dateString = formatDate(date);
-    const timeString = time;
+    // Extract date parts
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-    const combinedDateString = `${dateString}T${timeString}:00`;
+    // Combine date and time manually without using Date object
+    const combinedDateString = `${year}-${month}-${day} ${time}:00`;
 
-    const combinedDate = new Date(combinedDateString);
-
-    if (isNaN(combinedDate.getTime())) {
-      console.error("Invalid date created:", combinedDate);
-      return null;
-    }
-
-    const year = String(combinedDate.getFullYear()).padStart(4, "0");
-    const month = String(combinedDate.getMonth() + 1).padStart(2, "0");
-    const day = String(combinedDate.getDate()).padStart(2, "0");
-    const hours = String(combinedDate.getHours()).padStart(2, "0");
-    const minutes = String(combinedDate.getMinutes()).padStart(2, "0");
-    const seconds = "00";
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return combinedDateString;
   };
 
   const fetchGreenActivities = async () => {
@@ -211,6 +228,7 @@ export default function Calendar() {
         startTime: data.startTime,
         endTime: data.endTime,
       };
+      console.log(data.startTime, data.endTime);
       console.log("Adding event:", eventToAdd);
 
       setIsLoading(true);
