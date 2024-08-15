@@ -168,7 +168,11 @@ export default function Applications() {
       <h1 className={styles.title}>
         {user.roles === "Volunteer" ? "Applications" : "Events"}
       </h1>
-      <p>List of all the events you have applied for. </p>
+      <p>
+        {user.roles === "Volunteer"
+          ? "List of all the events you have applied for."
+          : "List of all the events you have created."}
+      </p>
 
       {user.roles === "Volunteer" && (
         <div className={styles.filterContainer}>
