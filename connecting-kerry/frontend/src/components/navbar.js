@@ -6,7 +6,7 @@ import { useUser } from "../contexts/userContext";
 import LoadingPage from "./loadingPage";
 
 const websiteLinks = [
-  { name: "Home", path: "/" },
+  // { name: "Home", path: "/" },
   { name: "Approvals", path: "/approvals", role: "Admin" },
   { name: "Volunteer", path: "/volunteer", role: "Volunteer" },
   { name: "Calendar", path: "/calendar", role: "Approved" },

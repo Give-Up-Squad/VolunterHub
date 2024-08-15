@@ -67,7 +67,7 @@ export default function UsersDisplay() {
   return (
     <div className={styles.applicationContainer}>
       <h1 className={styles.title}>All user details</h1>
-      <p>Here displays all users</p>
+      {/* <p>Here displays all users</p> */}
       <div className={styles.filterContainer}>
         <label htmlFor="statusFilter">Filter by role:</label>
         <select

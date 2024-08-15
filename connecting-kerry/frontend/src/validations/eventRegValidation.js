@@ -13,7 +13,10 @@ export const EventRegisterSchema = yup.object().shape({
     .date()
     .typeError("Invalid date")
     .required("Date is required")
-    .min(new Date(), "Date cannot be in the past"),
+    .min(
+      new Date(new Date().setDate(new Date().getDate() + 3)),
+      "Event date must be at least 3 days from today"
+    ),
   startTime: yup.string().required("Start time is required"),
   endTime: yup
     .string()
@@ -25,31 +28,54 @@ export const EventRegisterSchema = yup.object().shape({
       );
     }),
   registrationDate: yup
-    .date()
-    .required("Registration deadline is required")
-    .min(new Date(), "Registration deadline cannot be in the past")
-    .max(yup.ref("date"), "Registration deadline must be before the event date")
+    .mixed()
+    .test("is-date", "Registration deadline is required", (value) => {
+      if (value === "" || value === null || value === undefined) {
+        return false;
+      }
+      const date = new Date(value);
+      return !isNaN(date.getTime());
+    })
+    .test(
+      "min-date",
+      "Registration deadline cannot be in the past",
+      function (value) {
+        if (!value) return true; // Skip validation if the date is invalid or empty
+        return new Date(value) >= new Date();
+      }
+    )
+    .test(
+      "max-date",
+      "Registration deadline must be before the event date",
+      function (value) {
+        const eventDate = this.parent.date;
+        if (!value || !eventDate) return true; // Skip validation if the date is invalid or empty
+        return new Date(value) <= new Date(eventDate);
+      }
+    )
     .test(
       "registrationDate",
       "Registration deadline has to be at least 2 days before the event date",
       function (value) {
         const eventDate = this.parent.date;
+        if (!value || !eventDate) return true; // Skip validation if the date is invalid or empty
         return (
-          eventDate &&
           new Date(value) <=
-            new Date(
-              new Date(eventDate).setDate(new Date(eventDate).getDate() - 2)
-            )
+          new Date(
+            new Date(eventDate).setDate(new Date(eventDate).getDate() - 2)
+          )
         );
       }
     ),
   minimumParticipants: yup
     .number()
+    .typeError("Invalid number")
     .required("Minimum participants is required")
     .positive("Minimum participants must be a positive number")
     .integer("Minimum participants must be an integer"),
   maximumParticipants: yup
     .number()
+    .typeError("Invalid number")
     .required("Maximum participants is required")
     .positive("Maximum participants must be a positive number")
     .integer("Maximum participants must be an integer")
