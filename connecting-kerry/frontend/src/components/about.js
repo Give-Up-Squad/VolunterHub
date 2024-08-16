@@ -1,7 +1,5 @@
 import React from "react";
 import styles from "../styles/aboutUs.module.css";
-import Navbar from "./navbar";
-import Footer from "./footer";
 
 function About() {
   return (
@@ -9,45 +7,104 @@ function About() {
       <main>
         <div className={styles.container}>
           <div className={styles.aboutUsContainer}>
-            <h1>About</h1>
-            <p>What is Lorem Ipsum?</p>
+            <h1>About Us</h1>
+            <p className={styles.privacyText}>
+              Welcome to Connecting Kerry, your go-to platform for making a
+              positive impact in the beautiful County Kerry. At Connecting
+              Kerry, we believe in the power of community and the importance of
+              giving back. Our mission is to connect enthusiastic volunteers
+              with meaningful opportunities that benefit our local area and its
+              residents.
+            </p>
+            <h1>Who We Are</h1>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum. Why do we use it?
+              Connecting Kerry is a dedicated volunteering hub based in the
+              heart of County Kerry. We are passionate about fostering a sense
+              of community spirit and enabling individuals to contribute to
+              causes they care about. Whether you are a local resident or a
+              visitor, our platform offers a variety of volunteering
+              opportunities that cater to all interests and skills.
+            </p>
+            <h1>What We Do</h1>
+            <p>
+              We provide an easy-to-use platform where users can find and apply
+              for volunteer roles, and organizations can upload and promote
+              their events. Our events cover a wide range of activities,
+              ensuring there's something for everyone. From beach clean-ups and
+              environmental conservation efforts to assisting the elderly and
+              supporting local festivals, Connecting Kerry helps you find the
+              perfect way to give back.
+            </p>
+            <h1>Our Mission</h1>
+            <p>
+              Our mission is simple: to connect volunteers with opportunities
+              that make a difference. We aim to support local organizations in
+              their efforts to improve our community, while also providing
+              volunteers with rewarding experiences that enrich their lives.
+            </p>
+            <h1>How It Works</h1>
+            <p>
+              <strong>For Volunteers:</strong>
+              <ul>
+                <li>
+                  Explore Opportunities: Browse through a diverse array of
+                  events and causes that need your help.
+                </li>
+                <li>
+                  Apply Easily: Sign up for events that match your interests and
+                  availability with just a few clicks.
+                </li>
+                <li>
+                  Make a Difference: Join fellow volunteers in making a tangible
+                  impact on our community.
+                </li>
+              </ul>
+              <strong>For Organizations:</strong>
+              <ul>
+                <li>
+                  Post Events: Share your events and volunteer needs with a wide
+                  audience.
+                </li>
+                <li>
+                  Find Help: Connect with passionate volunteers who are eager to
+                  support your cause.
+                </li>
+                <li>
+                  Grow Your Impact: Benefit from the collective efforts of our
+                  vibrant volunteering community.
+                </li>
+              </ul>
+            </p>
+            <h1>Get Involved</h1>
+            <p>
+              Join us in making County Kerry an even better place to live, work,
+              and visit. Whether you're looking to contribute your time and
+              skills or need volunteers for your event, Connecting Kerry is here
+              to help. Together, we can create a stronger, more connected
+              community.
             </p>
             <p>
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more-or-less normal
-              distribution of letters, as opposed to using 'Content here,
-              content here', making it look like readable English. Many desktop
-              publishing packages and web page editors now use Lorem Ipsum as
-              their default model text, and a search for 'lorem ipsum' will
-              uncover many web sites still in their infancy. Various versions
-              have evolved over the years, sometimes by accident, sometimes on
-              purpose (injected humour and the like).
+              Thank you for being a part of Connecting Kerry. Let's make a
+              difference, one event at a time!
             </p>
             <p>
-              The standard chunk of Lorem Ipsum used since the 1500s is
-              reproduced below for those interested. Sections 1.10.32 and
-              1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also
-              reproduced in their exact original form, accompanied by English
-              versions from the 1914 translation by H. Rackham.
+              Feel free to contact us for more information or to get started
+              with volunteering today!
             </p>
+            <p>
+              <strong>Contact Us</strong>
+              <br />
+              Email:{" "}
+              <a href="mailto:connecting.kerry123@gmail.com">
+                connecting.kerry123@gmail.com
+              </a>
+              <br />
+              Phone: +353 123 4567
+              <br />
+              Follow us on social media: Facebook, Twitter, Instagram
+            </p>
+            <p>Connecting Kerry - Bringing Community Together.</p>
           </div>
-          {/* Images on the right hand side of the page */}
-          <aside className={styles.picturesContainer}>
-            <img src="/images/beachCleaning.jpg" alt="Beach Cleaning" />
-            <img src="/images/personPhone.jpg" alt="Person on Phone" />
-          </aside>
         </div>
       </main>
     </div>

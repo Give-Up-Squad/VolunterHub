@@ -1,0 +1,143 @@
+/* Container for the entire user display section */
+.applicationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e6e3c6;
+    padding: 20px;
+}
+
+/* Title styling */
+.title {
+    font-size: 24px;
+    font-family: "Josefin Sans", sans-serif;
+    color: #014421;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    /* Centering the title */
+}
+
+/* Table styling for displaying users */
+.usersTable {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.usersTable th,
+.usersTable td {
+    padding: 18px;
+    font-family: "Josefin Sans", sans-serif;
+    text-align: left;
+}
+
+.usersTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.usersTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.usersTable tr:hover {
+    background-color: #ddd;
+}
+
+/* Filter container styling */
+.filterContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterContainer label {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #014421;
+    font-weight: bold;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterSelect {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: #305ac3;
+}
+
+/* Responsive styling for mobile devices */
+@media (max-width: 768px) {
+
+    .applicationContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+    /* Adjust table container for mobile */
+    .usersTable {
+        width: 100%;
+
+        white-space: nowrap;
+    }
+
+    /* Stack the table cells vertically */
+    .usersTable thead {
+        display: none;
+    }
+
+    .usersTable tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #014421;
+    }
+
+    .usersTable td {
+        display: block;
+        text-align: left;
+        /* Aligning text to left for better readability */
+        padding-left: 10px;
+        padding-right: 10px;
+        position: relative;
+        font-size: 14px;
+        word-wrap: break-word;
+        /* Break long words to prevent overflow */
+        white-space: normal;
+        margin-bottom: 5px;
+    }
+
+    .usersTable td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #014421;
+        text-align: left;
+    }
+
+    /* Adjusting the filter container for mobile */
+    .filterContainer {
+        flex-direction: column;
+    }
+
+    .filterContainer label {
+        margin-bottom: 5px;
+    }
+
+    .filterSelect {
+        width: 100%;
+    }
+}

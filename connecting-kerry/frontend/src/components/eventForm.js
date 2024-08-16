@@ -1,106 +1,256 @@
-import React from "react";
-import styles from '../styles/registerForms.module.css';
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { EventRegisterSchema } from "../validations/eventRegValidation";
+import styles from "../styles/eventForm.module.css";
+import { ref, listAll, getDownloadURL, getMetadata } from "firebase/storage";
+import { storage } from "../firebase/firebase";
 
-function EventForm(){
-    return(
-        <form className={styles.registerForm}>
-      <h2>Post a Volunteering Opportunity</h2>
-      <div className={styles.content}>
-        <div className={styles.inputField}>
-        <label for="organisationName">Organisation Name* </label>
+export default function EventForm({ onSubmit, onCancel }) {
+  const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const listRef = ref(storage, "volunteerImages/");
+        const res = await listAll(listRef);
+        const urls = await Promise.all(
+          res.items.map(async (itemRef) => {
+            const url = await getDownloadURL(itemRef);
+            const metadata = await getMetadata(itemRef);
+            return { url, name: metadata.name };
+          })
+        );
+        setImageUrls(urls);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching images:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(EventRegisterSchema),
+    mode: "onTouched",
+  });
+
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.value;
+    setSelectedImageUrl(selectedImage);
+  };
+
+  const combineDateAndTime = (date, time) => {
+    if (!date || !time) return null;
+
+    const combinedDate = new Date(`${date}T${time}:00`);
+
+    const year = combinedDate.getFullYear();
+    const month = String(combinedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(combinedDate.getDate()).padStart(2, "0");
+    const hours = String(combinedDate.getHours()).padStart(2, "0");
+    const minutes = String(combinedDate.getMinutes()).padStart(2, "0");
+    const seconds = "00";
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  const onSubmitHandler = (data) => {
+    const startDate = combineDateAndTime(data.date, data.startTime);
+    const endDate = combineDateAndTime(data.date, data.endTime);
+
+    if (!startDate || !endDate) {
+      console.error("Invalid date or time value");
+      return;
+    }
+
+    const formattedData = {
+      ...data,
+      startDate: startDate,
+      endDate: endDate,
+    };
+
+    onSubmit(formattedData);
+  };
+
+  if (loading) {
+    return <p>Loading images...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading images: {error}</p>;
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmitHandler)}
+      className={styles.calendarForm}
+    >
+      <div className={styles.formSection}>
+        <div className={styles.formGroup}>
+          <label>Event Title* </label>
           <input
             type="text"
-            name="organisationName"
-            placeholder=""
-            required
+            {...register("title")}
+            placeholder="Event Title"
+            className={styles.calendarInput}
           />
+          {errors.title && (
+            <p className={styles.error}>{errors.title.message}</p>
+          )}
         </div>
-
-        <div className={styles.inputField}>
-          <label for="contact">Name of contact person for this role* </label>
-            <input
-              type="email"
-              name="contact"
-              placeholder="Contact"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="organisationEmail">Contact Email* </label>
-            <input
-              type="text"
-              name="organisationEmail"
-              placeholder="Email"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="phonePhone">Contact Phone Number</label>
-            <input
-              type="text"
-              name="orgPhone"
-              placeholder="Phone Number"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="expiryDate">Expiry date of event</label>
-            <input
-              type="date"
-              name="expiryDate"
-              placeholder="Expiry Date"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="role">Role/Title of the opportunity</label>
-            <input
-              type="text"
-              name="role"
-              placeholder="Role"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="numOfVolunteers">Number of volunteers required</label>
-            <input
-              type="number"
-              name="numOfVolunteers"
-              placeholder="Number of volunteers"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="opportunitySummary">Opportunity Summary</label>
-            <input
-              type="text"
-              name="opportunitySummary"
-              placeholder="summary"
-              required
-            />
-        </div>
-
-        <div className={styles.inputField}>
-          <label for="location">Location</label>
-            <input
-              type="text"
-              name="location"
-              placeholder="Location"
-              required
-            />
+        <div className={styles.formGroup}>
+          <label>Description* </label>
+          <input
+            type="text"
+            {...register("description")}
+            placeholder="Description"
+            className={styles.calendarInput}
+          />
+          {errors.description && (
+            <p className={styles.error}>{errors.description.message}</p>
+          )}
         </div>
       </div>
-      <div className={styles.action}>
-        <button type="submit">Register Opportunity</button>
+      <div className={styles.formSection}>
+        <div className={styles.formGroup}>
+          <label>Date* </label>
+          <input
+            type="date"
+            {...register("date")}
+            placeholder="Date"
+            className={styles.calendarInput}
+          />
+          {errors.date && <p className={styles.error}>{errors.date.message}</p>}
+        </div>
+        <div className={styles.formGroup}>
+          <label>Start Time* </label>
+          <input
+            type="time"
+            {...register("startTime")}
+            placeholder="Start Time"
+            className={styles.calendarInput}
+          />
+          {errors.startTime && (
+            <p className={styles.error}>{errors.startTime.message}</p>
+          )}
+        </div>
+        <div className={styles.formGroup}>
+          <label>End Time* </label>
+          <input
+            type="time"
+            {...register("endTime")}
+            placeholder="End Time"
+            className={styles.calendarInput}
+          />
+          {errors.endTime && (
+            <p className={styles.error}>{errors.endTime.message}</p>
+          )}
+        </div>
+      </div>
+      <div className={styles.formSection}>
+        <div className={styles.formGroup}>
+          <label>Registration Deadline* </label>
+          <input
+            type="date"
+            {...register("registrationDate")}
+            placeholder="Registration Deadline"
+            className={styles.calendarInput}
+          />
+          {errors.registrationDate && (
+            <p className={styles.error}>{errors.registrationDate.message}</p>
+          )}
+        </div>
+        <div className={styles.formGroup}>
+          <label>Location* </label>
+          <input
+            type="text"
+            {...register("location")}
+            placeholder="Location"
+            className={styles.calendarInput}
+          />
+          {errors.location && (
+            <p className={styles.error}>{errors.location.message}</p>
+          )}
+        </div>
+      </div>
+      <div className={styles.formSection}>
+        <div className={styles.formGroup}>
+          <label>Minimum Participants* </label>
+          <input
+            type="number"
+            maxlength="3"
+            max="100"
+            {...register("minimumParticipants")}
+            placeholder="Minimum Participants"
+            className={styles.calendarInput}
+          />
+          {errors.minimumParticipants && (
+            <p className={styles.error}>{errors.minimumParticipants.message}</p>
+          )}
+        </div>
+        <div className={styles.formGroup}>
+          <label>Maximum Participants* </label>
+          <input
+            type="number"
+            {...register("maximumParticipants")}
+            placeholder="Maximum Participants"
+            className={styles.calendarInput}
+          />
+          {errors.maximumParticipants && (
+            <p className={styles.error}>{errors.maximumParticipants.message}</p>
+          )}
+        </div>
+      </div>
+      <div className={styles.formSection}>
+        <div className={styles.formGroup}>
+          <label>Select Image* </label>
+          <select
+            {...register("image")}
+            className={styles.calendarInput}
+            onChange={handleImageChange}
+            style={{ marginBottom: "30px" }}
+          >
+            <option value="">Select an image</option>
+            {imageUrls.map((image, index) => (
+              <option key={index} value={image.url}>
+                {image.name}
+              </option>
+            ))}
+          </select>
+          <div className={styles.formButtons}>
+            <button type="submit" className={styles.calendarSubmitButton}>
+              Add Event
+            </button>
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          </div>
+          {errors.image && (
+            <p className={styles.error}>{errors.image.message}</p>
+          )}
+        </div>
+        {selectedImageUrl && (
+          <img
+            src={selectedImageUrl}
+            alt="Selected"
+            className={styles.selectedImage}
+          />
+        )}
       </div>
     </form>
-    )
+  );
 }
-
-export default EventForm;

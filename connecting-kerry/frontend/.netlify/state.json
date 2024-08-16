@@ -1,0 +1,14 @@
+{
+	"geolocation": {
+		"data": {
+			"country": {
+				"code": "IE",
+				"name": "Ireland"
+			},
+			"timezone": "Europe/Dublin",
+			"latitude": 53.3471,
+			"longitude": -6.2447
+		},
+		"timestamp": 1720359725229
+	}
+}

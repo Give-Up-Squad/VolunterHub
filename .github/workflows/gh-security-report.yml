@@ -1,30 +1,57 @@
-name: Generate Security Report
+name: Security Report
 
 on:
   workflow_dispatch:
-  ##push:
-    ##branches: [ main ]
-  ##pull_request:
-    ##branches: [ main ]
 
 jobs:
-
-  generate-report:
+  build:
     runs-on: ubuntu-latest
-    
+
+    strategy:
+      matrix:
+        language: [ 'javascript' ] # Add other languages if needed
+        build-mode: [ 'automatic', 'manual' ]
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Generate SARIF Reports
-      uses: github/codeql-action/analyze@v2
-      with:
-        token: ${{ secrets.SECURITY_TOKEN }}
-        repository: Give-Up-Squad/VolunterHub
-    
-    - name: Generate Security Report
-      uses: peter-murray/github-security-report-action@v2
-      with:
-        token: ${{ secrets.SECURITY_TOKEN }}
-        sarifReportDir: /results
-        outputDir: /home/VolunterHub
-        repository: Give-Up-Squad/VolunterHub
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          # Uncomment and adjust the following line if you want to specify custom queries
+          # queries: security-extended,security-and-quality
+
+      - name: Build project if manual build mode
+        if: matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          echo 'If you are using a "manual" build mode for one or more of the' \
+            'languages you are analyzing, replace this with the commands to build' \
+            'your code, for example:'
+          echo '  make bootstrap'
+          echo '  make release'
+          exit 1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+
+      - name: List files for debugging
+        run: ls -al db/results
+
+      - name: List files for debugging (HTML and PDF)
+        run: |
+          ls -al db/results/html
+          ls -al db/results/pdf
+
+      - name: Upload SARIF report
+        uses: peter-murray/github-security-report-action@v2
+        with:
+          token: ${{ secrets.SECURITY_TOKEN }}
+          sarifReportDir: db/results
+          outputDir: /home/runner/work/VolunterHub/db
+          repository: Give-Up-Squad/VolunterHub

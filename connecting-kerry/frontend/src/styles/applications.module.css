@@ -1,0 +1,260 @@
+.applicationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e6e3c6;
+    padding: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-family: "Josefin Sans", sans-serif;
+    color: #014421;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Table styling for displaying applications */
+.applicationTable {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.applicationTable th,
+.applicationTable td {
+    padding: 18px;
+    font-family: "Josefin Sans", sans-serif;
+    text-align: left;
+}
+
+.applicationTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.applicationTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.applicationTable tr:hover {
+    background-color: #ddd;
+}
+
+/* Buttons within the table */
+.applicationTable button {
+    margin-left: 2px;
+    padding: 8px 20px;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    justify-content: center;
+}
+
+.viewButton {
+    background-color: rgba(56, 127, 151, 0.75);
+    color: #fff;
+}
+
+.viewButton:hover {
+    background-color: #305ac3;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cancelButton {
+    background-color: #ccc;
+    color: black;
+}
+
+.cancelButton:hover {
+    background-color: #999;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Filter container styling */
+.filterContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterContainer label {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #014421;
+    font-weight: bold;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterSelect {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: #305ac3;
+}
+
+/* Responsive styling for mobile devices */
+@media (max-width: 768px) {
+    .applicationContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        padding: 15px;
+    }
+
+    .applicationTable {
+        width: 100%;
+        white-space: nowrap;
+        
+        overflow-x: auto;
+    }
+
+    .applicationTable thead {
+        display: none;
+    }
+
+    .applicationTable tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #014421;
+    }
+
+    .applicationTable td {
+        display: block;
+        text-align: left;
+        padding: 10px;
+        position: relative;
+        font-size: 14px;
+        word-wrap: break-word;
+        white-space: normal;
+        margin-bottom: 5px;
+    }
+
+    .applicationTable td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #014421;
+        text-align: left;
+    }
+
+    .applicationTable button {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .filterContainer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filterContainer label {
+        margin-bottom: 5px;
+    }
+
+    .filterSelect {
+        width: 100%;
+    }
+}
+
+/* Confirmation Modal Styles */
+.confirmationModalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e6e3c6;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+}
+
+.confirmationModalContent h2 {
+    font-size: 20px;
+    color: #014421;
+    font-family: "Josefin Sans", sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.confirmButton {
+    background-color: #305ac3;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    text-align: center;
+}
+
+.confirmButton:hover {
+    background-color: #014421;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cancelButton {
+    background-color: #ccc;
+    color: black;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Josefin Sans", sans-serif;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    text-align: center;
+}
+
+.cancelButton:hover {
+    background-color: #999;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Overlay Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
